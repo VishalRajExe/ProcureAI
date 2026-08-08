@@ -39,11 +39,17 @@ app:
     expiration-ms: ${JWT_EXPIRATION_MS:86400000}   # 24 hours; reduce for higher-security needs
 
   ai:
-    provider: ${AI_PROVIDER:mock}     # mock | openai | anthropic
-    api-key: ${AI_API_KEY:}
+    # Gemini AI configuration — supports GEMINI_API_KEY or AI_API_KEY env vars
+    provider: ${AI_PROVIDER:${GEMINI_PROVIDER:mock}}     # mock | gemini
+    model: ${GEMINI_MODEL:gemini-1.5-flash}
+    api-key: ${GEMINI_API_KEY:${AI_API_KEY:}}
 
   email:
-    provider: ${EMAIL_PROVIDER:mock}  # mock | smtp
+    # Brevo Email configuration — supports BREVO_API_KEY env var
+    provider: ${EMAIL_PROVIDER:${BREVO_PROVIDER:mock}}  # mock | brevo
+    api-key: ${BREVO_API_KEY:}
+    sender-email: ${BREVO_SENDER_EMAIL:procurement@procureai.demo}
+    sender-name: ${BREVO_SENDER_NAME:ProcureAI}
 
   cors:
     # SECURITY: In production, set CORS_ORIGINS to your exact frontend domain only.
