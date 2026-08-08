@@ -1,5 +1,6 @@
 package com.procureai.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,14 +13,17 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "negotiations")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Negotiation extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "quote_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Quote quote;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "workflow_execution_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private WorkflowExecution workflow;
 
     private BigDecimal currentPrice;
@@ -49,6 +53,7 @@ public class Negotiation extends BaseEntity {
     private BigDecimal finalAgreedPrice;
 
     @OneToMany(mappedBy = "negotiation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("negotiation")
     private List<NegotiationRound> rounds = new ArrayList<>();
 
     public enum AiAction { NEGOTIATE, ACCEPT, REJECT, REQUEST_CLARIFICATION }

@@ -1,5 +1,6 @@
 package com.procureai.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,14 +14,17 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "quotes")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Quote extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "workflow_execution_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private WorkflowExecution workflow;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vendor_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Vendor vendor;
 
     /** Original uploaded filename, for traceability. */
@@ -35,7 +39,6 @@ public class Quote extends BaseEntity {
     @Column(length = 4000)
     private String extractionError;
 
-    /** AI's confidence in the extraction, 0-1. Informational only, never authoritative. */
     private Double extractionConfidence;
 
     private String currency = "INR";
@@ -44,10 +47,7 @@ public class Quote extends BaseEntity {
     private BigDecimal taxPercent = BigDecimal.ZERO;
     private BigDecimal shippingCost = BigDecimal.ZERO;
 
-    /** Vendor-declared total — never trusted directly, kept only for comparison/audit. */
     private BigDecimal vendorDeclaredTotal;
-
-    /** Backend-calculated authoritative total. */
     private BigDecimal calculatedTotal;
 
     private Integer warrantyMonths;
@@ -61,6 +61,7 @@ public class Quote extends BaseEntity {
     private Double vendorScore;
 
     @OneToMany(mappedBy = "quote", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("quote")
     private List<QuoteItem> items = new ArrayList<>();
 
     public enum SourceType { PDF, SCANNED_PDF, IMAGE, EMAIL_TEXT, JSON }

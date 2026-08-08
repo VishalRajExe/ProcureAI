@@ -1,5 +1,6 @@
 package com.procureai.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,10 +9,11 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "workflow_executions")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class WorkflowExecution extends BaseEntity {
 
     @Column(nullable = false)
-    private String title; // e.g. "Procurement of 50 Laptops"
+    private String title;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

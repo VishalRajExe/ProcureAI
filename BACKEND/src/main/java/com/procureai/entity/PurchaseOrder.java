@@ -1,5 +1,6 @@
 package com.procureai.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "purchase_orders")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PurchaseOrder extends BaseEntity {
 
     @Column(nullable = false, unique = true)
@@ -19,14 +21,17 @@ public class PurchaseOrder extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "workflow_execution_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private WorkflowExecution workflow;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vendor_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Vendor vendor;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "quote_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Quote sourceQuote;
 
     private BigDecimal totalAmount;
@@ -47,6 +52,7 @@ public class PurchaseOrder extends BaseEntity {
     private String pdfFilePath;
 
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("purchaseOrder")
     private List<PurchaseOrderItem> items = new ArrayList<>();
 
     public enum Status { GENERATED, ISSUED, CANCELLED }
