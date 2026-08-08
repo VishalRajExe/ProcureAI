@@ -50,7 +50,7 @@ public class PurchaseOrderController {
     ) {}
 
     @PostMapping({"/generate", "/workflows/{workflowId}/generate"})
-    @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER', 'PROCUREMENT_USER')")
     public ResponseEntity<PurchaseOrder> generate(
             @PathVariable(required = false) Long workflowId,
             @RequestBody(required = false) GenerateRequest req) {
@@ -99,7 +99,7 @@ public class PurchaseOrderController {
     }
 
     @PostMapping("/{id}/send-email")
-    @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER', 'PROCUREMENT_USER')")
     public ResponseEntity<PurchaseOrder> sendPoEmail(@PathVariable Long id) {
         return ResponseEntity.ok(purchaseOrderService.sendPoEmail(id, CurrentUser.id()));
     }

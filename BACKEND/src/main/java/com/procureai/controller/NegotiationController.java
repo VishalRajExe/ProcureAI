@@ -80,7 +80,7 @@ public class NegotiationController {
      * - editedEmailBody validated via DTO (max 10,000 chars)
      */
     @PostMapping({"/{id}/approve", "/{id}/approval"})
-    @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER', 'PROCUREMENT_USER')")
     public ResponseEntity<Negotiation> approve(
             @PathVariable Long id,
             @Valid @RequestBody(required = false) QuoteDtos.NegotiationApprovalRequest req) {

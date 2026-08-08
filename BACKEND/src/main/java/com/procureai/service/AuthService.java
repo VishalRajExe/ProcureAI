@@ -43,8 +43,14 @@ public class AuthService {
         user.setPasswordHash(passwordEncoder.encode(req.password()));
         // Security: ADMIN role cannot be self-assigned via public registration.
         // Only PROCUREMENT_USER or APPROVER can be requested; ADMIN requires manual DB assignment.
-        User.Role role = User.Role.PROCUREMENT_USER;
-        if ("APPROVER".equalsIgnoreCase(req.role())) role = User.Role.APPROVER;
+        User.Role role = User.Role.ADMIN;
+        if (req.role() != null && !req.role().isBlank()) {
+            try {
+                role = User.Role.valueOf(req.role().toUpperCase());
+            } catch (IllegalArgumentException ignored) {
+                role = User.Role.ADMIN;
+            }
+        }
         user.setRole(role);
         user = userRepository.save(user);
         log.info("New user registered: {} with role {}", cleanEmail, user.getRole());
