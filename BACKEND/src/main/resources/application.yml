@@ -46,8 +46,8 @@ app:
     # Brevo Email configuration — reads from BREVO_API_KEY environment variable
     provider: ${EMAIL_PROVIDER:${BREVO_PROVIDER:brevo}}  # mock | brevo
     api-key: ${BREVO_API_KEY:}
-    sender-email: ${BREVO_SENDER_EMAIL:procurement@procureai.demo}
-    smtp-username: ${BREVO_SMTP_USERNAME:gamrrvishu@gmail.com}
+    sender-email: ${BREVO_SENDER_EMAIL:vishalrajbca15@gmail.com}
+    smtp-username: ${BREVO_SMTP_USERNAME:vishalrajbca15@gmail.com}
     sender-name: ${BREVO_SENDER_NAME:ProcureAI}
 
   cors:

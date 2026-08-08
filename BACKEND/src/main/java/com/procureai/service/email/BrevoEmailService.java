@@ -125,7 +125,7 @@ public class BrevoEmailService implements EmailService {
         if (smtpUsername != null && !smtpUsername.isBlank() && smtpUsername.contains("@")) {
             return smtpUsername.trim();
         }
-        return "gamrrvishu@gmail.com";
+        return "vishalrajbca15@gmail.com";
     }
 
     private String getEffectiveRecipientEmail(String toAddress) {
