@@ -82,25 +82,23 @@ public class AnalyticsService {
         // Dynamic category spend computation
         Map<String, BigDecimal> catSpendMap = new HashMap<>();
         for (PurchaseOrder po : pos) {
-            String cat = (po.getVendor() != null && po.getVendor().getCategory() != null) ? po.getVendor().getCategory() : "Laptops";
+            String pName = (po.getQuote() != null && po.getQuote().getItems() != null && !po.getQuote().getItems().isEmpty())
+                    ? po.getQuote().getItems().get(0).getProductName() : null;
+            String vCat = po.getVendor() != null ? po.getVendor().getCategory() : null;
+            String cat = extractCategory(pName, vCat);
             catSpendMap.merge(cat, po.getTotalAmount() != null ? po.getTotalAmount() : BigDecimal.ZERO, BigDecimal::add);
         }
         if (catSpendMap.isEmpty()) {
             for (Quote q : quotes) {
-                String cat = "Laptops";
-                if (q.getItems() != null && !q.getItems().isEmpty()) {
-                    String pName = q.getItems().get(0).getProductName().toLowerCase();
-                    if (pName.contains("server")) cat = "Servers";
-                    else if (pName.contains("software")) cat = "Software";
-                    else if (pName.contains("furniture")) cat = "Furniture";
-                }
+                String pName = (q.getItems() != null && !q.getItems().isEmpty()) ? q.getItems().get(0).getProductName() : null;
+                String vCat = q.getVendor() != null ? q.getVendor().getCategory() : null;
+                String cat = extractCategory(pName, vCat);
                 catSpendMap.merge(cat, q.getCalculatedTotal() != null ? q.getCalculatedTotal() : BigDecimal.ZERO, BigDecimal::add);
             }
         }
         if (catSpendMap.isEmpty()) {
             catSpendMap.put("Laptops", BigDecimal.ZERO);
-            catSpendMap.put("Servers", BigDecimal.ZERO);
-            catSpendMap.put("Software", BigDecimal.ZERO);
+            catSpendMap.put("Displays & TVs", BigDecimal.ZERO);
         }
 
         List<Map<String, Object>> spendByCategory = catSpendMap.entrySet().stream()
@@ -146,5 +144,46 @@ public class AnalyticsService {
         map.put("automationRatePercent", automationRate);
         map.put("isDemoData", false);
         return map;
+    }
+
+    public static String extractCategory(String productName, String vendorCategory) {
+        if (vendorCategory != null && !vendorCategory.isBlank() 
+                && !vendorCategory.equalsIgnoreCase("General") 
+                && !vendorCategory.equalsIgnoreCase("Laptops")) {
+            return vendorCategory;
+        }
+        if (productName == null || productName.isBlank()) {
+            return vendorCategory != null && !vendorCategory.isBlank() ? vendorCategory : "Laptops";
+        }
+        String lower = productName.toLowerCase();
+        if (lower.contains("tv") || lower.contains("television") || lower.contains("oled") 
+                || lower.contains("led") || lower.contains("display") || lower.contains("screen") 
+                || lower.contains("smart tv") || lower.contains("monitor")) {
+            return "Displays & TVs";
+        }
+        if (lower.contains("server") || lower.contains("datacenter") || lower.contains("rack") || lower.contains("infrastructure")) {
+            return "Servers";
+        }
+        if (lower.contains("software") || lower.contains("license") || lower.contains("saas") || lower.contains("cloud")) {
+            return "Software";
+        }
+        if (lower.contains("furniture") || lower.contains("chair") || lower.contains("desk") || lower.contains("table")) {
+            return "Furniture";
+        }
+        if (lower.contains("phone") || lower.contains("mobile") || lower.contains("iphone") || lower.contains("galaxy") || lower.contains("smartphone")) {
+            return "Mobile Devices";
+        }
+        if (lower.contains("laptop") || lower.contains("thinkpad") || lower.contains("latitude") || lower.contains("macbook") || lower.contains("notebook") || lower.contains("computing")) {
+            return "Laptops";
+        }
+
+        String[] words = productName.trim().split("\\s+");
+        if (words.length > 0) {
+            String word = words[0].replaceAll("[^a-zA-Z0-9]", "");
+            if (!word.isBlank() && word.length() > 2) {
+                return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+            }
+        }
+        return "Electronics";
     }
 }

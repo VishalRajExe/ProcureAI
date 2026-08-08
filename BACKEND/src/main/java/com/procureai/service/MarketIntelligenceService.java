@@ -145,6 +145,7 @@ public class MarketIntelligenceService {
         if (lower.contains("thinkpad") || lower.contains("lenovo")) return "thinkpad";
         if (lower.contains("latitude") || lower.contains("dell")) return "latitude";
         if (lower.contains("elitebook") || lower.contains("hp")) return "elitebook";
+        if (lower.contains("tv") || lower.contains("oled") || lower.contains("display") || lower.contains("screen") || lower.contains("smart tv")) return "tv";
         if (lower.contains("laptop") || lower.contains("computing")) return "laptop";
         if (lower.contains("server") || lower.contains("infrastructure")) return "server";
         if (lower.contains("furniture") || lower.contains("chair") || lower.contains("desk")) return "furniture";

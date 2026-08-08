@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   Handshake, Mail, CheckCircle2,
-  RefreshCw, Cpu, Send, ArrowRight, DollarSign, CornerDownRight
+  RefreshCw, Cpu, Send, ArrowRight, DollarSign, CornerDownRight, Edit3
 } from 'lucide-react';
 import { api } from '../api/client';
 import type { Negotiation, Quote } from '../types';
@@ -23,6 +23,8 @@ export function NegotiationPage() {
   const [resendingId, setResendingId] = useState<number | null>(null);
   const [activeWorkspaceTab, setActiveWorkspaceTab] = useState<'workspace' | 'emails'>('workspace');
   const [emailsPage, setEmailsPage] = useState(1);
+  const [editingEmailId, setEditingEmailId] = useState<number | null>(null);
+  const [editingEmailText, setEditingEmailText] = useState('');
 
   const emailsPageSize = 3;
   const totalEmailPages = Math.ceil(emails.length / emailsPageSize);
@@ -58,6 +60,22 @@ export function NegotiationPage() {
       showToast('Resend Failed', err?.response?.data?.message ?? 'Failed to resend email', 'error');
     } finally {
       setResendingId(null);
+    }
+  };
+
+  const handleSendEditedEmail = async () => {
+    if (!selectedNeg) return;
+    setActionLoading(true);
+    try {
+      await api.approveNegotiation(selectedNeg.id, true, editingEmailText, 'Re-edited and re-dispatched by user from email logs');
+      showToast('Email Dispatched', 'Updated negotiation email successfully sent to vendor!', 'success');
+      setEditingEmailId(null);
+      await loadData();
+      fetchEmailsForNegotiation(selectedNeg.id);
+    } catch (err: any) {
+      showToast('Dispatch Failed', err?.response?.data?.message ?? 'Failed to send updated email', 'error');
+    } finally {
+      setActionLoading(false);
     }
   };
 
@@ -440,9 +458,37 @@ export function NegotiationPage() {
                               <span className="text-[#8F8FA2] font-mono">{new Date(msg.createdAt).toLocaleString('en-IN')}</span>
                             </div>
                             <div className="text-sm font-semibold text-white">{msg.subject}</div>
-                            <div className="text-xs text-[#8F8FA2] font-mono bg-[#12151C]/60 p-2.5 rounded-lg whitespace-pre-wrap leading-relaxed border border-[#1E2330]/50">
-                              {msg.body}
-                            </div>
+                            {editingEmailId === msg.id ? (
+                              <div className="space-y-2 pt-2 border-t border-[#1E2330]">
+                                <span className="text-[10px] font-mono text-[#3E52FF] font-semibold">Modify Email Content Before Re-sending:</span>
+                                <textarea
+                                  value={editingEmailText}
+                                  onChange={(e) => setEditingEmailText(e.target.value)}
+                                  rows={6}
+                                  className="w-full bg-[#0B0D12] border border-[#3E52FF]/50 rounded-xl p-3 text-xs font-mono text-white focus:outline-none focus:border-[#3E52FF] leading-relaxed"
+                                />
+                                <div className="flex justify-end gap-2">
+                                  <button
+                                    onClick={() => setEditingEmailId(null)}
+                                    className="px-3 py-1.5 bg-[#1E2330] text-[#8F8FA2] hover:text-white rounded-lg text-xs font-medium"
+                                  >
+                                    Cancel
+                                  </button>
+                                  <button
+                                    onClick={() => handleSendEditedEmail()}
+                                    disabled={actionLoading}
+                                    className="px-4 py-1.5 bg-gradient-to-r from-[#3E52FF] to-indigo-600 text-white rounded-lg text-xs font-semibold shadow-md flex items-center gap-1.5 hover:opacity-90"
+                                  >
+                                    {actionLoading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                                    Send Updated Email
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="text-xs text-[#8F8FA2] font-mono bg-[#12151C]/60 p-2.5 rounded-lg whitespace-pre-wrap leading-relaxed border border-[#1E2330]/50">
+                                {msg.body}
+                              </div>
+                            )}
                             <div className="flex items-center justify-between pt-1">
                               <div className="flex items-center gap-2">
                                 <span className={clsx(
@@ -462,18 +508,35 @@ export function NegotiationPage() {
                                 )}
                               </div>
 
-                              <button
-                                onClick={() => handleResendEmail(msg.id)}
-                                disabled={resendingId !== null}
-                                className="px-2.5 py-1 bg-[#3E52FF]/10 hover:bg-[#3E52FF] text-[#BDC2FF] hover:text-white border border-[#3E52FF]/20 hover:border-transparent rounded-lg text-[10px] font-semibold transition-all flex items-center gap-1"
-                              >
-                                {resendingId === msg.id ? (
-                                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                                ) : (
-                                  <Send className="w-3 h-3" />
-                                )}
-                                Resend Email
-                              </button>
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() => {
+                                    if (editingEmailId === msg.id) {
+                                      setEditingEmailId(null);
+                                    } else {
+                                      setEditingEmailId(msg.id);
+                                      setEditingEmailText(msg.body);
+                                    }
+                                  }}
+                                  className="px-2.5 py-1 bg-[#1E2330] hover:bg-[#2A2F3E] text-[#BDC2FF] hover:text-white border border-[#2A2F3E] rounded-lg text-[10px] font-semibold transition-all flex items-center gap-1"
+                                >
+                                  <Edit3 className="w-3 h-3 text-[#3E52FF]" />
+                                  {editingEmailId === msg.id ? 'Cancel Edit' : 'Edit & Resend'}
+                                </button>
+
+                                <button
+                                  onClick={() => handleResendEmail(msg.id)}
+                                  disabled={resendingId !== null}
+                                  className="px-2.5 py-1 bg-[#3E52FF]/10 hover:bg-[#3E52FF] text-[#BDC2FF] hover:text-white border border-[#3E52FF]/20 hover:border-transparent rounded-lg text-[10px] font-semibold transition-all flex items-center gap-1"
+                                >
+                                  {resendingId === msg.id ? (
+                                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                                  ) : (
+                                    <Send className="w-3 h-3" />
+                                  )}
+                                  Resend Email
+                                </button>
+                              </div>
                             </div>
                           </div>
                         ))}

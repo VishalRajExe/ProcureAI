@@ -37,6 +37,8 @@ public class DataSeeder implements CommandLineRunner {
         seedBenchmark("Server", "150000", "500000");
         seedBenchmark("Office Furniture", "8000", "35000");
         seedBenchmark("Software License", "2000", "40000");
+        seedBenchmark("Displays & TVs", "40000", "160000");
+        seedBenchmark("LG 55-inch OLED TV", "90000", "150000");
 
         seedUser("admin@procureai.demo", "Admin User", "Admin@12345", User.Role.ADMIN);
         seedUser("approver@procureai.demo", "Approver User", "Approver@12345", User.Role.APPROVER);

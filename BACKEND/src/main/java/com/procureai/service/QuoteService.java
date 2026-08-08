@@ -101,6 +101,12 @@ public class QuoteService {
             ExtractedQuoteData extracted = aiProvider.extractQuoteData(safeText, safeVendorName);
             validateExtraction(extracted);
             applyExtraction(quote, extracted);
+            if (!quote.getItems().isEmpty()) {
+                String pName = quote.getItems().get(0).getProductName();
+                String cat = AnalyticsService.extractCategory(pName, vendor.getCategory());
+                vendor.setCategory(cat);
+                vendorRepository.save(vendor);
+            }
 
             quote.setExtractionStatus(Quote.ExtractionStatus.VALIDATED);
             calculationService.recalculate(quote);
