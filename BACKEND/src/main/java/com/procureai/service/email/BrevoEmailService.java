@@ -128,17 +128,33 @@ public class BrevoEmailService implements EmailService {
         return "gamrrvishu@gmail.com";
     }
 
+    private String getEffectiveRecipientEmail(String toAddress) {
+        if (toAddress == null || toAddress.isBlank() || toAddress.endsWith(".demo") || toAddress.endsWith(".example")) {
+            return getEffectiveSenderEmail();
+        }
+        return toAddress.trim();
+    }
+
     private EmailMessage dispatchBrevoEmail(EmailMessage msg) {
+        if (apiKey != null && apiKey.trim().startsWith("xsmtpsib-")) {
+            try {
+                return dispatchSmtpEmail(msg);
+            } catch (Exception smtpEx) {
+                log.warn("Brevo SMTP Relay failed ({}) — trying REST API fallback...", smtpEx.getMessage());
+            }
+        }
+
         String fromEmail = getEffectiveSenderEmail();
+        String targetRecipient = getEffectiveRecipientEmail(msg.getToAddress());
         try {
             Map<String, Object> payload = Map.of(
                     "sender", Map.of("name", senderName, "email", fromEmail),
-                    "to", List.of(Map.of("email", msg.getToAddress())),
+                    "to", List.of(Map.of("email", targetRecipient)),
                     "subject", msg.getSubject(),
                     "htmlContent", formatHtmlContent(msg.getBody())
             );
 
-            log.info("Sending email via Brevo REST API (from: {}) to: {}", fromEmail, msg.getToAddress());
+            log.info("Sending email via Brevo REST API (from: {}, to: {})", fromEmail, targetRecipient);
 
             restClient.post()
                     .uri(BREVO_API_URL)
@@ -153,8 +169,8 @@ public class BrevoEmailService implements EmailService {
             msg = emailMessageRepository.save(msg);
 
             auditService.log(null, null, "BREVO_EMAIL_SENT", "EmailMessage", msg.getId(),
-                    "to=" + msg.getToAddress() + " subject=" + msg.getSubject());
-            log.info("Email successfully sent via Brevo REST API to {}", msg.getToAddress());
+                    "to=" + targetRecipient + " subject=" + msg.getSubject());
+            log.info("Email successfully sent via Brevo REST API to {}", targetRecipient);
             return msg;
 
         } catch (Exception restEx) {
@@ -176,7 +192,8 @@ public class BrevoEmailService implements EmailService {
 
     private EmailMessage dispatchSmtpEmail(EmailMessage msg) {
         String fromEmail = getEffectiveSenderEmail();
-        log.info("Sending email via Brevo SMTP Relay to: {} (from: {})", msg.getToAddress(), fromEmail);
+        String targetRecipient = getEffectiveRecipientEmail(msg.getToAddress());
+        log.info("Sending email via Brevo SMTP Relay to: {} (from: {})", targetRecipient, fromEmail);
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp-relay.brevo.com");
@@ -189,15 +206,15 @@ public class BrevoEmailService implements EmailService {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.starttls.required", "true");
-        props.put("mail.smtp.connectiontimeout", "5000");
-        props.put("mail.smtp.timeout", "5000");
-        props.put("mail.smtp.writetimeout", "5000");
+        props.put("mail.smtp.connectiontimeout", "7000");
+        props.put("mail.smtp.timeout", "7000");
+        props.put("mail.smtp.writetimeout", "7000");
 
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             helper.setFrom(fromEmail, senderName);
-            helper.setTo(msg.getToAddress().trim());
+            helper.setTo(targetRecipient);
             helper.setSubject(msg.getSubject());
             helper.setText(formatHtmlContent(msg.getBody()), true);
 
@@ -208,13 +225,13 @@ public class BrevoEmailService implements EmailService {
             msg = emailMessageRepository.save(msg);
 
             auditService.log(null, null, "BREVO_SMTP_SENT", "EmailMessage", msg.getId(),
-                    "to=" + msg.getToAddress() + " subject=" + msg.getSubject());
-            log.info("Email successfully sent via Brevo SMTP to {}", msg.getToAddress());
+                    "to=" + targetRecipient + " subject=" + msg.getSubject());
+            log.info("Email successfully sent via Brevo SMTP to {}", targetRecipient);
             return msg;
 
         } catch (Exception ex) {
             String error = "Brevo SMTP Error: " + (ex.getMessage() != null ? ex.getMessage() : ex.getClass().getSimpleName());
-            log.error("Failed to send email via Brevo SMTP to {}: {}", msg.getToAddress(), error);
+            log.error("Failed to send email via Brevo SMTP to {}: {}", targetRecipient, error);
             throw new RuntimeException(error, ex);
         }
     }
