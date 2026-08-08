@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  procureai-mysql:
+    image: mysql:8.0
+    container_name: procureai-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: adminpassword
+      MYSQL_DATABASE: procureai
+      MYSQL_USER: procureuser
+      MYSQL_PASSWORD: procurepassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-padminpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  procureai-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: procureai-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      procureai-mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:mysql://procureai-mysql:3306/procureai?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: procureuser
+      DB_PASSWORD: procurepassword
+      DB_DRIVER: com.mysql.cj.jdbc.Driver
+      DB_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      DDL_AUTO: update
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      BREVO_API_KEY: ${BREVO_API_KEY:-}
+      JWT_SECRET: ${JWT_SECRET:-production_jwt_secret_key_procureai_2026_secure}
+      CORS_ORIGINS: http://localhost:5173,http://localhost:3000,https://procureai-89869.web.app,https://procureai-89869.firebaseapp.com
+
+volumes:
+  mysql_data:

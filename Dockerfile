@@ -1,12 +1,11 @@
-# Multi-stage Dockerfile for ProcureAI Spring Boot (Java 17)
-# Compatible with Docker, Railway, AWS ECS, GCP Cloud Run & Local containers
+# Multi-stage Dockerfile for ProcureAI Spring Boot (Java 17) from root workspace
 
 # Stage 1: Build JAR artifact
 FROM maven:3.9.6-eclipse-temurin-17-alpine AS builder
 WORKDIR /app
-COPY pom.xml .
+COPY BACKEND/pom.xml .
 RUN mvn dependency:go-offline -B
-COPY src ./src
+COPY BACKEND/src ./src
 RUN mvn clean package -DskipTests -B
 
 # Stage 2: Minimal Production JRE Runtime
