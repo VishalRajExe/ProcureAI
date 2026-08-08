@@ -32,7 +32,9 @@ class ApiClient {
         if (error.response?.status === 401) {
           localStorage.removeItem('procureai_token');
           localStorage.removeItem('procureai_user');
-          window.location.href = '/login';
+          if (window.location.pathname !== '/login') {
+            window.location.href = '/login';
+          }
         }
         return Promise.reject(error);
       }
@@ -42,16 +44,30 @@ class ApiClient {
   // ── Auth ────────────────────────────────────────────────────────────────────
 
   async login(email: string, password: string): Promise<AuthTokens> {
-    const { data } = await this.http.post<AuthTokens>('/api/auth/login', { email, password });
-    localStorage.setItem('procureai_token', data.token);
-    localStorage.setItem('procureai_user', JSON.stringify(data.user));
+    const { data } = await this.http.post<any>('/api/auth/login', { email, password });
+    if (data?.token) {
+      localStorage.setItem('procureai_token', data.token);
+    }
+    const userObj = data?.user ?? {
+      name: data?.name ?? email.split('@')[0],
+      email: data?.email ?? email,
+      role: data?.role ?? 'ADMIN',
+    };
+    localStorage.setItem('procureai_user', JSON.stringify(userObj));
     return data;
   }
 
   async register(email: string, name: string, password: string): Promise<AuthTokens> {
-    const { data } = await this.http.post<AuthTokens>('/api/auth/register', { email, name, password });
-    localStorage.setItem('procureai_token', data.token);
-    localStorage.setItem('procureai_user', JSON.stringify(data.user));
+    const { data } = await this.http.post<any>('/api/auth/register', { email, name, password });
+    if (data?.token) {
+      localStorage.setItem('procureai_token', data.token);
+    }
+    const userObj = data?.user ?? {
+      name: data?.name ?? name,
+      email: data?.email ?? email,
+      role: data?.role ?? 'PROCUREMENT_USER',
+    };
+    localStorage.setItem('procureai_user', JSON.stringify(userObj));
     return data;
   }
 

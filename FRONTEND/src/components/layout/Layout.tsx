@@ -20,8 +20,21 @@ const navItems = [
 
 export function Layout() {
   const navigate = useNavigate();
-  const rawUser = localStorage.getItem('procureai_user');
-  const user = rawUser ? JSON.parse(rawUser) : null;
+
+  let user: { name: string; email?: string; role: string } | null = null;
+  try {
+    const rawUser = localStorage.getItem('procureai_user');
+    if (rawUser && rawUser !== 'undefined' && rawUser !== 'null') {
+      user = JSON.parse(rawUser);
+    }
+  } catch (e) {
+    user = null;
+  }
+
+  // Fallback default user if logged in with token but user object missing
+  if (!user && localStorage.getItem('procureai_token')) {
+    user = { name: 'Admin Officer', role: 'ADMIN' };
+  }
 
   const handleLogout = () => {
     api.logout();
@@ -40,7 +53,7 @@ export function Layout() {
           <div>
             <div className="font-bold text-white tracking-tight flex items-center gap-1.5">
               ProcureAI
-              <span className="px-1.5 py-0.2 bg-[#3E52FF]/20 text-[#BDC2FF] text-[9px] rounded font-mono border border-[#3E52FF]/30">PRO</span>
+              <span className="px-1.5 py-0.5 bg-[#3E52FF]/20 text-[#BDC2FF] text-[9px] rounded font-mono border border-[#3E52FF]/30">PRO</span>
             </div>
             <div className="text-[10px] text-[#8F8FA2] font-mono uppercase tracking-widest">Autonomous Procurement</div>
           </div>
@@ -78,7 +91,7 @@ export function Layout() {
           {user ? (
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#3E52FF] to-purple-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0 shadow-md">
-                {user.name?.[0]?.toUpperCase() ?? 'U'}
+                {user.name?.[0]?.toUpperCase() ?? 'A'}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-medium text-white truncate">{user.name}</div>
