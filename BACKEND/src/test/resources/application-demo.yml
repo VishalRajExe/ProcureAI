@@ -1,0 +1,5 @@
+app:
+  email:
+    provider: mock
+  ai:
+    provider: mock

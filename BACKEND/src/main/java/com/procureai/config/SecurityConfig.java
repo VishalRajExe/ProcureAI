@@ -83,8 +83,12 @@ public class SecurityConfig {
         if (allowedOrigins == null || allowedOrigins.isBlank() || allowedOrigins.equals("*")) {
             config.addAllowedOriginPattern("*");
         } else {
-            List<String> origins = List.of(allowedOrigins.split(","));
-            config.setAllowedOrigins(origins);
+            List<String> origins = List.of(allowedOrigins.split(","))
+                .stream()
+                .map(String::trim)
+                .filter(s -> !s.isBlank())
+                .toList();
+            config.setAllowedOriginPatterns(origins);
         }
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
