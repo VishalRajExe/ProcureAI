@@ -77,9 +77,15 @@ public class QuoteService {
                 .orElseGet(() -> {
                     Vendor v = new Vendor();
                     v.setName(vendorName);
-                    v.setContactEmail(vendorEmail);
-                    return vendorRepository.save(v);
+                    return v;
                 });
+
+        if (vendorEmail != null && !vendorEmail.isBlank()) {
+            vendor.setContactEmail(vendorEmail.strip());
+        } else if (vendor.getContactEmail() == null || vendor.getContactEmail().isBlank()) {
+            vendor.setContactEmail("sales@" + vendorName.toLowerCase().replaceAll("[^a-z0-9]", "") + "-demo.com");
+        }
+        vendor = vendorRepository.save(vendor);
 
         Quote quote = new Quote();
         quote.setWorkflow(workflow);

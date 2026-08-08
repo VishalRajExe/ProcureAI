@@ -262,6 +262,10 @@ export function NegotiationPage() {
                   <span className="text-xs text-[#8F8FA2] font-mono">Brevo Delivery Ready</span>
                 </div>
 
+                <div className="text-xs font-mono text-[#E0E3E5] bg-[#0B0D12] p-3 rounded-xl border border-[#1E2330]">
+                  <span className="text-[#8F8FA2]">To Recipient:</span> <strong className="text-white">{selectedNeg.quote.vendor.name}</strong> &lt;{selectedNeg.quote.vendor.contactEmail ?? 'sales@vendor-demo.com'}&gt;
+                </div>
+
                 <textarea
                   rows={8}
                   value={editedEmail}
