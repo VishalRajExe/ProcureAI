@@ -20,6 +20,10 @@ run-local.ps1
 # IDE / OS
 .idea/
 .vscode/
+.classpath
+.factorypath
+.project
+.settings/
 *.swp
 .DS_Store
 Thumbs.db
