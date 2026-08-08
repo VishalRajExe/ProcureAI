@@ -3,13 +3,20 @@ package com.procureai.controller;
 import com.procureai.service.DemoService;
 import com.procureai.util.CurrentUser;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-/** Backs the "RUN DEMO PROCUREMENT" button — runs the entire workflow automatically. */
+/**
+ * Demo workflow controller.
+ *
+ * Security: Requires authentication. Requires ADMIN or APPROVER role to run
+ * the full automated procurement workflow (since it includes approval steps).
+ *
+ * This endpoint is intentionally restricted — an unauthenticated caller should
+ * not be able to trigger database writes, vendor scoring, negotiation, or PO generation.
+ */
 @RestController
 @RequestMapping("/api/demo")
 public class DemoController {
@@ -21,6 +28,7 @@ public class DemoController {
     }
 
     @PostMapping({"/run", "/seed"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER', 'PROCUREMENT_USER')")
     public ResponseEntity<Map<String, Object>> run() {
         return ResponseEntity.ok(demoService.runDemo(CurrentUser.id()));
     }

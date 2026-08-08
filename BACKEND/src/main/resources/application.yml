@@ -11,39 +11,54 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        format_sql: true
-    # NOTE: left at Spring Boot's default (true) for this hackathon build so lazy
-    # associations (Quote.vendor, Negotiation.quote, etc.) can serialize safely from
-    # simple non-transactional read methods. For a production build, switch to false
-    # and add @EntityGraph/DTO projections everywhere entities cross the API boundary.
+        format_sql: false   # Never log SQL in production — could expose query structure
+    # NOTE: open-in-view is true for hackathon simplicity (lazy associations serialize safely).
+    # For production: switch to false and add @EntityGraph/DTO projections everywhere.
     open-in-view: true
 
   servlet:
     multipart:
-      max-file-size: 15MB
-      max-request-size: 20MB
+      max-file-size: 10MB    # Reduced from 15MB — code also enforces this
+      max-request-size: 12MB
 
 server:
   port: 8080
   error:
-    include-message: always
+    # SECURITY: Never include stack traces or internal error messages in API responses.
+    # The GlobalExceptionHandler controls all error responses.
+    include-message: never
     include-stacktrace: never
+    include-binding-errors: never
+    include-exception: false
 
 app:
   jwt:
-    secret: ${JWT_SECRET:change_this_dev_only_secret_key_min_32_chars_long_please}
-    expiration-ms: 86400000
+    # SECURITY: JWT_SECRET must be provided via environment variable in any non-demo environment.
+    # The default value triggers a startup warning (see JwtService). Never use in production.
+    secret: ${JWT_SECRET:CHANGE_ME_this_is_a_dev_only_secret_replace_before_any_real_deployment}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}   # 24 hours; reduce for higher-security needs
+
   ai:
     provider: ${AI_PROVIDER:mock}     # mock | openai | anthropic
     api-key: ${AI_API_KEY:}
+
   email:
     provider: ${EMAIL_PROVIDER:mock}  # mock | smtp
+
   cors:
+    # SECURITY: In production, set CORS_ORIGINS to your exact frontend domain only.
+    # Example: CORS_ORIGINS=https://procureai.example.com
     allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+  po:
+    output-dir: ${PO_OUTPUT_DIR:./po-output}
 
 logging:
   level:
     com.procureai: INFO
+    # Never log SQL, Hibernate internals, or Spring Security internals at DEBUG in production
+    org.hibernate.SQL: WARN
+    org.springframework.security: WARN
 
 ---
 spring:
@@ -57,8 +72,11 @@ spring:
     password: ""
   h2:
     console:
+      # H2 console enabled ONLY in demo profile — disabled in mysql/production
       enabled: true
       path: /h2-console
+      settings:
+        web-allow-others: false   # SECURITY: prevents H2 console access from remote hosts
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
 
@@ -68,9 +86,18 @@ spring:
     activate:
       on-profile: mysql
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/procureai?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:admin}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/procureai?createDatabaseIfNotExist=true&useSSL=true&serverTimezone=UTC}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+  h2:
+    console:
+      enabled: false   # SECURITY: H2 console must never be enabled in production
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: validate   # SECURITY: Never use 'update' or 'create' in production

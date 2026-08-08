@@ -8,6 +8,9 @@ import com.procureai.repository.VendorRepository;
 import com.procureai.repository.WorkflowExecutionRepository;
 import com.procureai.service.ai.AIProvider;
 import com.procureai.service.ai.ExtractedQuoteData;
+import com.procureai.util.InputSanitizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +20,8 @@ import java.util.List;
 
 @Service
 public class QuoteService {
+
+    private static final Logger log = LoggerFactory.getLogger(QuoteService.class);
 
     private final QuoteRepository quoteRepository;
     private final VendorRepository vendorRepository;
@@ -77,7 +82,10 @@ public class QuoteService {
         quote = quoteRepository.save(quote);
 
         try {
-            ExtractedQuoteData extracted = aiProvider.extractQuoteData(rawText, vendorName);
+            // Sanitize all AI inputs: strip control chars, enforce max length
+            String safeText = InputSanitizer.sanitizeForAi(rawText);
+            String safeVendorName = InputSanitizer.sanitizeField(vendorName);
+            ExtractedQuoteData extracted = aiProvider.extractQuoteData(safeText, safeVendorName);
             validateExtraction(extracted);
             applyExtraction(quote, extracted);
 

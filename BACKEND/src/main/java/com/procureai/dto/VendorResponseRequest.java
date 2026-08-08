@@ -1,9 +1,16 @@
 package com.procureai.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
-/** Simulates a vendor's reply arriving in the Vendor Inbox Simulator. */
+/**
+ * @deprecated Use {@link QuoteDtos.VendorResponseRequest} for new code.
+ */
+@Deprecated
 public record VendorResponseRequest(
-        @NotNull BigDecimal counterPrice
+        @NotNull
+        @DecimalMin(value = "0.01", message = "Counter price must be greater than zero")
+        @DecimalMax(value = "1000000000", message = "Counter price exceeds maximum allowed value")
+        @Digits(integer = 12, fraction = 2)
+        BigDecimal counterPrice
 ) {}
