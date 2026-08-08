@@ -1,18 +1,33 @@
 import { useState, useEffect } from 'react';
 import {
-  Scale, RefreshCw, Cpu, Award, Zap, ChevronRight
+  Scale, RefreshCw, Cpu, Award, Zap, ChevronRight, Handshake
 } from 'lucide-react';
 import { api } from '../api/client';
 import type { ComparisonResult, WorkflowExecution } from '../types';
 import { useToast } from '../components/Toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export function ComparisonPage() {
   const { showToast } = useToast();
+  const navigate = useNavigate();
   const [workflows, setWorkflows] = useState<WorkflowExecution[]>([]);
   const [selectedWorkflowId, setSelectedWorkflowId] = useState<number | null>(null);
   const [comparison, setComparison] = useState<ComparisonResult | null>(null);
   const [comparing, setComparing] = useState(false);
+  const [draftingId, setDraftingId] = useState<number | null>(null);
+
+  const handleInitiateNegotiation = async (quoteId: number) => {
+    setDraftingId(quoteId);
+    try {
+      await api.draftNegotiation(quoteId);
+      showToast('Negotiation Drafted', 'Gemini AI strategy & email drafted', 'success');
+      navigate('/negotiation');
+    } catch (err: any) {
+      showToast('Error', err?.response?.data?.message ?? 'Failed to draft negotiation', 'error');
+    } finally {
+      setDraftingId(null);
+    }
+  };
 
   const loadWorkflows = async () => {
     try {
@@ -132,12 +147,13 @@ export function ComparisonPage() {
                     </div>
                   </div>
 
-                  <Link
-                    to="/negotiation"
-                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#3E52FF] to-indigo-600 text-white font-medium text-sm rounded-xl shadow-lg shadow-blue-500/25 hover:opacity-95 transition-all"
+                  <button
+                    onClick={() => handleInitiateNegotiation(topQuote.id)}
+                    disabled={draftingId !== null}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#3E52FF] to-indigo-600 text-white font-medium text-sm rounded-xl shadow-lg shadow-blue-500/25 hover:opacity-95 transition-all disabled:opacity-50"
                   >
-                    Proceed to Negotiation <ChevronRight className="w-4 h-4" />
-                  </Link>
+                    {draftingId === topQuote.id ? 'Drafting...' : 'Proceed to Negotiation'} <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -204,6 +220,20 @@ export function ComparisonPage() {
                       Conf: {Math.round((quote.extractionConfidence ?? 0.95) * 100)}%
                     </span>
                   </div>
+
+                  <button
+                    onClick={() => handleInitiateNegotiation(quote.id)}
+                    disabled={draftingId !== null}
+                    className="w-full mt-2 py-2 bg-[#3E52FF]/10 hover:bg-[#3E52FF] text-[#BDC2FF] hover:text-white disabled:opacity-50 border border-[#3E52FF]/30 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5"
+                  >
+                    {draftingId === quote.id ? (
+                      <span>Drafting...</span>
+                    ) : (
+                      <>
+                        <Handshake className="w-3.5 h-3.5" /> Select & Negotiate
+                      </>
+                    )}
+                  </button>
                 </div>
               );
             })}
