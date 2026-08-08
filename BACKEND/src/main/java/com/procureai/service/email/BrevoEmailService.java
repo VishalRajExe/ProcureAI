@@ -48,6 +48,9 @@ public class BrevoEmailService implements EmailService {
     @Value("${app.email.sender-email:procurement@procureai.demo}")
     private String senderEmail;
 
+    @Value("${app.email.smtp-username:gamrrvishu@gmail.com}")
+    private String smtpUsername;
+
     @Value("${app.email.sender-name:ProcureAI}")
     private String senderName;
 
@@ -182,7 +185,7 @@ public class BrevoEmailService implements EmailService {
             JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
             mailSender.setHost("smtp-relay.brevo.com");
             mailSender.setPort(587);
-            mailSender.setUsername(senderEmail.trim());
+            mailSender.setUsername(smtpUsername.trim());
             mailSender.setPassword(apiKey.trim());
 
             Properties props = mailSender.getJavaMailProperties();
@@ -193,6 +196,7 @@ public class BrevoEmailService implements EmailService {
             props.put("mail.smtp.connectiontimeout", "5000");
             props.put("mail.smtp.timeout", "5000");
             props.put("mail.smtp.writetimeout", "5000");
+            props.put("mail.debug", "true");
 
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -214,7 +218,7 @@ public class BrevoEmailService implements EmailService {
 
         } catch (Exception ex) {
             String error = "Brevo SMTP Error: " + (ex.getMessage() != null ? ex.getMessage() : ex.getClass().getSimpleName());
-            log.error("Failed to send email via Brevo SMTP to {}: {}. Falling back to MockEmailService.", msg.getToAddress(), error);
+            log.error("Failed to send email via Brevo SMTP to {}: {}. Falling back to MockEmailService.", msg.getToAddress(), error, ex);
 
             mockEmailFallback.sendEmailDetails(msg.getToAddress(), msg.getSubject(), msg.getBody(), msg.getNegotiationId(), msg.getPurchaseOrderId());
             msg.setStatus(EmailMessage.Status.SENT);

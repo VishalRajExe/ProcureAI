@@ -47,6 +47,7 @@ app:
     provider: ${EMAIL_PROVIDER:${BREVO_PROVIDER:brevo}}  # mock | brevo
     api-key: ${BREVO_API_KEY:}
     sender-email: ${BREVO_SENDER_EMAIL:procurement@procureai.demo}
+    smtp-username: ${BREVO_SMTP_USERNAME:gamrrvishu@gmail.com}
     sender-name: ${BREVO_SENDER_NAME:ProcureAI}
 
   cors:
@@ -60,6 +61,7 @@ logging:
     com.procureai: INFO
     org.hibernate.SQL: WARN
     org.springframework.security: WARN
+    org.springframework.mail: DEBUG
 
 ---
 spring:
