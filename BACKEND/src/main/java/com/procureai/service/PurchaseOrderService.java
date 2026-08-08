@@ -24,12 +24,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Generates a real, dynamic Purchase Order (persisted entity + rendered PDF) from the
  * data of the final selected vendor's quote.
  */
 @Service
 public class PurchaseOrderService {
+
+    private static final Logger log = LoggerFactory.getLogger(PurchaseOrderService.class);
 
     private final PurchaseOrderRepository purchaseOrderRepository;
     private final QuoteCalculationService calculationService;
@@ -137,12 +142,17 @@ public class PurchaseOrderService {
                 po.getDeliveryDays() != null ? po.getDeliveryDays() : 7
         );
 
-        Long emailId = emailService.sendPoEmail(to, subject, body, po.getId());
+        EmailMessage emailMsg = emailService.sendEmailDetails(to, subject, body, null, po.getId());
+        if (emailMsg.getStatus() == EmailMessage.Status.FAILED) {
+            log.error("Failed to dispatch PO email for {}: {}", po.getPoNumber(), emailMsg.getErrorMessage());
+            throw new BusinessRuleException("Failed to send PO email to " + to + ": " + (emailMsg.getErrorMessage() != null ? emailMsg.getErrorMessage() : "Delivery error"));
+        }
+
         po.setStatus(PurchaseOrder.Status.ISSUED);
         po = purchaseOrderRepository.save(po);
 
         auditService.log(po.getWorkflow().getId(), userId, "PURCHASE_ORDER_ISSUED_EMAIL", "PurchaseOrder", po.getId(),
-                "poNumber=" + po.getPoNumber() + " emailId=" + emailId);
+                "poNumber=" + po.getPoNumber() + " emailId=" + emailMsg.getId());
         return po;
     }
 

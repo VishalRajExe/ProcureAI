@@ -16,11 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Orchestrates the AI negotiation agent end-to-end.
  */
 @Service
 public class NegotiationService {
+
+    private static final Logger log = LoggerFactory.getLogger(NegotiationService.class);
 
     private static final BigDecimal DEFAULT_TARGET_DISCOUNT = new BigDecimal("0.06");
     private static final BigDecimal DEFAULT_MAX_DISCOUNT_FLOOR = new BigDecimal("0.10");
@@ -145,14 +150,22 @@ public class NegotiationService {
 
     private Negotiation sendNegotiationEmail(Negotiation negotiation, Long userId) {
         String vendorEmail = negotiation.getQuote().getVendor().getContactEmail();
-        String to = (vendorEmail == null || vendorEmail.isBlank()) ? "vendor@example-demo.com" : vendorEmail;
-        Long emailId = emailService.send(to, "Quotation Discussion", negotiation.getDraftEmailBody(), negotiation.getId());
+        String to = (vendorEmail != null && !vendorEmail.isBlank()) ? vendorEmail : "vendor@example-demo.com";
+        String subject = "Quotation Discussion — " + (negotiation.getQuote().getItems().isEmpty() ? negotiation.getQuote().getVendor().getName() : negotiation.getQuote().getItems().get(0).getProductName());
+        EmailMessage emailMsg = emailService.sendEmailDetails(to, subject, negotiation.getDraftEmailBody(), negotiation.getId(), null);
+
+        if (emailMsg.getStatus() == EmailMessage.Status.FAILED) {
+            log.error("Failed to dispatch negotiation email for negotiation {}: {}", negotiation.getId(), emailMsg.getErrorMessage());
+            negotiation.setStatus(Negotiation.Status.FAILED);
+            negotiationRepository.save(negotiation);
+            throw new BusinessRuleException("Failed to send email to " + to + ": " + (emailMsg.getErrorMessage() != null ? emailMsg.getErrorMessage() : "Delivery error"));
+        }
 
         negotiation.setStatus(Negotiation.Status.SENT);
         negotiation.setCurrentRound(negotiation.getCurrentRound() + 1);
         negotiation = negotiationRepository.save(negotiation);
 
-        auditService.log(negotiation.getWorkflow().getId(), userId, "NEGOTIATION_EMAIL_SENT", "EmailMessage", emailId,
+        auditService.log(negotiation.getWorkflow().getId(), userId, "NEGOTIATION_EMAIL_SENT", "EmailMessage", emailMsg.getId(),
                 "round=" + negotiation.getCurrentRound());
         return negotiation;
     }

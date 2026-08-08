@@ -1,6 +1,5 @@
 package com.procureai.service.email;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.procureai.entity.EmailMessage;
 import com.procureai.exception.NotFoundException;
 import com.procureai.repository.EmailMessageRepository;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientResponseException;
 
 import java.util.List;
 import java.util.Map;
@@ -84,8 +84,8 @@ public class BrevoEmailService implements EmailService {
         msg.setStatus(EmailMessage.Status.DRAFT);
         msg = emailMessageRepository.save(msg);
 
-        // Fallback to mock if API key is not configured
-        if (apiKey == null || apiKey.isBlank() || apiKey.startsWith("CHANGE_ME")) {
+        // Fallback to mock if API key is not configured or default dummy placeholder
+        if (apiKey == null || apiKey.isBlank() || apiKey.startsWith("CHANGE_ME") || apiKey.contains("xsmtpsib-YOUR")) {
             log.warn("Brevo API key not configured — delegating to MockEmailService");
             EmailMessage mockResult = mockEmailFallback.sendEmailDetails(cleanTo, subject, body, negotiationId, purchaseOrderId);
             msg.setStatus(EmailMessage.Status.SENT);
@@ -101,7 +101,7 @@ public class BrevoEmailService implements EmailService {
         EmailMessage msg = emailMessageRepository.findById(emailMessageId)
                 .orElseThrow(() -> new NotFoundException("Email message not found: " + emailMessageId));
 
-        if (apiKey == null || apiKey.isBlank() || apiKey.startsWith("CHANGE_ME")) {
+        if (apiKey == null || apiKey.isBlank() || apiKey.startsWith("CHANGE_ME") || apiKey.contains("xsmtpsib-YOUR")) {
             log.warn("Brevo API key not configured — marking retry as SENT via Mock fallback");
             msg.setStatus(EmailMessage.Status.SENT);
             msg.setErrorMessage("Sent via MockEmailService retry (Brevo API key not set)");
@@ -124,7 +124,7 @@ public class BrevoEmailService implements EmailService {
 
             restClient.post()
                     .uri(BREVO_API_URL)
-                    .header("api-key", apiKey)
+                    .header("api-key", apiKey.trim())
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(payload)
                     .retrieve()
@@ -137,6 +137,19 @@ public class BrevoEmailService implements EmailService {
             auditService.log(null, null, "BREVO_EMAIL_SENT", "EmailMessage", msg.getId(),
                     "to=" + msg.getToAddress() + " subject=" + msg.getSubject());
             log.info("Email successfully sent via Brevo to {}", msg.getToAddress());
+            return msg;
+
+        } catch (RestClientResponseException ex) {
+            String bodyResponse = ex.getResponseBodyAsString();
+            String error = "Brevo HTTP " + ex.getStatusCode().value() + ": " + (bodyResponse != null && !bodyResponse.isBlank() ? bodyResponse : ex.getMessage());
+            log.error("Failed to send email via Brevo to {}: {}", msg.getToAddress(), error);
+
+            msg.setStatus(EmailMessage.Status.FAILED);
+            msg.setErrorMessage(error.length() > 500 ? error.substring(0, 500) : error);
+            msg = emailMessageRepository.save(msg);
+
+            auditService.logFailure(null, null, "BREVO_EMAIL_FAILED", "EmailMessage", msg.getId(),
+                    "to=" + msg.getToAddress() + " error=" + error);
             return msg;
 
         } catch (Exception ex) {
