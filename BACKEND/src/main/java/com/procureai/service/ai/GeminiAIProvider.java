@@ -312,7 +312,13 @@ public class GeminiAIProvider implements AIProvider {
     }
 
     private String callGemini(String promptText, boolean jsonMode) {
-        String url = GEMINI_BASE_URL + modelName + ":generateContent?key=" + apiKey;
+        List<String> modelCandidates = List.of(
+                (modelName != null && !modelName.isBlank()) ? modelName : "gemini-1.5-flash-latest",
+                "gemini-1.5-flash-latest",
+                "gemini-2.0-flash",
+                "gemini-1.5-pro",
+                "gemini-2.5-flash"
+        );
 
         Map<String, Object> part = Map.of("text", promptText);
         Map<String, Object> content = Map.of("parts", List.of(part));
@@ -325,21 +331,30 @@ public class GeminiAIProvider implements AIProvider {
             requestBody = Map.of("contents", List.of(content));
         }
 
-        String responseStr = restClient.post()
-                .uri(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(requestBody)
-                .retrieve()
-                .body(String.class);
+        Exception lastException = null;
+        for (String targetModel : modelCandidates) {
+            try {
+                String url = GEMINI_BASE_URL + targetModel + ":generateContent?key=" + apiKey;
+                String responseStr = restClient.post()
+                        .uri(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(requestBody)
+                        .retrieve()
+                        .body(String.class);
 
-        try {
-            JsonNode tree = objectMapper.readTree(responseStr);
-            JsonNode candidate = tree.path("candidates").get(0);
-            String text = candidate.path("content").path("parts").get(0).path("text").asText();
-            return text != null ? text.trim() : "";
-        } catch (Exception ex) {
-            log.error("Failed to parse Gemini response payload: {}", ex.getMessage());
-            throw new RuntimeException("Malformed Gemini response payload");
+                JsonNode tree = objectMapper.readTree(responseStr);
+                JsonNode candidate = tree.path("candidates").get(0);
+                String text = candidate.path("content").path("parts").get(0).path("text").asText();
+                return text != null ? text.trim() : "";
+            } catch (Exception ex) {
+                lastException = ex;
+                if (ex.getMessage() != null && ex.getMessage().contains("404")) {
+                    log.debug("Gemini model {} returned 404, attempting next model candidate...", targetModel);
+                    continue;
+                }
+                throw new RuntimeException("Gemini API call failed: " + ex.getMessage(), ex);
+            }
         }
+        throw new RuntimeException("All Gemini model candidates failed: " + (lastException != null ? lastException.getMessage() : "Unknown error"));
     }
 }

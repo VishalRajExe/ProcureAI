@@ -35,6 +35,7 @@ public class AnalyticsService {
         this.workflowRepository = workflowRepository;
     }
 
+    @Transactional(readOnly = true)
     public Map<String, Object> dashboardSummary() {
         List<Quote> quotes = quoteRepository.findAll();
         List<Negotiation> negotiations = negotiationRepository.findAll();
@@ -82,20 +83,29 @@ public class AnalyticsService {
         // Dynamic category spend computation
         Map<String, BigDecimal> catSpendMap = new HashMap<>();
         for (PurchaseOrder po : pos) {
-            String pName = (po.getSourceQuote() != null && po.getSourceQuote().getItems() != null && !po.getSourceQuote().getItems().isEmpty())
-                    ? po.getSourceQuote().getItems().get(0).getProductName() : null;
+            String pName = null;
+            if (po.getItems() != null && !po.getItems().isEmpty()) {
+                pName = po.getItems().get(0).getProductName();
+            } else if (po.getSourceQuote() != null && po.getSourceQuote().getItems() != null && !po.getSourceQuote().getItems().isEmpty()) {
+                pName = po.getSourceQuote().getItems().get(0).getProductName();
+            }
             String vCat = po.getVendor() != null ? po.getVendor().getCategory() : null;
-            String cat = extractCategory(pName, vCat);
+            String vName = po.getVendor() != null ? po.getVendor().getName() : null;
+            String cat = extractCategory(pName, vCat, vName);
             catSpendMap.merge(cat, po.getTotalAmount() != null ? po.getTotalAmount() : BigDecimal.ZERO, BigDecimal::add);
         }
-        if (catSpendMap.isEmpty()) {
-            for (Quote q : quotes) {
+
+        for (Quote q : quotes) {
+            boolean inPo = pos.stream().anyMatch(po -> po.getSourceQuote() != null && po.getSourceQuote().getId().equals(q.getId()));
+            if (!inPo) {
                 String pName = (q.getItems() != null && !q.getItems().isEmpty()) ? q.getItems().get(0).getProductName() : null;
                 String vCat = q.getVendor() != null ? q.getVendor().getCategory() : null;
-                String cat = extractCategory(pName, vCat);
+                String vName = q.getVendor() != null ? q.getVendor().getName() : null;
+                String cat = extractCategory(pName, vCat, vName);
                 catSpendMap.merge(cat, q.getCalculatedTotal() != null ? q.getCalculatedTotal() : BigDecimal.ZERO, BigDecimal::add);
             }
         }
+
         if (catSpendMap.isEmpty()) {
             catSpendMap.put("Laptops", BigDecimal.ZERO);
             catSpendMap.put("Displays & TVs", BigDecimal.ZERO);
@@ -147,41 +157,44 @@ public class AnalyticsService {
     }
 
     public static String extractCategory(String productName, String vendorCategory) {
-        if (vendorCategory != null && !vendorCategory.isBlank() 
-                && !vendorCategory.equalsIgnoreCase("General") 
-                && !vendorCategory.equalsIgnoreCase("Laptops")) {
-            return vendorCategory;
-        }
-        if (productName == null || productName.isBlank()) {
-            return vendorCategory != null && !vendorCategory.isBlank() ? vendorCategory : "Laptops";
-        }
-        String lower = productName.toLowerCase();
-        if (lower.contains("tv") || lower.contains("television") || lower.contains("oled") 
-                || lower.contains("led") || lower.contains("display") || lower.contains("screen") 
-                || lower.contains("smart tv") || lower.contains("monitor")) {
+        return extractCategory(productName, vendorCategory, null);
+    }
+
+    public static String extractCategory(String productName, String vendorCategory, String vendorName) {
+        String combined = ((productName != null ? productName : "") + " " + (vendorName != null ? vendorName : "")).toLowerCase();
+
+        if (combined.contains("tv") || combined.contains("television") || combined.contains("oled") 
+                || combined.contains("led") || combined.contains("display") || combined.contains("screen") 
+                || combined.contains("smart tv") || combined.contains("monitor") || combined.contains("lg")) {
             return "Displays & TVs";
         }
-        if (lower.contains("server") || lower.contains("datacenter") || lower.contains("rack") || lower.contains("infrastructure")) {
+        if (combined.contains("server") || combined.contains("datacenter") || combined.contains("rack") || combined.contains("infrastructure")) {
             return "Servers";
         }
-        if (lower.contains("software") || lower.contains("license") || lower.contains("saas") || lower.contains("cloud")) {
+        if (combined.contains("software") || combined.contains("license") || combined.contains("saas") || combined.contains("cloud")) {
             return "Software";
         }
-        if (lower.contains("furniture") || lower.contains("chair") || lower.contains("desk") || lower.contains("table")) {
+        if (combined.contains("furniture") || combined.contains("chair") || combined.contains("desk") || combined.contains("table")) {
             return "Furniture";
         }
-        if (lower.contains("phone") || lower.contains("mobile") || lower.contains("iphone") || lower.contains("galaxy") || lower.contains("smartphone")) {
+        if (combined.contains("phone") || combined.contains("mobile") || combined.contains("iphone") || combined.contains("galaxy") || combined.contains("smartphone")) {
             return "Mobile Devices";
         }
-        if (lower.contains("laptop") || lower.contains("thinkpad") || lower.contains("latitude") || lower.contains("macbook") || lower.contains("notebook") || lower.contains("computing")) {
+        if (combined.contains("laptop") || combined.contains("thinkpad") || combined.contains("latitude") || combined.contains("macbook") || combined.contains("notebook") || combined.contains("computing") || combined.contains("dell") || combined.contains("lenovo") || combined.contains("hp")) {
             return "Laptops";
         }
 
-        String[] words = productName.trim().split("\\s+");
-        if (words.length > 0) {
-            String word = words[0].replaceAll("[^a-zA-Z0-9]", "");
-            if (!word.isBlank() && word.length() > 2) {
-                return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+        if (vendorCategory != null && !vendorCategory.isBlank() && !vendorCategory.equalsIgnoreCase("General")) {
+            return vendorCategory;
+        }
+
+        if (productName != null && !productName.isBlank()) {
+            String[] words = productName.trim().split("\\s+");
+            if (words.length > 0) {
+                String word = words[0].replaceAll("[^a-zA-Z0-9]", "");
+                if (!word.isBlank() && word.length() > 2) {
+                    return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+                }
             }
         }
         return "Electronics";

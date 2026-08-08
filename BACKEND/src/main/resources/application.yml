@@ -39,7 +39,7 @@ app:
   ai:
     # Gemini AI configuration — reads from GEMINI_API_KEY or AI_API_KEY environment variable
     provider: ${AI_PROVIDER:${GEMINI_PROVIDER:gemini}}     # mock | gemini
-    model: ${GEMINI_MODEL:gemini-1.5-flash}
+    model: ${GEMINI_MODEL:gemini-1.5-flash-latest}
     api-key: ${GEMINI_API_KEY:${AI_API_KEY:}}
 
   email:
