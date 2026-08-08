@@ -20,6 +20,28 @@ services:
       timeout: 5s
       retries: 10
 
+  procureai-ai:
+    build:
+      context: ./AI-SERVICE
+      dockerfile: Dockerfile
+    container_name: procureai-ai
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      # Leave empty for DEMO MODE (deterministic mocks, no Gemini required)
+      # Set to your real key for REAL AI MODE
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-1.5-flash-latest}
+      AI_INTERNAL_TOKEN: ${PYTHON_AI_INTERNAL_TOKEN:-}
+      SPRING_BOOT_ORIGIN: http://procureai-backend:8080
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/ai/health')\""]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
   procureai-backend:
     build:
       context: .
@@ -30,6 +52,8 @@ services:
       - "8080:8080"
     depends_on:
       procureai-mysql:
+        condition: service_healthy
+      procureai-ai:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: prod
@@ -43,6 +67,11 @@ services:
       BREVO_API_KEY: ${BREVO_API_KEY:-}
       JWT_SECRET: ${JWT_SECRET:-production_jwt_secret_key_procureai_2026_secure}
       CORS_ORIGINS: http://localhost:5173,http://localhost:3000,https://procureai-89869.web.app,https://procureai-89869.firebaseapp.com
+      # FastAPI AI Service — enabled in Docker (always co-deployed)
+      PYTHON_AI_ENABLED: "true"
+      PYTHON_AI_URL: http://procureai-ai:8000
+      PYTHON_AI_INTERNAL_TOKEN: ${PYTHON_AI_INTERNAL_TOKEN:-}
 
 volumes:
   mysql_data:
+

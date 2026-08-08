@@ -56,6 +56,18 @@ app:
   po:
     output-dir: ${PO_OUTPUT_DIR:./po-output}
 
+  python-ai:
+    # FastAPI AI/ML Service — opt-in (default: disabled for safe local dev)
+    # Set PYTHON_AI_ENABLED=true and start: cd AI-SERVICE && uvicorn main:app --reload
+    enabled: ${PYTHON_AI_ENABLED:false}
+    base-url: ${PYTHON_AI_URL:http://localhost:8000}
+    connect-timeout-ms: ${PYTHON_AI_CONNECT_TIMEOUT:5000}
+    read-timeout-ms: ${PYTHON_AI_READ_TIMEOUT:60000}
+    # Optional: shared secret for Spring Boot → FastAPI auth (set same in AI-SERVICE/.env)
+    internal-token: ${PYTHON_AI_INTERNAL_TOKEN:}
+    # Startup health check — max attempts before logging UNAVAILABLE (non-blocking)
+    startup-check-attempts: ${PYTHON_AI_STARTUP_ATTEMPTS:3}
+
 logging:
   level:
     com.procureai: INFO

@@ -28,13 +28,15 @@ const DEMO_STEPS: ProgressStep[] = [
   { label: 'Generate Purchase Order (PDF)', status: 'pending' },
 ];
 
+type VendorScenario = 'LENOVO' | 'HP' | 'DELL';
+
 export function DemoPage() {
   const [steps, setSteps] = useState<ProgressStep[]>(DEMO_STEPS);
   const [running, setRunning] = useState(false);
   const [done, setDone] = useState(false);
   const [result, setResult] = useState<Record<string, any> | null>(null);
   const [error, setError] = useState('');
-  const [selectedVendor, setSelectedVendor] = useState<'LENOVO' | 'HP' | 'DELL'>('LENOVO');
+  const [selectedVendor, setSelectedVendor] = useState<VendorScenario>('LENOVO');
   const timerRef = useRef<number | null>(null);
 
   const runStep = (idx: number, detail?: string) => {
@@ -42,6 +44,15 @@ export function DemoPage() {
       i === idx ? { ...s, status: 'running', detail } :
       i < idx ? { ...s, status: 'done' } : s
     ));
+  };
+
+  const handleVendorSelect = (vendor: VendorScenario) => {
+    if (running) return;
+    setSelectedVendor(vendor);
+    setDone(false);
+    setResult(null);
+    setError('');
+    setSteps(DEMO_STEPS.map(s => ({ ...s, status: 'pending', detail: undefined })));
   };
 
   const handleRun = async () => {
@@ -93,6 +104,14 @@ export function DemoPage() {
     return <Clock className="w-4 h-4 text-[#8F8FA2] flex-shrink-0" />;
   };
 
+  const SCENARIOS: { id: VendorScenario; name: string; price: string; badge: string; desc: string }[] = [
+    { id: 'LENOVO', name: 'Lenovo Corporate Sales', price: '₹58,000/unit', badge: 'Top Recommended (Lenovo Wins!)', desc: '4-Yr Warranty • 8-Day Delivery' },
+    { id: 'HP', name: 'HP Business Solutions', price: '₹52,000/unit', badge: 'Standard Winner (HP Wins!)', desc: '3-Yr Warranty • 7-Day Delivery' },
+    { id: 'DELL', name: 'Dell Direct Enterprise', price: '₹55,000/unit', badge: 'Budget Winner (Dell Wins!)', desc: '3-Yr Warranty • 10-Day Delivery' },
+  ];
+
+  const currentScenario = SCENARIOS.find(s => s.id === selectedVendor) ?? SCENARIOS[0];
+
   return (
     <div className="p-6 space-y-6 max-w-5xl mx-auto">
       {/* Header */}
@@ -103,7 +122,7 @@ export function DemoPage() {
         </div>
         <h1 className="text-2xl font-bold text-white tracking-tight mb-1">Run Demo Procurement</h1>
         <p className="text-sm text-[#8F8FA2] max-w-2xl">
-          Executes the complete AI procurement workflow end-to-end. Choose a winning vendor scenario (Lenovo, HP, or Dell) to test dynamic AI scoring, negotiation, and PO generation.
+          Select a target vendor scenario below, then click the launch button to execute the complete AI procurement workflow end-to-end.
         </p>
       </div>
 
@@ -114,34 +133,36 @@ export function DemoPage() {
             <Layers className="w-4 h-4 text-[#3E52FF]" /> Select Preferred Target Vendor Scenario
           </span>
           <span className="text-xs font-mono text-[#BDC2FF] bg-[#3E52FF]/20 px-2.5 py-0.5 rounded-full border border-[#3E52FF]/30">
-            Active: {selectedVendor} Preferred
+            Selected: {currentScenario.name}
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {[
-            { id: 'LENOVO', name: 'Lenovo Corporate Sales', price: '₹58,000/unit', badge: 'Top Recommended (Lenovo Wins!)' },
-            { id: 'HP', name: 'HP Business Solutions', price: '₹63,500/unit', badge: 'Standard Winner (HP Wins!)' },
-            { id: 'DELL', name: 'Dell Direct Enterprise', price: '₹55,000/unit', badge: 'Budget Winner (Dell Wins!)' },
-          ].map((sc) => {
+          {SCENARIOS.map((sc) => {
             const active = selectedVendor === sc.id;
             return (
               <button
                 key={sc.id}
                 type="button"
-                onClick={() => setSelectedVendor(sc.id as any)}
-                className={`p-4 rounded-xl border text-left transition-all relative ${
+                disabled={running}
+                onClick={() => handleVendorSelect(sc.id)}
+                className={`p-4 rounded-xl border text-left transition-all relative group cursor-pointer disabled:cursor-not-allowed ${
                   active
-                    ? 'bg-[#191C26] border-[#3E52FF] ring-2 ring-[#3E52FF]/20 shadow-lg'
-                    : 'bg-[#0B0D12] border-[#1E2330] hover:border-[#3E52FF]/40'
+                    ? 'bg-[#191C26] border-[#3E52FF] ring-2 ring-[#3E52FF]/30 shadow-lg shadow-blue-500/10'
+                    : 'bg-[#0B0D12] border-[#1E2330] hover:border-[#3E52FF]/40 hover:bg-[#12151C]'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className="font-bold text-white text-sm">{sc.name}</span>
-                  {active && <CheckCircle2 className="w-4 h-4 text-[#3E52FF]" />}
+                  {active ? (
+                    <CheckCircle2 className="w-4 h-4 text-[#3E52FF]" />
+                  ) : (
+                    <span className="text-[10px] text-[#8F8FA2] opacity-60 group-hover:opacity-100 transition-opacity">Select</span>
+                  )}
                 </div>
-                <div className="text-xs font-mono text-emerald-400 font-semibold mb-2">{sc.price}</div>
-                <div className="text-[11px] text-[#8F8FA2] font-mono">{sc.badge}</div>
+                <div className="text-xs font-mono text-emerald-400 font-semibold mb-1">{sc.price}</div>
+                <div className="text-[11px] text-[#BDC2FF] font-mono mb-1">{sc.badge}</div>
+                <div className="text-[10px] text-[#8F8FA2] font-mono">{sc.desc}</div>
               </button>
             );
           })}

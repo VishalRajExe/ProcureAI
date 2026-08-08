@@ -1,0 +1,160 @@
+{
+  "industries": {
+    "Electronics": {
+      "trends": [
+        "Global semiconductor shortage driving component prices up 15-20%",
+        "Shift toward AI-integrated consumer electronics across product lines",
+        "Increased demand for energy-efficient devices (EU Energy Efficiency Directive)",
+        "Supply chain diversification away from single-region dependency"
+      ],
+      "competitor_insights": [
+        "Lenovo and HP leading enterprise laptop market with 28% combined share",
+        "Samsung and LG dominant in display and TV segments",
+        "Asus and Acer gaining traction in mid-market procurement deals",
+        "Dell Technologies focusing on B2B direct channels"
+      ],
+      "supply_chain_risks": [
+        "Taiwan semiconductor concentration risk (TSMC dependency)",
+        "Shipping container shortages adding 3-6 weeks delivery lead time",
+        "Rare earth material price volatility affecting component costs",
+        "Geopolitical tensions impacting cross-border component sourcing"
+      ],
+      "regulatory_changes": [
+        "EU Right to Repair directive requiring 10-year spare parts availability",
+        "RoHS 3 compliance now mandatory for all electronic components",
+        "India BIS certification mandatory for imports since 2024",
+        "Carbon footprint disclosure required for EU procurement from 2026"
+      ]
+    },
+    "Laptops": {
+      "trends": [
+        "Enterprise migration to ARM-based processors (M-series, Snapdragon X)",
+        "AI NPU co-processors becoming standard in mid-range and premium laptops",
+        "Remote work driving demand for ultra-portable form factors",
+        "Refurbished enterprise laptop market growing 22% YoY"
+      ],
+      "competitor_insights": [
+        "Lenovo ThinkPad dominates enterprise segment with 23% market share",
+        "Apple MacBook gaining traction in developer/creative procurement",
+        "HP EliteBook strong in government and regulated sector deals",
+        "Dell Latitude preferred for large fleet standardization"
+      ],
+      "supply_chain_risks": [
+        "OLED display supply constrained by Samsung panel production capacity",
+        "DDR5 memory pricing volatile due to SK Hynix/Micron capacity allocation",
+        "Battery cell availability depends on EV sector priority allocation",
+        "Logistics delays at major Asian ports averaging 8-12 days extra"
+      ],
+      "regulatory_changes": [
+        "Energy Star 8.0 certification now baseline for US federal procurement",
+        "EPEAT Gold preferred by most enterprise sustainability policies",
+        "California IoT security law SB-327 applies to connected laptops",
+        "FCC 5G/WiFi 7 certification required for new SKUs from 2025"
+      ]
+    },
+    "Displays & TVs": {
+      "trends": [
+        "OLED panel prices declining 18% YoY improving enterprise viability",
+        "4K/8K ultra-high-definition standard in commercial display procurement",
+        "Interactive flat panel displays replacing projectors in conference rooms",
+        "MicroLED emerging as premium segment for specialized deployments"
+      ],
+      "competitor_insights": [
+        "LG leading OLED TV market with 55% panel share globally",
+        "Samsung commanding 30% of commercial display market",
+        "Sony premium brand commanding 15-25% price premium in enterprise",
+        "Philips and NEC strong in specialized commercial/industrial segments"
+      ],
+      "supply_chain_risks": [
+        "Panel glass substrate supply concentrated in 3 manufacturers globally",
+        "Shipping fragility for large panels increasing damage claims 8%",
+        "Backlight LED component pricing tied to general LED market volatility",
+        "ITO (Indium Tin Oxide) supply dependent on China mining output"
+      ],
+      "regulatory_changes": [
+        "EU Ecodesign TV Regulation 2019/2021 energy efficiency mandatory",
+        "FCC Part 15 Class B certification required for all displays",
+        "BIS compulsory registration for display imports into India",
+        "REACH compliance for hazardous substances in display manufacturing"
+      ]
+    },
+    "Office Supplies": {
+      "trends": [
+        "Paperless office driving 12% annual decline in traditional stationery",
+        "Ergonomic accessories market growing 18% with hybrid work adoption",
+        "Sustainable/recycled materials preferred in corporate procurement policy",
+        "Subscription-based supply models replacing bulk procurement"
+      ],
+      "competitor_insights": [
+        "Staples and Office Depot consolidating B2B market through acquisitions",
+        "Amazon Business gaining 28% enterprise market share with next-day delivery",
+        "3M Post-it and Avery maintaining premium brand loyalty",
+        "Generic private-label alternatives capturing 35% of commodity segment"
+      ],
+      "supply_chain_risks": [
+        "Paper pulp supply volatile due to forest certification restrictions",
+        "Ink/toner cartridge supply disrupted by chip shortage for smart cartridges",
+        "Last-mile delivery costs rising 22% in urban areas",
+        "Seasonal demand spikes causing stock-outs for back-to-office items"
+      ],
+      "regulatory_changes": [
+        "EU Single-Use Plastics Directive eliminating certain packaging by 2025",
+        "FSC/PEFC certification expected in government supply contracts",
+        "India BIS quality standards for imported stationery items",
+        "Carbon labeling becoming mandatory for EU public procurement by 2027"
+      ]
+    },
+    "IT Services": {
+      "trends": [
+        "Cloud migration driving 35% growth in managed service contracts",
+        "Zero-trust security architecture mandatory in enterprise RFPs",
+        "AI-augmented help desk reducing tier-1 support costs by 40%",
+        "Multi-cloud strategy requiring vendor-agnostic service providers"
+      ],
+      "competitor_insights": [
+        "Infosys, TCS, and Wipro dominating large enterprise outsourcing deals",
+        "Accenture and Deloitte strong in digital transformation projects",
+        "Mid-tier players competing aggressively on price (15-20% below Tier 1)",
+        "Boutique AI/ML specialists emerging as premium niche providers"
+      ],
+      "supply_chain_risks": [
+        "Skilled talent shortage driving 25% salary inflation for cloud engineers",
+        "Third-party software license costs increasing with vendor consolidation",
+        "Geopolitical restrictions on data sovereignty and cross-border services",
+        "Subcontractor dependency creating hidden single-points-of-failure"
+      ],
+      "regulatory_changes": [
+        "DPDP Act 2023 (India) requiring data localization for sensitive categories",
+        "ISO 27001:2022 updated requirements mandatory for certified vendors",
+        "EU AI Act compliance required for AI-integrated service offerings",
+        "SOC 2 Type II now standard requirement in enterprise procurement criteria"
+      ]
+    },
+    "General": {
+      "trends": [
+        "Supply chain resilience prioritized over pure cost optimization",
+        "Sustainability and ESG scoring integrated into vendor selection criteria",
+        "Digital procurement platforms reducing cycle time by 30-40%",
+        "Supplier diversification across geographic regions accelerating"
+      ],
+      "competitor_insights": [
+        "Market consolidation reducing vendor diversity in key categories",
+        "New entrants competing aggressively on digital-native service delivery",
+        "Incumbent vendors bundling services to defend market share",
+        "Price transparency tools reducing vendor pricing power by 8-12%"
+      ],
+      "supply_chain_risks": [
+        "Global logistics disruptions adding unpredictable lead time variability",
+        "Currency fluctuation affecting cross-border procurement costs",
+        "Climate-related supply disruptions increasing frequency",
+        "Geopolitical tensions creating export control compliance complexity"
+      ],
+      "regulatory_changes": [
+        "ESG disclosure requirements expanding across jurisdictions",
+        "Supply chain due diligence laws (EU, Germany LkSG) imposing new obligations",
+        "Data privacy regulations affecting vendor data sharing arrangements",
+        "Anti-corruption and sanctions compliance increasingly scrutinized"
+      ]
+    }
+  }
+}

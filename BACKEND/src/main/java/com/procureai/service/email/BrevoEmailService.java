@@ -129,8 +129,8 @@ public class BrevoEmailService implements EmailService {
     }
 
     private String getEffectiveRecipientEmail(String toAddress) {
-        if (toAddress == null || toAddress.isBlank() || toAddress.endsWith(".demo") || toAddress.endsWith(".example")) {
-            return getEffectiveSenderEmail();
+        if (toAddress == null || toAddress.isBlank()) {
+            return "vendor@example.com";
         }
         return toAddress.trim();
     }

@@ -7,6 +7,7 @@ import com.procureai.repository.*;
 import com.procureai.service.ai.AIProvider;
 import com.procureai.service.ai.NegotiationContext;
 import com.procureai.service.ai.NegotiationDecision;
+import com.procureai.service.ai.PythonAIService;
 import com.procureai.service.ai.RoundEvaluation;
 import com.procureai.service.email.EmailService;
 import org.springframework.context.annotation.Lazy;
@@ -39,6 +40,7 @@ public class NegotiationService {
     private final WorkflowExecutionRepository workflowRepository;
     private final BenchmarkService benchmarkService;
     private final AIProvider aiProvider;
+    private final PythonAIService pythonAIService;
     private final EmailService emailService;
     private final AuditService auditService;
     private final ApprovalService approvalService;
@@ -47,6 +49,7 @@ public class NegotiationService {
     public NegotiationService(NegotiationRepository negotiationRepository, NegotiationRoundRepository roundRepository,
                                QuoteRepository quoteRepository, WorkflowExecutionRepository workflowRepository,
                                BenchmarkService benchmarkService, AIProvider aiProvider,
+                               PythonAIService pythonAIService,
                                EmailService emailService, AuditService auditService, ApprovalService approvalService,
                                @Lazy PurchaseOrderService purchaseOrderService) {
         this.negotiationRepository = negotiationRepository;
@@ -55,6 +58,7 @@ public class NegotiationService {
         this.workflowRepository = workflowRepository;
         this.benchmarkService = benchmarkService;
         this.aiProvider = aiProvider;
+        this.pythonAIService = pythonAIService;
         this.emailService = emailService;
         this.auditService = auditService;
         this.approvalService = approvalService;
@@ -95,6 +99,24 @@ public class NegotiationService {
         NegotiationDecision decision = aiProvider.decideNegotiationStrategy(ctx);
         BigDecimal safeTarget = decision.targetPrice().min(maxApprovedPrice);
 
+        // ── Enhanced: FastAPI Defensive/Balanced/Aggressive approach framing ──
+        // Adapted from negotiation_strategy agent (agent_prompts.jinja)
+        // Falls back silently to Gemini-only path if FastAPI is unavailable
+        String negotiationApproach = "Balanced"; // default
+        try {
+            PythonAIService.NegotiationStrategyResult pyStrategy = pythonAIService.negotiationStrategy(
+                    ctx,
+                    benchmark.map(b -> b.getReferenceMinUnitPrice()).orElse(null),
+                    benchmark.map(b -> b.getReferenceMaxUnitPrice()).orElse(null)
+            );
+            if (pyStrategy != null && pyStrategy.approach() != null) {
+                negotiationApproach = pyStrategy.approach();
+                log.info("FastAPI negotiation approach: {} (mode={})", negotiationApproach, pyStrategy.aiMode());
+            }
+        } catch (Exception e) {
+            log.debug("FastAPI negotiation strategy enhancement skipped: {}", e.getMessage());
+        }
+
         Negotiation negotiation = new Negotiation();
         negotiation.setQuote(quote);
         negotiation.setWorkflow(quote.getWorkflow());
@@ -102,14 +124,28 @@ public class NegotiationService {
         negotiation.setTargetPrice(safeTarget);
         negotiation.setMaxApprovedPrice(maxApprovedPrice);
         negotiation.setAiAction(Negotiation.AiAction.valueOf(decision.action().name()));
-        negotiation.setAiStrategy(decision.strategy());
+        // Prepend approach to strategy so it shows in UI
+        negotiation.setAiStrategy("[" + negotiationApproach + "] " + decision.strategy());
         negotiation.setAiReason(decision.reason());
         negotiation.setAiConfidence(decision.confidence());
         negotiation.setMaxRounds(DEFAULT_MAX_ROUNDS);
         negotiation.setCurrentRound(0);
         negotiation.setStatus(Negotiation.Status.DRAFTED);
 
-        String email = aiProvider.draftNegotiationEmail(ctx, decision);
+        // ── Enhanced: FastAPI email generation with approach context ──
+        // Falls back to GeminiAIProvider.draftNegotiationEmail if unavailable
+        String email = null;
+        try {
+            email = pythonAIService.generateEnhancedEmail(ctx, decision, negotiationApproach, 1);
+            if (email != null) {
+                log.info("FastAPI generated enhanced negotiation email (approach={})", negotiationApproach);
+            }
+        } catch (Exception e) {
+            log.debug("FastAPI email generation skipped: {}", e.getMessage());
+        }
+        if (email == null || email.isBlank()) {
+            email = aiProvider.draftNegotiationEmail(ctx, decision);
+        }
         negotiation.setDraftEmailBody(email);
 
         negotiation = negotiationRepository.save(negotiation);

@@ -1,0 +1,9 @@
+# AI Service Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.env
+*.log
+dist/
+*.egg-info/

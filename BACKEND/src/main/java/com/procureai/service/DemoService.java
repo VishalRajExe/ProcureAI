@@ -76,7 +76,17 @@ public class DemoService {
             lenovoText = lenovoRawText();
         } else {
             title = "Procurement Scenario — HP Business Winner";
-            hpText = hpRawText();
+            hpText = """
+                    Vendor: HP Business Solutions
+                    Product: HP EliteBook 840 G10
+                    Quantity: 50
+                    Unit Price: 52000
+                    GST: 18
+                    Shipping: 0
+                    Warranty: 3 years
+                    Delivery: 7 days
+                    Payment Terms: Net 30
+                    """;
             dellText = dellRawText();
             lenovoText = lenovoRawText();
         }
