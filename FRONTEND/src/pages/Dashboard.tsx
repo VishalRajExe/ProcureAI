@@ -50,8 +50,8 @@ export function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const load = async () => {
-    setLoading(true);
+  const load = async (silent = false) => {
+    if (!silent) setLoading(true);
     setError('');
     try {
       const [dash, wfs] = await Promise.all([
@@ -63,28 +63,40 @@ export function Dashboard() {
     } catch (e: any) {
       setError('Failed to load dashboard data');
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+    const timer = setInterval(() => load(true), 4000);
+    const handleFocus = () => load(true);
+    window.addEventListener('focus', handleFocus);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, []);
 
-  const chartData = data?.spendByCategory ?? [
-    { category: 'Laptops', amount: 3750000 },
-    { category: 'Servers', amount: 1200000 },
-    { category: 'Software', amount: 480000 },
-    { category: 'Furniture', amount: 230000 },
-  ];
+  const chartData = data?.spendByCategory && data.spendByCategory.length > 0
+    ? data.spendByCategory
+    : [{ category: 'Laptops', amount: 0 }];
 
   const CHART_COLORS = ['#3E52FF', '#7C5CFF', '#06B6D4', '#10B981'];
 
-  const formattedSpend = data?.totalSpend
-    ? `₹${(Number(data.totalSpend) / 100000).toFixed(1)}L`
-    : '₹56.6L';
+  const rawSpend = Number(data?.totalSpend ?? 0);
+  const formattedSpend = rawSpend >= 100000
+    ? `₹${(rawSpend / 100000).toFixed(1)}L`
+    : rawSpend > 0
+    ? `₹${rawSpend.toLocaleString('en-IN')}`
+    : '₹0';
 
-  const formattedSavings = data?.totalSavings
-    ? `₹${(Number(data.totalSavings) / 1000).toFixed(0)}k`
-    : (data?.totalSavings ?? '₹185k');
+  const rawSavings = Number(data?.totalSavings ?? 0);
+  const formattedSavings = rawSavings >= 1000
+    ? `₹${(rawSavings / 1000).toFixed(0)}k`
+    : rawSavings > 0
+    ? `₹${rawSavings.toLocaleString('en-IN')}`
+    : '₹0';
 
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
@@ -100,7 +112,7 @@ export function Dashboard() {
 
         <div className="flex items-center gap-3">
           <button
-            onClick={load}
+            onClick={() => load(false)}
             disabled={loading}
             className="flex items-center gap-2 px-3.5 py-2.5 bg-[#12151C] border border-[#1E2330] rounded-xl text-sm font-medium text-[#E0E3E5] hover:text-white hover:border-[#3E52FF]/50 transition-all"
           >
@@ -129,14 +141,14 @@ export function Dashboard() {
         <KpiCard
           label="Total Procurement Spend"
           value={formattedSpend}
-          sub="↑ 14% benchmark efficiency"
+          sub="↑ Calculated Live from DB"
           icon={TrendingUp}
           accent="bg-[#3E52FF]/15 text-[#BDC2FF]"
         />
         <KpiCard
           label="Total Negotiated Savings"
           value={formattedSavings}
-          sub="Avg. 15.4% price reduction"
+          sub="↑ Verified Price Reductions"
           icon={BarChart3}
           accent="bg-emerald-500/15 text-emerald-400"
         />
@@ -169,7 +181,7 @@ export function Dashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                 <XAxis dataKey="category" stroke="#8F8FA2" fontSize={12} tickLine={false} axisLine={{ stroke: '#1E2330' }} />
-                <YAxis stroke="#8F8FA2" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => `₹${v / 100000}L`} />
+                <YAxis stroke="#8F8FA2" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => v >= 100000 ? `₹${v / 100000}L` : `₹${v}`} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#0B0D12', borderColor: '#1E2330', borderRadius: '12px', color: '#fff', fontSize: '12px' }}
                   formatter={(val: any) => [`₹${Number(val).toLocaleString('en-IN')}`, 'Spend']}

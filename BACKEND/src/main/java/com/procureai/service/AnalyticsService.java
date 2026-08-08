@@ -70,17 +70,42 @@ public class AnalyticsService {
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
         }
 
+        long pendingApprovalsCount = negotiations.stream()
+                .filter(n -> n.getStatus() == Negotiation.Status.PENDING_APPROVAL || n.getStatus() == Negotiation.Status.DRAFTED)
+                .count() + approvalRepository.findByStatus(com.procureai.entity.Approval.Status.PENDING).size();
+
         double successRate = negotiationsAutomated == 0 ? 0.0
                 : Math.round((negotiationsAccepted * 100.0 / negotiationsAutomated) * 100.0) / 100.0;
 
         long estimatedMinutesSaved = quotesProcessed * 25;
 
-        List<Map<String, Object>> spendByCategory = List.of(
-                Map.of("category", "Laptops", "amount", totalSpend.doubleValue() > 0 ? totalSpend : 3750000),
-                Map.of("category", "Servers", "amount", 1200000),
-                Map.of("category", "Software", "amount", 480000),
-                Map.of("category", "Furniture", "amount", 230000)
-        );
+        // Dynamic category spend computation
+        Map<String, BigDecimal> catSpendMap = new HashMap<>();
+        for (PurchaseOrder po : pos) {
+            String cat = (po.getVendor() != null && po.getVendor().getCategory() != null) ? po.getVendor().getCategory() : "Laptops";
+            catSpendMap.merge(cat, po.getTotalAmount() != null ? po.getTotalAmount() : BigDecimal.ZERO, BigDecimal::add);
+        }
+        if (catSpendMap.isEmpty()) {
+            for (Quote q : quotes) {
+                String cat = "Laptops";
+                if (q.getItems() != null && !q.getItems().isEmpty()) {
+                    String pName = q.getItems().get(0).getProductName().toLowerCase();
+                    if (pName.contains("server")) cat = "Servers";
+                    else if (pName.contains("software")) cat = "Software";
+                    else if (pName.contains("furniture")) cat = "Furniture";
+                }
+                catSpendMap.merge(cat, q.getCalculatedTotal() != null ? q.getCalculatedTotal() : BigDecimal.ZERO, BigDecimal::add);
+            }
+        }
+        if (catSpendMap.isEmpty()) {
+            catSpendMap.put("Laptops", BigDecimal.ZERO);
+            catSpendMap.put("Servers", BigDecimal.ZERO);
+            catSpendMap.put("Software", BigDecimal.ZERO);
+        }
+
+        List<Map<String, Object>> spendByCategory = catSpendMap.entrySet().stream()
+                .map(e -> Map.<String, Object>of("category", e.getKey(), "amount", e.getValue()))
+                .toList();
 
         Map<String, Object> map = new HashMap<>();
         map.put("quotesProcessed", quotesProcessed);
@@ -92,7 +117,7 @@ public class AnalyticsService {
         map.put("completedWorkflows", pos.size());
         map.put("estimatedTimeSavedMinutes", estimatedMinutesSaved);
         map.put("negotiationSuccessRatePercent", successRate);
-        map.put("pendingApprovals", approvalRepository.findByStatus(com.procureai.entity.Approval.Status.PENDING).size());
+        map.put("pendingApprovals", pendingApprovalsCount);
         map.put("purchaseOrdersGenerated", pos.size());
         map.put("spendByCategory", spendByCategory);
         map.put("isDemoData", false);
