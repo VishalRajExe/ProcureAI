@@ -166,9 +166,9 @@ export function ComparisonPage() {
               return (
                 <div
                   key={quote.id}
-                  className={`bg-[#12151C] border rounded-2xl p-6 space-y-4 transition-all relative ${
+                  className={`bg-[#12151C] border rounded-2xl p-6 space-y-4 transition-all duration-300 relative hover:scale-[1.01] hover:border-[#3E52FF] hover:ring-2 hover:ring-[#3E52FF]/20 hover:shadow-xl hover:shadow-blue-950/30 ${
                     isRecommended
-                      ? 'border-[#3E52FF] ring-2 ring-[#3E52FF]/20 shadow-xl shadow-blue-950/30'
+                      ? 'border-[#3E52FF]/40 shadow-md shadow-blue-950/10'
                       : 'border-[#1E2330]'
                   }`}
                 >
