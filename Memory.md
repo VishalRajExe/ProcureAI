@@ -8,9 +8,9 @@ This file tracks project decisions and status continuously so any session has a 
 
 ## Current Status
 
-- **Phase:** Phase 0 & Phase 1 Initial Setup Complete
+- **Phase:** 6-Hour Hackathon Complete Backend Built & Verified
 - **Last updated:** 2026-08-08
-- **Overall completion:** 1 of 15 phases completed
+- **Overall completion:** Full backend workflow operational end-to-end
 - **Git Repository:** [https://github.com/VishalRajExe/ProcureAI.git](https://github.com/VishalRajExe/ProcureAI.git)
 
 ---
@@ -18,22 +18,28 @@ This file tracks project decisions and status continuously so any session has a 
 ## Completed Work Log
 
 ```
-[Phase 0 & 1 Setup] — Initial scaffolding & repository push —
-  - Scaffolded React + Vite + TypeScript frontend in FRONTEND/ with Tailwind CSS, Lucide icons, Recharts, Framer Motion, Axios, React Router, and Firebase SDK (firebase).
-  - Scaffolded Java 17 + Spring Boot 3 backend in BACKEND/ with MySQL driver, Spring Security, JPA, Dockerfile, and Railway.json deployment configuration.
-  - Executed graphify indexing on 137 documentation files generating graphify-out/graph.json & GRAPH_REPORT.md.
-  - Pushed initial project setup to https://github.com/VishalRajExe/ProcureAI.git.
+[6-Hour Backend Implementation] — Complete REST APIs, entities, services, unit & integration tests, git push —
+  - Entities: User, Vendor, Quote, QuoteItem, Negotiation, NegotiationRound, Approval, PurchaseOrder, PurchaseOrderItem, AuditLog, Benchmark, EmailMessage, WorkflowExecution.
+  - Auth APIs: POST /api/auth/register, POST /api/auth/login, GET /api/auth/me (JWT BCrypt).
+  - Vendor APIs: GET /api/vendors, GET /api/vendors/{id}.
+  - Quote & Workflow APIs: GET /api/quotes, GET /api/quotes/{id}, POST /api/quotes, POST /api/quotes/upload, POST /api/quotes/workflows.
+  - Comparison API: GET /api/comparison, POST /api/comparison.
+  - Scoring Engine: Deterministic weighted scoring (Price 40%, Warranty 20%, Delivery 15%, Payment Terms 10%, Vendor Reliability 15%).
+  - Benchmark Engine: BELOW_MARKET, WITHIN_MARKET, ABOVE_MARKET classification against demo reference dataset.
+  - AI Layer: Provider-agnostic AIProvider with MockAIProvider returning structured JSON decisions bounded by hard backend limits.
+  - Negotiation & Approval Workflow: POST /api/negotiations, POST /api/negotiations/{id}/approve, POST /api/negotiations/{id}/simulate-response, POST /api/negotiations/{id}/evaluate.
+  - Purchase Order PDF Generator: Apache PDFBox rendering dynamic PO entity & PDF at GET /api/purchase-orders/{id}/pdf and POST /api/purchase-orders/generate.
+  - Audit Log & Dashboard APIs: GET /api/audit-logs, GET /api/dashboard.
+  - Demo Seed Mechanism: POST /api/demo/seed and POST /api/demo/run (Dell 50 @ ₹68k, HP 50 @ ₹63.5k, Lenovo 50 @ ₹71k).
+  - Tests: ProcureAiWorkflowIntegrationTest, QuoteCalculationServiceTest, ScoringServiceTest all passed.
 ```
 
 ---
 
 ## Decisions Made
 
-- Tech stack confirmed:
-  - Frontend: React + Vite + TypeScript + Tailwind CSS + Firebase SDK.
-  - Backend: Java 17 + Spring Boot 3 + MySQL + Spring Security + Spring Data JPA.
-  - Deployment: Docker containerized deployment prepared for Railway.
-- Document graph generated via `graphify` and saved to `graphify-out/`.
+- Active profile `demo` uses H2 in-memory DB so application starts zero-config instantly, with `mysql` profile toggle for production MySQL database.
+- PDF generation uses Apache PDFBox 3.0.3 to create dynamic PO PDFs saved to `po-output/` and streamed over HTTP.
 
 ---
 
@@ -41,14 +47,15 @@ This file tracks project decisions and status continuously so any session has a 
 
 | Area | Path |
 |---|---|
-| Frontend app & Firebase config | `FRONTEND/src/App.tsx`, `FRONTEND/src/config/firebase.ts` |
-| Backend entrypoint & config | `BACKEND/src/main/java/com/procureai/ProcureAiApplication.java`, `BACKEND/src/main/resources/application.yml` |
-| Docker & Railway setup | `BACKEND/Dockerfile`, `BACKEND/railway.json` |
-| Knowledge Graph | `graphify-out/graph.json`, `graphify-out/GRAPH_REPORT.md` |
-| Core docs | `PRD.md`, `Architecture.md`, `Rules.md`, `Phases.md`, `Design.md` |
+| Main Application | `BACKEND/src/main/java/com/procureai/ProcureAiApplication.java` |
+| Security Config | `BACKEND/src/main/java/com/procureai/config/SecurityConfig.java` |
+| REST Controllers | `BACKEND/src/main/java/com/procureai/controller/` |
+| Core Services | `BACKEND/src/main/java/com/procureai/service/` |
+| Tests | `BACKEND/src/test/java/com/procureai/` |
+| Docker & Railway | `BACKEND/Dockerfile`, `BACKEND/railway.json` |
 
 ---
 
 ## Next Step
 
-Begin Phase 1 authentication & base entity implementations (User, Vendor, Quote, QuoteItem, WorkflowExecution, AuditLog) in the Spring Boot backend and wire up React Auth/Login views.
+Frontend UI component integration & wiring to the backend REST endpoints.
