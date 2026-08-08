@@ -2,6 +2,8 @@ package com.procureai;
 
 import com.procureai.service.DemoService;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -13,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles("demo")
 class ProcureAiWorkflowIntegrationTest {
+
+    private static final Logger log = LoggerFactory.getLogger(ProcureAiWorkflowIntegrationTest.class);
 
     @Autowired
     private DemoService demoService;
@@ -27,6 +31,6 @@ class ProcureAiWorkflowIntegrationTest {
         assertNotNull(result.get("poNumber"), "PO number should be generated");
         assertNotNull(result.get("poTotal"), "PO total should be calculated");
 
-        System.out.println("Integration Test Succeeded: PO " + result.get("poNumber") + " generated for vendor " + result.get("recommendedVendor"));
+        log.info("Integration Test Succeeded: PO {} generated for vendor {}", result.get("poNumber"), result.get("recommendedVendor"));
     }
 }
