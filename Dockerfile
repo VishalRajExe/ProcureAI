@@ -3,7 +3,7 @@
 # Stage 1: Build JAR artifact
 FROM maven:3.9.6-eclipse-temurin-17-alpine AS builder
 WORKDIR /app
-COPY BACKEND/pom.xml .
+COPY BACKEND/pom.xml ./pom.xml
 RUN mvn dependency:go-offline -B
 COPY BACKEND/src ./src
 RUN mvn clean package -DskipTests -B

@@ -2,7 +2,7 @@ services:
   - type: web
     name: procureai-ai
     env: docker
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: Dockerfile
     dockerContext: ./AI-SERVICE
     plan: free
     region: singapore
@@ -15,8 +15,8 @@ services:
   - type: web
     name: procureai-backend
     env: docker
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    dockerfilePath: Dockerfile
+    dockerContext: ./BACKEND
     plan: free
     region: singapore
     envVars:
