@@ -49,7 +49,12 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // stateless JWT API — no cookie-based session, CSRF not applicable
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/api/demo/**", "/h2-console/**", "/actuator/health").permitAll()
+                .requestMatchers(
+                    "/api/auth/**", "/api/demo/**",
+                    "/h2-console/**", "/actuator/health",
+                    "/api/market-intelligence/**",
+                    "/ws/**"           // WebSocket SockJS endpoint
+                ).permitAll()
                 .requestMatchers("/api/approvals/**").hasAnyRole("ADMIN", "APPROVER")
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/negotiations/*/approval").hasAnyRole("ADMIN", "APPROVER")
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/purchase-orders/**").hasAnyRole("ADMIN", "APPROVER")

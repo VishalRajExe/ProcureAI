@@ -30,17 +30,17 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (benchmarkRepository.findFirstByProductCategoryIgnoreCase("Business Laptop").isEmpty()) {
-            Benchmark b = new Benchmark();
-            b.setProductCategory("Business Laptop");
-            b.setReferenceMinUnitPrice(new BigDecimal("60000"));
-            b.setReferenceMaxUnitPrice(new BigDecimal("70000"));
-            b.setSource("Reference/Demo Benchmark Data");
-            benchmarkRepository.save(b);
-        }
+        seedBenchmark("Business Laptop", "60000", "72000");
+        seedBenchmark("HP EliteBook", "55000", "75000");
+        seedBenchmark("Dell Latitude", "62000", "82000");
+        seedBenchmark("Lenovo ThinkPad", "52000", "70000");
+        seedBenchmark("Server", "150000", "500000");
+        seedBenchmark("Office Furniture", "8000", "35000");
+        seedBenchmark("Software License", "2000", "40000");
 
         seedUser("admin@procureai.demo", "Admin User", "Admin@12345", User.Role.ADMIN);
         seedUser("approver@procureai.demo", "Approver User", "Approver@12345", User.Role.APPROVER);
+        seedUser("viewer@procureai.demo", "Procurement Viewer", "Viewer@12345", User.Role.VIEWER);
     }
 
     private void seedUser(String email, String name, String rawPassword, User.Role role) {
@@ -51,5 +51,16 @@ public class DataSeeder implements CommandLineRunner {
         user.setPasswordHash(passwordEncoder.encode(rawPassword));
         user.setRole(role);
         userRepository.save(user);
+    }
+
+    private void seedBenchmark(String category, String min, String max) {
+        if (benchmarkRepository.findFirstByProductCategoryIgnoreCase(category).isEmpty()) {
+            Benchmark b = new Benchmark();
+            b.setProductCategory(category);
+            b.setReferenceMinUnitPrice(new BigDecimal(min));
+            b.setReferenceMaxUnitPrice(new BigDecimal(max));
+            b.setSource("ProcureAI Market Intelligence — Seeded Reference Data");
+            benchmarkRepository.save(b);
+        }
     }
 }

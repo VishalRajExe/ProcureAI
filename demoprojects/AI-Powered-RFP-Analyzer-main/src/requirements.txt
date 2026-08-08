@@ -1,0 +1,11 @@
+fpdf
+jinja2
+openai
+python-dotenv
+semantic-kernel
+streamlit
+azure-identity
+azure-ai-documentintelligence
+azure-search-documents==11.6.0b7
+streamlit-option-menu
+azure-cognitiveservices-speech

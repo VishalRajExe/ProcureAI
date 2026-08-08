@@ -10,5 +10,8 @@ public interface NegotiationRepository extends JpaRepository<Negotiation, Long> 
     List<Negotiation> findByWorkflowId(Long workflowId);
 
     @EntityGraph(attributePaths = {"rounds", "quote", "quote.vendor"})
+    List<Negotiation> findByQuoteWorkflowId(Long workflowId);
+
+    @EntityGraph(attributePaths = {"rounds", "quote", "quote.vendor"})
     List<Negotiation> findAll();
 }

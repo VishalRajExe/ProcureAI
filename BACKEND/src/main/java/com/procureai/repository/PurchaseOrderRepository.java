@@ -13,5 +13,8 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Lo
     @EntityGraph(attributePaths = {"items", "vendor", "workflow"})
     Optional<PurchaseOrder> findById(Long id);
 
+    @EntityGraph(attributePaths = {"items", "vendor", "workflow"})
+    List<PurchaseOrder> findByWorkflowId(Long workflowId);
+
     boolean existsByPoNumber(String poNumber);
 }

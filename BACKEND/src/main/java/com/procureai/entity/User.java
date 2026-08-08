@@ -26,6 +26,6 @@ public class User extends BaseEntity {
     private boolean enabled = true;
 
     public enum Role {
-        ADMIN, APPROVER, PROCUREMENT_USER
+        ADMIN, APPROVER, PROCUREMENT_USER, VIEWER
     }
 }

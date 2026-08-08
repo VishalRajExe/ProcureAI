@@ -70,7 +70,7 @@ spring:
   datasource:
     url: ${DB_URL:jdbc:mysql://localhost:3306/procureai?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC}
     username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:root}
+    password: ${DB_PASSWORD:admin}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
