@@ -19,12 +19,21 @@ export function LoginPage() {
     }
   }, [navigate]);
 
-  const handleGuestBypass = () => {
-    localStorage.setItem('procureai_token', 'demo_active_session_token');
-    localStorage.setItem('procureai_user', JSON.stringify({
-      id: 1, email: 'admin@procureai.demo', name: 'Admin Officer', role: 'ADMIN'
-    }));
-    navigate('/');
+  const handleGuestBypass = async () => {
+    setLoading(true);
+    try {
+      await api.login('admin@procureai.demo', 'Admin@12345');
+      navigate('/');
+    } catch (e) {
+      console.warn('Real backend login issue — setting demo user context');
+      localStorage.setItem('procureai_token', 'demo_fallback_token');
+      localStorage.setItem('procureai_user', JSON.stringify({
+        id: 1, email: 'admin@procureai.demo', name: 'Admin Officer', role: 'ADMIN'
+      }));
+      navigate('/');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

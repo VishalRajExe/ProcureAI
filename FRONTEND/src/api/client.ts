@@ -18,19 +18,25 @@ class ApiClient {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    // Attach JWT token from localStorage automatically (default to active demo session)
+    // Attach JWT token from localStorage automatically
     this.http.interceptors.request.use((config) => {
-      const token = localStorage.getItem('procureai_token') ?? 'demo_active_session_token';
-      config.headers.Authorization = `Bearer ${token}`;
+      const token = localStorage.getItem('procureai_token');
+      if (token && token !== 'undefined' && token !== 'null') {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
       return config;
     });
 
-    // Handle 401 response without redirecting to login page
+    // Handle 401 response -> clear invalid token & redirect to /login
     this.http.interceptors.response.use(
       (res) => res,
       (error) => {
         if (error.response?.status === 401) {
-          console.warn('API authentication issue — retaining active demo session');
+          localStorage.removeItem('procureai_token');
+          localStorage.removeItem('procureai_user');
+          if (window.location.pathname !== '/login') {
+            window.location.href = '/login';
+          }
         }
         return Promise.reject(error);
       }
@@ -65,6 +71,20 @@ class ApiClient {
     };
     localStorage.setItem('procureai_user', JSON.stringify(userObj));
     return data;
+  }
+
+  async ensureAuthenticated(): Promise<string | null> {
+    let token = localStorage.getItem('procureai_token');
+    if (token && token !== 'undefined' && token !== 'null') {
+      return token;
+    }
+    try {
+      const authData = await this.login('admin@procureai.demo', 'Admin@12345');
+      return authData?.token ?? null;
+    } catch (e) {
+      console.warn('Auto-login failed — waiting for manual authentication');
+      return null;
+    }
   }
 
   async getCurrentUser(): Promise<User> {

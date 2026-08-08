@@ -5,6 +5,7 @@ import App from '../App';
 // Mock API calls
 vi.mock('../api/client', () => ({
   api: {
+    ensureAuthenticated: vi.fn().mockResolvedValue('mock_jwt_token'),
     getDashboard: vi.fn().mockResolvedValue({
       quotesProcessed: 5,
       negotiationsAutomated: 3,
