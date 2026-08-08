@@ -197,12 +197,12 @@ class ApiClient {
     return data;
   }
 
-  async generatePO(quoteId: number, workflowId: number, negotiationId?: number): Promise<PurchaseOrder> {
-    const { data } = await this.http.post<PurchaseOrder>('/api/purchase-orders/generate', {
-      quoteId,
-      workflowId,
-      negotiationId,
-    });
+  async generatePO(quoteId?: number, workflowId?: number, negotiationId?: number): Promise<PurchaseOrder> {
+    const payload: Record<string, any> = {};
+    if (quoteId && quoteId > 0) payload.quoteId = quoteId;
+    if (workflowId && workflowId > 0) payload.workflowId = workflowId;
+    if (negotiationId && negotiationId > 0) payload.negotiationId = negotiationId;
+    const { data } = await this.http.post<PurchaseOrder>('/api/purchase-orders/generate', payload);
     return data;
   }
 

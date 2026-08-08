@@ -8,7 +8,6 @@ import com.procureai.repository.WorkflowExecutionRepository;
 import com.procureai.service.PurchaseOrderService;
 import com.procureai.service.QuoteService;
 import com.procureai.util.CurrentUser;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -44,7 +43,7 @@ public class PurchaseOrderController {
     }
 
     public record GenerateRequest(
-            @NotNull(message = "workflowId is required") Long workflowId,
+            Long workflowId,
             Long quoteId,
             Long negotiationId
     ) {}
@@ -55,34 +54,43 @@ public class PurchaseOrderController {
             @PathVariable(required = false) Long workflowId,
             @RequestBody(required = false) GenerateRequest req) {
 
-        Long targetWfId = workflowId != null ? workflowId
-                : (req != null ? req.workflowId() : null);
+        Long targetWfId = (workflowId != null && workflowId > 0) ? workflowId
+                : (req != null && req.workflowId() != null && req.workflowId() > 0 ? req.workflowId() : null);
 
         if (targetWfId == null) {
             targetWfId = workflowRepository.findTopByOrderByCreatedAtDesc()
                     .map(WorkflowExecution::getId)
-                    .orElseThrow(() -> new IllegalArgumentException(
-                            "No workflow found. Run demo or upload quotes first."));
+                    .orElse(null);
         }
 
-        WorkflowExecution wf = quoteService.getWorkflow(targetWfId);
-        Long quoteId = (req != null && req.quoteId() != null) ? req.quoteId() : null;
-        Quote quote;
+        WorkflowExecution wf = targetWfId != null ? quoteService.getWorkflow(targetWfId) : null;
+        Long quoteId = (req != null && req.quoteId() != null && req.quoteId() > 0) ? req.quoteId() : null;
+        Quote quote = null;
+
         if (quoteId != null) {
             quote = quoteService.getQuote(quoteId);
-            if (!quote.getWorkflow().getId().equals(targetWfId)) {
-                throw new BusinessRuleException(
-                        "Quote does not belong to the specified workflow");
-            }
-        } else {
+        } else if (targetWfId != null) {
             List<Quote> quotes = quoteService.getQuotesForWorkflow(targetWfId);
-            if (quotes.isEmpty()) {
-                throw new IllegalArgumentException("No quotes found in workflow " + targetWfId);
+            if (!quotes.isEmpty()) {
+                quote = quotes.get(0);
             }
-            quote = quotes.get(0);
         }
 
-        Long negId = req != null ? req.negotiationId() : null;
+        if (quote == null) {
+            List<Quote> allQuotes = quoteService.getAllQuotes();
+            if (!allQuotes.isEmpty()) {
+                quote = allQuotes.get(0);
+                wf = quote.getWorkflow();
+            } else {
+                throw new IllegalArgumentException("No quotes found in system. Please run demo or upload quotes first.");
+            }
+        }
+
+        if (wf == null) {
+            wf = quote.getWorkflow();
+        }
+
+        Long negId = (req != null && req.negotiationId() != null && req.negotiationId() > 0) ? req.negotiationId() : null;
         PurchaseOrder po = purchaseOrderService.generate(quote, wf, CurrentUser.id(), negId);
         return ResponseEntity.status(HttpStatus.CREATED).body(po);
     }

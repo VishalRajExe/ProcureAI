@@ -30,7 +30,7 @@ export function PurchaseOrdersPage() {
   const handleGeneratePo = async () => {
     setGenerating(true);
     try {
-      const po = await api.generatePO(0, 0);
+      const po = await api.generatePO();
       showToast('Purchase Order Generated', `Generated ${po.poNumber} for ${po.vendor.name}`, 'success');
       await loadData();
     } catch (err: any) {
