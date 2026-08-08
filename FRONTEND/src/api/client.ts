@@ -18,11 +18,16 @@ class ApiClient {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    // Attach JWT token from localStorage automatically
-    this.http.interceptors.request.use((config) => {
-      const token = localStorage.getItem('procureai_token');
-      if (token && token !== 'undefined' && token !== 'null') {
-        config.headers.Authorization = `Bearer ${token}`;
+    // Attach JWT token from localStorage automatically (auto-authenticates if token missing)
+    this.http.interceptors.request.use(async (config) => {
+      if (!config.url?.includes('/api/auth/')) {
+        let token = localStorage.getItem('procureai_token');
+        if (!token || token === 'undefined' || token === 'null') {
+          token = await this.ensureAuthenticated();
+        }
+        if (token && token !== 'undefined' && token !== 'null') {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
       }
       return config;
     });
