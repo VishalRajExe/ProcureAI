@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastProvider } from './components/Toast';
 import { Layout } from './components/layout/Layout';
@@ -11,15 +12,23 @@ import { PurchaseOrdersPage } from './pages/PurchaseOrdersPage';
 import { WorkflowsPage } from './pages/WorkflowsPage';
 import { WorkflowDetail } from './pages/WorkflowDetail';
 import { DemoPage } from './pages/DemoPage';
-import { LoginPage } from './pages/LoginPage';
 import { MarketPage } from './pages/MarketPage';
 
 function App() {
+  useEffect(() => {
+    // Ensure default active session so login screen is completely bypassed
+    if (!localStorage.getItem('procureai_token')) {
+      localStorage.setItem('procureai_token', 'demo_active_session_token');
+      localStorage.setItem('procureai_user', JSON.stringify({
+        id: 1, email: 'admin@procureai.demo', name: 'Admin Officer', role: 'ADMIN'
+      }));
+    }
+  }, []);
+
   return (
     <ToastProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/quotes" element={<QuotesPage />} />

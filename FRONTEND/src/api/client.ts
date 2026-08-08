@@ -18,23 +18,19 @@ class ApiClient {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    // Attach JWT token from localStorage automatically
+    // Attach JWT token from localStorage automatically (default to active demo session)
     this.http.interceptors.request.use((config) => {
-      const token = localStorage.getItem('procureai_token');
-      if (token) config.headers.Authorization = `Bearer ${token}`;
+      const token = localStorage.getItem('procureai_token') ?? 'demo_active_session_token';
+      config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
 
-    // Handle 401 -> redirect to login
+    // Handle 401 response without redirecting to login page
     this.http.interceptors.response.use(
       (res) => res,
       (error) => {
         if (error.response?.status === 401) {
-          localStorage.removeItem('procureai_token');
-          localStorage.removeItem('procureai_user');
-          if (window.location.pathname !== '/login') {
-            window.location.href = '/login';
-          }
+          console.warn('API authentication issue — retaining active demo session');
         }
         return Promise.reject(error);
       }
