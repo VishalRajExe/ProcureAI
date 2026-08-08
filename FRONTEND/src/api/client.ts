@@ -256,8 +256,8 @@ class ApiClient {
 
   // ── Demo ─────────────────────────────────────────────────────────────────────
 
-  async runDemo(): Promise<Record<string, unknown>> {
-    const { data } = await this.http.post<Record<string, unknown>>('/api/demo/run');
+  async runDemo(vendor?: string): Promise<Record<string, unknown>> {
+    const { data } = await this.http.post<Record<string, unknown>>(`/api/demo/run${vendor ? `?vendor=${encodeURIComponent(vendor)}` : ''}`);
     return data;
   }
 

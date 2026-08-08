@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
-  ShoppingBag, FileText, Download, Send, RefreshCw, CheckCircle2
+  ShoppingBag, FileText, Download, Send, RefreshCw, CheckCircle2, Plus
 } from 'lucide-react';
 import { api } from '../api/client';
 import type { PurchaseOrder } from '../types';
@@ -11,6 +11,7 @@ export function PurchaseOrdersPage() {
   const [purchaseOrders, setPurchaseOrders] = useState<PurchaseOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
+  const [generating, setGenerating] = useState(false);
 
   const loadData = async () => {
     setLoading(true);
@@ -25,6 +26,19 @@ export function PurchaseOrdersPage() {
   };
 
   useEffect(() => { loadData(); }, []);
+
+  const handleGeneratePo = async () => {
+    setGenerating(true);
+    try {
+      const po = await api.generatePO(0, 0);
+      showToast('Purchase Order Generated', `Generated ${po.poNumber} for ${po.vendor.name}`, 'success');
+      await loadData();
+    } catch (err: any) {
+      showToast('Generation Failed', err?.response?.data?.message ?? 'Failed to generate PO', 'error');
+    } finally {
+      setGenerating(false);
+    }
+  };
 
   const handleSendPoEmail = async (poId: number) => {
     setActionLoading(poId);
@@ -51,14 +65,25 @@ export function PurchaseOrdersPage() {
           <p className="text-sm text-[#8F8FA2]">Server-generated PDF purchase orders and Brevo automated dispatch</p>
         </div>
 
-        <button
-          onClick={loadData}
-          disabled={loading}
-          className="flex items-center gap-2 px-3.5 py-2 bg-[#12151C] border border-[#1E2330] rounded-xl text-sm font-medium text-[#E0E3E5] hover:text-white hover:border-[#3E52FF]/50 transition-all"
-        >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          Refresh
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleGeneratePo}
+            disabled={generating}
+            className="flex items-center gap-2 px-4 py-2 bg-[#3E52FF] text-white rounded-xl text-sm font-semibold hover:opacity-95 transition-all shadow-lg shadow-blue-500/20"
+          >
+            {generating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+            Generate Official PO
+          </button>
+
+          <button
+            onClick={loadData}
+            disabled={loading}
+            className="flex items-center gap-2 px-3.5 py-2 bg-[#12151C] border border-[#1E2330] rounded-xl text-sm font-medium text-[#E0E3E5] hover:text-white hover:border-[#3E52FF]/50 transition-all"
+          >
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            Refresh
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -67,10 +92,19 @@ export function PurchaseOrdersPage() {
           <p className="text-sm">Loading purchase orders...</p>
         </div>
       ) : purchaseOrders.length === 0 ? (
-        <div className="bg-[#12151C] border border-dashed border-[#1E2330] rounded-2xl p-12 text-center text-[#8F8FA2]">
-          <ShoppingBag className="w-12 h-12 mx-auto mb-3 opacity-30 text-[#3E52FF]" />
-          <p className="text-base font-semibold text-white">No Purchase Orders generated yet</p>
-          <p className="text-xs text-[#8F8FA2] mt-1">Complete a procurement workflow or run the automated demo to generate POs</p>
+        <div className="bg-[#12151C] border border-dashed border-[#1E2330] rounded-2xl p-12 text-center space-y-4">
+          <ShoppingBag className="w-12 h-12 mx-auto opacity-30 text-[#3E52FF]" />
+          <div>
+            <p className="text-base font-semibold text-white">No Purchase Orders generated yet</p>
+            <p className="text-xs text-[#8F8FA2] mt-1">Generate a PO for current workflow or run an automated demo scenario</p>
+          </div>
+          <button
+            onClick={handleGeneratePo}
+            disabled={generating}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#3E52FF] text-white text-sm font-medium rounded-xl shadow-lg shadow-blue-500/20"
+          >
+            <Plus className="w-4 h-4" /> Generate Purchase Order Now
+          </button>
         </div>
       ) : (
         <div className="bg-[#12151C] border border-[#1E2330] rounded-2xl p-6 space-y-4">

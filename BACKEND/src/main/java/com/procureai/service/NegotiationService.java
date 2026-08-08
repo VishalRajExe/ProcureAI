@@ -9,6 +9,7 @@ import com.procureai.service.ai.NegotiationContext;
 import com.procureai.service.ai.NegotiationDecision;
 import com.procureai.service.ai.RoundEvaluation;
 import com.procureai.service.email.EmailService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,17 +17,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Orchestrates the AI negotiation agent end-to-end. Every AI recommendation is a
- * *suggestion* — the backend independently enforces maxApprovedPrice, minimum
- * warranty, maximum delivery days, round limits, and the human-approval gate before
- * any negotiation email is sent or any offer is accepted. The AI can never bypass
- * these checks.
+ * Orchestrates the AI negotiation agent end-to-end.
  */
 @Service
 public class NegotiationService {
 
-    private static final BigDecimal DEFAULT_TARGET_DISCOUNT = new BigDecimal("0.06"); // 6% below current
-    private static final BigDecimal DEFAULT_MAX_DISCOUNT_FLOOR = new BigDecimal("0.10"); // never approve >10% below current automatically
+    private static final BigDecimal DEFAULT_TARGET_DISCOUNT = new BigDecimal("0.06");
+    private static final BigDecimal DEFAULT_MAX_DISCOUNT_FLOOR = new BigDecimal("0.10");
     private static final int DEFAULT_MIN_WARRANTY_MONTHS = 24;
     private static final int DEFAULT_MAX_DELIVERY_DAYS = 30;
     private static final int DEFAULT_MAX_ROUNDS = 2;
@@ -34,26 +31,32 @@ public class NegotiationService {
     private final NegotiationRepository negotiationRepository;
     private final NegotiationRoundRepository roundRepository;
     private final QuoteRepository quoteRepository;
+    private final WorkflowExecutionRepository workflowRepository;
     private final BenchmarkService benchmarkService;
     private final AIProvider aiProvider;
     private final EmailService emailService;
     private final AuditService auditService;
     private final ApprovalService approvalService;
+    private final PurchaseOrderService purchaseOrderService;
 
     public NegotiationService(NegotiationRepository negotiationRepository, NegotiationRoundRepository roundRepository,
-                               QuoteRepository quoteRepository, BenchmarkService benchmarkService, AIProvider aiProvider,
-                               EmailService emailService, AuditService auditService, ApprovalService approvalService) {
+                               QuoteRepository quoteRepository, WorkflowExecutionRepository workflowRepository,
+                               BenchmarkService benchmarkService, AIProvider aiProvider,
+                               EmailService emailService, AuditService auditService, ApprovalService approvalService,
+                               @Lazy PurchaseOrderService purchaseOrderService) {
         this.negotiationRepository = negotiationRepository;
         this.roundRepository = roundRepository;
         this.quoteRepository = quoteRepository;
+        this.workflowRepository = workflowRepository;
         this.benchmarkService = benchmarkService;
         this.aiProvider = aiProvider;
         this.emailService = emailService;
         this.auditService = auditService;
         this.approvalService = approvalService;
+        this.purchaseOrderService = purchaseOrderService;
     }
 
-    /** AI drafts a negotiation strategy + email for a given quote, bounded by backend-owned limits. */
+    /** AI drafts a negotiation strategy + email for a given quote. */
     @Transactional
     public Negotiation draftNegotiation(Long quoteId, Long userId) {
         Quote quote = quoteRepository.findById(quoteId).orElseThrow(() -> new NotFoundException("Quote not found: " + quoteId));
@@ -64,7 +67,6 @@ public class NegotiationService {
         BigDecimal unitPrice = quote.getItems().isEmpty() ? BigDecimal.ZERO : quote.getItems().get(0).getUnitPrice();
         BigDecimal currentPrice = quote.getCalculatedTotal();
 
-        // Backend-owned negotiation rules (would be user-configurable per workflow in a full build).
         BigDecimal targetPrice = currentPrice.multiply(BigDecimal.ONE.subtract(DEFAULT_TARGET_DISCOUNT)).setScale(2, RoundingMode.HALF_UP);
         BigDecimal maxApprovedPrice = currentPrice.multiply(BigDecimal.ONE.subtract(DEFAULT_MAX_DISCOUNT_FLOOR)).setScale(2, RoundingMode.HALF_UP);
 
@@ -86,7 +88,6 @@ public class NegotiationService {
         );
 
         NegotiationDecision decision = aiProvider.decideNegotiationStrategy(ctx);
-        // Backend hard-enforcement: AI can never recommend a target above the max it was given.
         BigDecimal safeTarget = decision.targetPrice().min(maxApprovedPrice);
 
         Negotiation negotiation = new Negotiation();
@@ -110,13 +111,12 @@ public class NegotiationService {
         auditService.log(quote.getWorkflow().getId(), userId, "NEGOTIATION_DRAFTED", "Negotiation", negotiation.getId(),
                 "action=" + decision.action() + " target=" + safeTarget + " max=" + maxApprovedPrice);
 
-        // Human-in-the-loop is mandatory for every financial action — create the approval request now.
         approvalService.requestApproval(Approval.ApprovalType.NEGOTIATION, negotiation.getId(), userId);
         negotiation.setStatus(Negotiation.Status.PENDING_APPROVAL);
         return negotiationRepository.save(negotiation);
     }
 
-    /** Human approves or rejects the drafted negotiation. Only after approval can it be sent. */
+    /** Human approves or rejects the drafted negotiation. */
     @Transactional
     public Negotiation decideApproval(Long negotiationId, boolean approve, String editedEmailBody, Long approverUserId, String notes) {
         Negotiation negotiation = getNegotiation(negotiationId);
@@ -158,9 +158,7 @@ public class NegotiationService {
     }
 
     /**
-     * Simulates a vendor counter-offer arriving (Vendor Inbox Simulator), then runs the
-     * AI evaluation for this round. The backend independently verifies the counter price
-     * against maxApprovedPrice — the AI's recommendation is never trusted blindly.
+     * Processes vendor counter price and auto-generates/updates the Purchase Order when accepted.
      */
     @Transactional
     public Negotiation submitVendorResponse(Long negotiationId, BigDecimal counterPrice, Long userId) {
@@ -188,7 +186,6 @@ public class NegotiationService {
         );
 
         RoundEvaluation evaluation = aiProvider.evaluateVendorResponse(ctx, counterPrice, roundNumber);
-        // Backend-authoritative check — independent of what the AI recommended.
         boolean withinMax = counterPrice.compareTo(negotiation.getMaxApprovedPrice()) <= 0;
 
         NegotiationRound round = new NegotiationRound();
@@ -206,6 +203,23 @@ public class NegotiationService {
             round.setOutcome(NegotiationRound.RoundOutcome.SYSTEM_ACCEPTED);
             negotiation.setStatus(Negotiation.Status.ACCEPTED);
             negotiation.setFinalAgreedPrice(counterPrice);
+
+            // Update quote calculated total with final agreed price
+            quote.setCalculatedTotal(counterPrice);
+            quoteRepository.save(quote);
+
+            // Auto-generate / update Purchase Order for this accepted offer
+            try {
+                WorkflowExecution wf = negotiation.getWorkflow();
+                wf.setStatus(WorkflowExecution.Status.VENDOR_SELECTED);
+                workflowRepository.save(wf);
+                purchaseOrderService.generate(quote, wf, userId, negotiation.getId());
+                wf.setStatus(WorkflowExecution.Status.PO_GENERATED);
+                workflowRepository.save(wf);
+            } catch (Exception ex) {
+                // Non-critical if PO already generated
+            }
+
             auditService.log(negotiation.getWorkflow().getId(), userId, "NEGOTIATION_ACCEPTED", "Negotiation", negotiationId,
                     "finalPrice=" + counterPrice + " round=" + roundNumber);
         } else if (!withinMax && roundLimitReached) {

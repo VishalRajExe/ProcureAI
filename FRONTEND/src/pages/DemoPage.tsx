@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import {
   Rocket, CheckCircle2, Clock, AlertCircle, RefreshCw,
-  ExternalLink, Terminal, Zap, FileText, ArrowRight
+  ExternalLink, Terminal, Zap, FileText, ArrowRight, Layers
 } from 'lucide-react';
 import { api } from '../api/client';
 import { Link } from 'react-router-dom';
@@ -34,6 +34,7 @@ export function DemoPage() {
   const [done, setDone] = useState(false);
   const [result, setResult] = useState<Record<string, any> | null>(null);
   const [error, setError] = useState('');
+  const [selectedVendor, setSelectedVendor] = useState<'LENOVO' | 'HP' | 'DELL'>('LENOVO');
   const timerRef = useRef<number | null>(null);
 
   const runStep = (idx: number, detail?: string) => {
@@ -50,7 +51,6 @@ export function DemoPage() {
     setResult(null);
     setSteps(DEMO_STEPS.map(s => ({ ...s, status: 'pending', detail: undefined })));
 
-    // Animate through steps while calling the backend
     const delays = [300, 400, 600, 400, 500, 400, 600, 300, 400, 300, 400, 300, 500];
     let stepIdx = 0;
     const tick = () => {
@@ -63,8 +63,7 @@ export function DemoPage() {
     tick();
 
     try {
-      const data = await api.runDemo();
-      // Mark all steps done
+      const data = await api.runDemo(selectedVendor);
       if (timerRef.current) clearTimeout(timerRef.current);
       setSteps(DEMO_STEPS.map((s, i) => ({
         ...s,
@@ -89,25 +88,64 @@ export function DemoPage() {
 
   const StepIcon = ({ status }: { status: ProgressStep['status'] }) => {
     if (status === 'done') return <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />;
-    if (status === 'running') return <RefreshCw className="w-4 h-4 text-[#4F7CFF] flex-shrink-0 animate-spin" />;
+    if (status === 'running') return <RefreshCw className="w-4 h-4 text-[#3E52FF] flex-shrink-0 animate-spin" />;
     if (status === 'error') return <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />;
-    return <Clock className="w-4 h-4 text-[#4B5563] flex-shrink-0" />;
+    return <Clock className="w-4 h-4 text-[#8F8FA2] flex-shrink-0" />;
   };
 
   return (
-    <div className="p-6 space-y-6 max-w-4xl">
+    <div className="p-6 space-y-6 max-w-5xl mx-auto">
       {/* Header */}
       <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4F7CFF]/10 border border-[#4F7CFF]/20 rounded-full text-xs text-[#4F7CFF] mb-3">
-          <Zap className="w-3 h-3" />
-          Full Procurement Lifecycle Demo
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#3E52FF]/10 border border-[#3E52FF]/20 rounded-full text-xs text-[#BDC2FF] font-semibold mb-3">
+          <Zap className="w-3.5 h-3.5 text-[#3E52FF]" />
+          Full Procurement Lifecycle Demo & Scenario Engine
         </div>
-        <h1 className="text-xl font-bold text-white mb-1">Run Demo Procurement</h1>
-        <p className="text-sm text-[#6B7280] max-w-2xl">
-          Executes the complete AI procurement workflow end-to-end: 3 vendor quotes (50 laptops) →
-          AI extraction → comparison → negotiation → human approval → PO generation. No external
-          credentials required.
+        <h1 className="text-2xl font-bold text-white tracking-tight mb-1">Run Demo Procurement</h1>
+        <p className="text-sm text-[#8F8FA2] max-w-2xl">
+          Executes the complete AI procurement workflow end-to-end. Choose a winning vendor scenario (Lenovo, HP, or Dell) to test dynamic AI scoring, negotiation, and PO generation.
         </p>
+      </div>
+
+      {/* Scenario Selector */}
+      <div className="bg-[#12151C] border border-[#1E2330] rounded-2xl p-5 space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-semibold text-white flex items-center gap-2">
+            <Layers className="w-4 h-4 text-[#3E52FF]" /> Select Preferred Target Vendor Scenario
+          </span>
+          <span className="text-xs font-mono text-[#BDC2FF] bg-[#3E52FF]/20 px-2.5 py-0.5 rounded-full border border-[#3E52FF]/30">
+            Active: {selectedVendor} Preferred
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[
+            { id: 'LENOVO', name: 'Lenovo Corporate Sales', price: '₹58,000/unit', badge: 'Top Recommended (Lenovo Wins!)' },
+            { id: 'HP', name: 'HP Business Solutions', price: '₹63,500/unit', badge: 'Standard Winner (HP Wins!)' },
+            { id: 'DELL', name: 'Dell Direct Enterprise', price: '₹55,000/unit', badge: 'Budget Winner (Dell Wins!)' },
+          ].map((sc) => {
+            const active = selectedVendor === sc.id;
+            return (
+              <button
+                key={sc.id}
+                type="button"
+                onClick={() => setSelectedVendor(sc.id as any)}
+                className={`p-4 rounded-xl border text-left transition-all relative ${
+                  active
+                    ? 'bg-[#191C26] border-[#3E52FF] ring-2 ring-[#3E52FF]/20 shadow-lg'
+                    : 'bg-[#0B0D12] border-[#1E2330] hover:border-[#3E52FF]/40'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-bold text-white text-sm">{sc.name}</span>
+                  {active && <CheckCircle2 className="w-4 h-4 text-[#3E52FF]" />}
+                </div>
+                <div className="text-xs font-mono text-emerald-400 font-semibold mb-2">{sc.price}</div>
+                <div className="text-[11px] text-[#8F8FA2] font-mono">{sc.badge}</div>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
@@ -115,11 +153,11 @@ export function DemoPage() {
         <div className="lg:col-span-3 bg-[#12151C] border border-[#1E2330] rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2 text-sm font-medium text-white">
-              <Terminal className="w-4 h-4 text-[#4F7CFF]" />
-              Workflow Steps
+              <Terminal className="w-4 h-4 text-[#3E52FF]" />
+              Workflow Steps Execution
             </div>
             {done && (
-              <span className="text-xs px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full">
+              <span className="text-xs px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full font-mono">
                 Complete
               </span>
             )}
@@ -130,15 +168,15 @@ export function DemoPage() {
               <div
                 key={i}
                 className={`flex items-start gap-3 p-3 rounded-xl transition-all ${
-                  step.status === 'running' ? 'bg-[#4F7CFF]/5 border border-[#4F7CFF]/20' :
-                  step.status === 'done' ? 'opacity-70' : 'opacity-40'
+                  step.status === 'running' ? 'bg-[#3E52FF]/10 border border-[#3E52FF]/30' :
+                  step.status === 'done' ? 'opacity-80' : 'opacity-40'
                 }`}
               >
                 <StepIcon status={step.status} />
                 <div className="min-w-0">
                   <div className="text-sm text-white">{step.label}</div>
                   {step.detail && (
-                    <div className="text-xs text-[#4F7CFF] mt-0.5">{step.detail}</div>
+                    <div className="text-xs text-[#BDC2FF] mt-0.5 font-mono">{step.detail}</div>
                   )}
                 </div>
               </div>
@@ -151,7 +189,6 @@ export function DemoPage() {
               <div>
                 <div className="font-medium">Demo failed</div>
                 <div className="text-xs mt-0.5 opacity-80">{error}</div>
-                <div className="text-xs mt-1 text-[#9AA1AE]">Make sure the backend is running: <code className="bg-[#0B0D12] px-1 rounded">mvn spring-boot:run</code></div>
               </div>
             </div>
           )}
@@ -159,40 +196,40 @@ export function DemoPage() {
           <button
             onClick={handleRun}
             disabled={running}
-            className="w-full mt-5 flex items-center justify-center gap-2 bg-gradient-to-r from-[#4F7CFF] to-purple-600 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full mt-5 flex items-center justify-center gap-2 bg-gradient-to-r from-[#3E52FF] to-indigo-600 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-500/25 hover:opacity-95 transition-all disabled:opacity-50"
           >
             {running ? (
-              <><RefreshCw className="w-4 h-4 animate-spin" /> Running demo...</>
+              <><RefreshCw className="w-4 h-4 animate-spin" /> Executing {selectedVendor} Scenario...</>
             ) : done ? (
-              <><RefreshCw className="w-4 h-4" /> Run Again</>
+              <><RefreshCw className="w-4 h-4" /> Run {selectedVendor} Scenario Again</>
             ) : (
-              <><Rocket className="w-4 h-4" /> Launch Demo Procurement</>
+              <><Rocket className="w-4 h-4" /> Launch {selectedVendor} Procurement Demo</>
             )}
           </button>
         </div>
 
         {/* Result panel */}
         <div className="lg:col-span-2 space-y-4">
-          {/* Scenario */}
+          {/* Scenario Details */}
           <div className="bg-[#12151C] border border-[#1E2330] rounded-2xl p-5 space-y-3">
-            <h3 className="text-sm font-semibold text-white">Demo Scenario</h3>
-            <div className="space-y-2 text-xs text-[#9AA1AE]">
-              <div className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-[#4F7CFF]" />50 Business Laptops required</div>
-              <div className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-[#4F7CFF]" />Dell Direct Enterprise — ₹68K/unit</div>
-              <div className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-[#4F7CFF]" />HP Business Solutions — ₹63.5K/unit</div>
-              <div className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-[#4F7CFF]" />Lenovo Corporate Sales — ₹71K/unit</div>
-              <div className="flex items-center gap-2 pt-1 border-t border-[#1E2330]">
-                <ArrowRight className="w-3 h-3 text-purple-400" />AI negotiates 6% discount on winner
+            <h3 className="text-sm font-semibold text-white">Active Scenario Specs</h3>
+            <div className="space-y-2 text-xs text-[#8F8FA2]">
+              <div className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-[#3E52FF]" /> 50 Enterprise Laptops required</div>
+              <div className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-[#3E52FF]" /> Dell Direct Enterprise — ₹68K/unit</div>
+              <div className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-[#3E52FF]" /> HP Business Solutions — ₹63.5K/unit</div>
+              <div className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-[#3E52FF]" /> Lenovo Corporate Sales — ₹58K-71K/unit</div>
+              <div className="flex items-center gap-2 pt-2 border-t border-[#1E2330]">
+                <ArrowRight className="w-3 h-3 text-emerald-400" /> Target Choice: <strong className="text-white ml-1">{selectedVendor}</strong>
               </div>
             </div>
           </div>
 
           {/* Results */}
           {result && (
-            <div className="bg-[#12151C] border border-emerald-500/20 rounded-2xl p-5 space-y-3">
+            <div className="bg-[#12151C] border border-emerald-500/30 rounded-2xl p-5 space-y-3 shadow-xl">
               <div className="flex items-center gap-2 text-sm font-semibold text-emerald-400">
                 <CheckCircle2 className="w-4 h-4" />
-                Demo Complete!
+                Demo Complete ({selectedVendor} Winner)
               </div>
               <div className="space-y-2">
                 {[
@@ -204,27 +241,27 @@ export function DemoPage() {
                   { label: 'PO Total', value: result.poTotal ? `₹${Number(result.poTotal).toLocaleString('en-IN')}` : '—' },
                 ].map(({ label, value }) => (
                   <div key={label} className="flex items-center justify-between">
-                    <span className="text-xs text-[#6B7280]">{label}</span>
-                    <span className="text-xs font-mono text-white">{value}</span>
+                    <span className="text-xs text-[#8F8FA2]">{label}</span>
+                    <span className="text-xs font-mono text-white font-semibold">{value}</span>
                   </div>
                 ))}
               </div>
               <div className="pt-2 border-t border-[#1E2330] space-y-2">
                 <Link
-                  to={`/workflows/${result.workflowId}`}
-                  className="flex items-center justify-center gap-2 w-full py-2 bg-[#4F7CFF]/10 border border-[#4F7CFF]/20 text-[#4F7CFF] rounded-xl text-xs font-medium hover:bg-[#4F7CFF]/20 transition-colors"
+                  to="/comparison"
+                  className="flex items-center justify-center gap-2 w-full py-2 bg-[#3E52FF]/10 border border-[#3E52FF]/30 text-[#BDC2FF] rounded-xl text-xs font-medium hover:bg-[#3E52FF] hover:text-white transition-all"
                 >
-                  <ExternalLink className="w-3 h-3" />
-                  View Workflow Detail
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  View Quote Comparison
                 </Link>
                 <a
-                  href={`http://localhost:8080/api/purchase-orders/${result.purchaseOrderId}/pdf`}
+                  href={api.getPdfUrl(result.purchaseOrderId)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-medium hover:bg-emerald-500/20 transition-colors"
+                  className="flex items-center justify-center gap-2 w-full py-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-medium hover:bg-emerald-500 hover:text-white transition-all"
                 >
-                  <FileText className="w-3 h-3" />
-                  Download PO PDF
+                  <FileText className="w-3.5 h-3.5" />
+                  Download PO PDF ({result.recommendedVendor})
                 </a>
               </div>
             </div>
