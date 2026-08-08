@@ -5,6 +5,7 @@ import com.procureai.entity.PurchaseOrder;
 import com.procureai.entity.Quote;
 import com.procureai.repository.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
