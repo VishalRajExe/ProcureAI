@@ -143,8 +143,11 @@ export interface DashboardData {
   completedWorkflows: number;
   totalVendors: number;
   totalQuotes: number;
+  totalSpend?: number;
   totalSavings?: number;
   averageSavingsPercent?: number;
+  pendingApprovals?: number;
+  purchaseOrdersGenerated?: number;
   recentWorkflows?: WorkflowExecution[];
   spendByCategory?: Array<{ category: string; amount: number }>;
 }

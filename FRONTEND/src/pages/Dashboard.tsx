@@ -78,6 +78,14 @@ export function Dashboard() {
 
   const CHART_COLORS = ['#3E52FF', '#7C5CFF', '#06B6D4', '#10B981'];
 
+  const formattedSpend = data?.totalSpend
+    ? `₹${(Number(data.totalSpend) / 100000).toFixed(1)}L`
+    : '₹56.6L';
+
+  const formattedSavings = data?.totalSavings
+    ? `₹${(Number(data.totalSavings) / 1000).toFixed(0)}k`
+    : (data?.totalSavings ?? '₹185k');
+
   return (
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header with Run Demo CTA */}
@@ -120,14 +128,14 @@ export function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <KpiCard
           label="Total Procurement Spend"
-          value="₹56.6L"
+          value={formattedSpend}
           sub="↑ 14% benchmark efficiency"
           icon={TrendingUp}
           accent="bg-[#3E52FF]/15 text-[#BDC2FF]"
         />
         <KpiCard
           label="Total Negotiated Savings"
-          value={data?.totalSavings != null ? `₹${(data.totalSavings / 1000).toFixed(0)}k` : '₹185k'}
+          value={formattedSavings}
           sub="Avg. 15.4% price reduction"
           icon={BarChart3}
           accent="bg-emerald-500/15 text-emerald-400"
@@ -135,13 +143,13 @@ export function Dashboard() {
         <KpiCard
           label="Active Workflows"
           value={data?.totalWorkflows ?? workflows.length}
-          sub="3 Pending Human Approval"
+          sub={`${data?.pendingApprovals ?? 0} Pending Human Approval`}
           icon={Package}
           accent="bg-purple-500/15 text-purple-400"
         />
         <KpiCard
           label="Issued Purchase Orders"
-          value={data?.completedWorkflows ?? 4}
+          value={data?.completedWorkflows ?? data?.purchaseOrdersGenerated ?? 0}
           sub="Dispatched via Brevo API"
           icon={ShoppingBag}
           accent="bg-cyan-500/15 text-cyan-400"
@@ -189,25 +197,25 @@ export function Dashboard() {
             <div className="p-3 bg-[#0B0D12] rounded-xl border border-[#1E2330] space-y-1">
               <div className="flex items-center justify-between font-mono text-[10px] text-[#3E52FF]">
                 <span>QUOTE EXTRACTION</span>
-                <span>JUST NOW</span>
+                <span>LIVE REACTIVE</span>
               </div>
-              <p className="text-[#E0E3E5]">Extracted 3 line items from Dell proposal with 95% confidence.</p>
+              <p className="text-[#E0E3E5]">Extracted and normalized vendor quotes with Gemini AI confidence scoring.</p>
             </div>
 
             <div className="p-3 bg-[#0B0D12] rounded-xl border border-[#1E2330] space-y-1">
               <div className="flex items-center justify-between font-mono text-[10px] text-purple-400">
                 <span>STRATEGY GENERATION</span>
-                <span>2M AGO</span>
+                <span>LIVE REACTIVE</span>
               </div>
-              <p className="text-[#E0E3E5]">Anchor target price set to ₹1,35,000 for Lenovo ThinkPad batch.</p>
+              <p className="text-[#E0E3E5]">AI negotiation strategy drafted with strict max-approved discount boundaries.</p>
             </div>
 
             <div className="p-3 bg-[#0B0D12] rounded-xl border border-[#1E2330] space-y-1">
               <div className="flex items-center justify-between font-mono text-[10px] text-emerald-400">
                 <span>BREVO DISPATCH</span>
-                <span>5M AGO</span>
+                <span>LIVE REACTIVE</span>
               </div>
-              <p className="text-[#E0E3E5]">Negotiation email approved & dispatched to sales@dell-demo.com.</p>
+              <p className="text-[#E0E3E5]">Approved negotiation emails & PO PDFs dispatched via Brevo REST API.</p>
             </div>
           </div>
         </div>
