@@ -3,6 +3,7 @@ package com.procureai.service;
 import com.procureai.entity.*;
 import com.procureai.exception.ExtractionException;
 import com.procureai.exception.NotFoundException;
+import com.procureai.repository.NegotiationRepository;
 import com.procureai.repository.QuoteRepository;
 import com.procureai.repository.VendorRepository;
 import com.procureai.repository.WorkflowExecutionRepository;
@@ -11,6 +12,7 @@ import com.procureai.service.ai.ExtractedQuoteData;
 import com.procureai.util.InputSanitizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,22 +28,29 @@ public class QuoteService {
     private final QuoteRepository quoteRepository;
     private final VendorRepository vendorRepository;
     private final WorkflowExecutionRepository workflowRepository;
+    private final NegotiationRepository negotiationRepository;
     private final AIProvider aiProvider;
     private final QuoteCalculationService calculationService;
     private final BenchmarkService benchmarkService;
     private final AuditService auditService;
+    private final ComparisonService comparisonService;
+    private final NegotiationService negotiationService;
 
     public QuoteService(QuoteRepository quoteRepository, VendorRepository vendorRepository,
-                         WorkflowExecutionRepository workflowRepository, AIProvider aiProvider,
-                         QuoteCalculationService calculationService, BenchmarkService benchmarkService,
-                         AuditService auditService) {
+                         WorkflowExecutionRepository workflowRepository, NegotiationRepository negotiationRepository,
+                         AIProvider aiProvider, QuoteCalculationService calculationService,
+                         BenchmarkService benchmarkService, AuditService auditService,
+                         @Lazy ComparisonService comparisonService, @Lazy NegotiationService negotiationService) {
         this.quoteRepository = quoteRepository;
         this.vendorRepository = vendorRepository;
         this.workflowRepository = workflowRepository;
+        this.negotiationRepository = negotiationRepository;
         this.aiProvider = aiProvider;
         this.calculationService = calculationService;
         this.benchmarkService = benchmarkService;
         this.auditService = auditService;
+        this.comparisonService = comparisonService;
+        this.negotiationService = negotiationService;
     }
 
     @Transactional
@@ -57,10 +66,9 @@ public class QuoteService {
     }
 
     /**
-     * Ingests one vendor quote: runs AI extraction on raw text (already OCR'd upstream
-     * for scanned documents/images), validates the result, normalizes it, computes the
-     * authoritative total, and applies benchmarking. AI output is never persisted
-     * without passing through this validation.
+     * Ingests one vendor quote: runs AI extraction on raw text, validates the result,
+     * normalizes it, computes the authoritative total, applies benchmarking, and
+     * automatically orchestrates downstream comparison and negotiation drafting.
      */
     @Transactional
     public Quote ingestQuote(WorkflowExecution workflow, String vendorName, String vendorEmail,
@@ -82,7 +90,6 @@ public class QuoteService {
         quote = quoteRepository.save(quote);
 
         try {
-            // Sanitize all AI inputs: strip control chars, enforce max length
             String safeText = InputSanitizer.sanitizeForAi(rawText);
             String safeVendorName = InputSanitizer.sanitizeField(vendorName);
             ExtractedQuoteData extracted = aiProvider.extractQuoteData(safeText, safeVendorName);
@@ -98,6 +105,10 @@ public class QuoteService {
             quote = quoteRepository.save(quote);
             auditService.log(workflow.getId(), userId, "QUOTE_EXTRACTED", "Quote", quote.getId(),
                     "Vendor=" + vendorName + " confidence=" + extracted.confidence() + " missing=" + extracted.missingFields());
+
+            // Auto-orchestrate downstream workflow (Comparison, AI Negotiation, Approvals)
+            autoOrchestrateWorkflow(workflow, userId);
+
             return quote;
         } catch (Exception ex) {
             quote.setExtractionStatus(Quote.ExtractionStatus.FAILED);
@@ -105,6 +116,29 @@ public class QuoteService {
             quoteRepository.save(quote);
             auditService.logFailure(workflow.getId(), userId, "QUOTE_EXTRACTION_FAILED", "Quote", quote.getId(), ex.getMessage());
             throw new ExtractionException("Failed to extract quote for vendor " + vendorName + ": " + ex.getMessage(), ex);
+        }
+    }
+
+    private void autoOrchestrateWorkflow(WorkflowExecution workflow, Long userId) {
+        try {
+            List<Quote> quotes = quoteRepository.findByWorkflowId(workflow.getId());
+            if (quotes.isEmpty()) return;
+
+            workflow.setStatus(WorkflowExecution.Status.COMPARED);
+            workflowRepository.save(workflow);
+
+            ComparisonService.ComparisonResult comparison = comparisonService.compare(workflow.getId(), null);
+            if (comparison != null && comparison.recommended() != null) {
+                Quote topQuote = comparison.recommended();
+                List<Negotiation> existing = negotiationRepository.findByWorkflowId(workflow.getId());
+                if (existing.isEmpty()) {
+                    workflow.setStatus(WorkflowExecution.Status.NEGOTIATING);
+                    workflowRepository.save(workflow);
+                    negotiationService.draftNegotiation(topQuote.getId(), userId);
+                }
+            }
+        } catch (Exception ex) {
+            log.warn("Auto-orchestration downstream flow skipped: {}", ex.getMessage());
         }
     }
 
@@ -140,9 +174,7 @@ public class QuoteService {
         if (data.validUntil() != null) {
             try {
                 quote.setValidUntil(LocalDate.parse(data.validUntil()));
-            } catch (Exception ignored) {
-                // Non-critical field — leave null rather than fail the whole extraction.
-            }
+            } catch (Exception ignored) {}
         }
 
         quote.getItems().clear();

@@ -52,9 +52,12 @@ public class QuoteController {
     );
 
     private final QuoteService quoteService;
+    private final com.procureai.repository.WorkflowExecutionRepository workflowRepository;
 
-    public QuoteController(QuoteService quoteService) {
+    public QuoteController(QuoteService quoteService,
+                           com.procureai.repository.WorkflowExecutionRepository workflowRepository) {
         this.quoteService = quoteService;
+        this.workflowRepository = workflowRepository;
     }
 
     @PostMapping("/workflows")
@@ -181,12 +184,15 @@ public class QuoteController {
     }
 
     private WorkflowExecution resolveOrCreateWorkflow(Long workflowId) {
-        return workflowId != null
-                ? quoteService.getWorkflow(workflowId)
-                : quoteService.createWorkflow(
-                        "Procurement " + System.currentTimeMillis(),
+        if (workflowId != null) {
+            return quoteService.getWorkflow(workflowId);
+        }
+        return workflowRepository.findTopByOrderByCreatedAtDesc()
+                .filter(wf -> wf.getStatus() != WorkflowExecution.Status.PO_GENERATED && wf.getStatus() != WorkflowExecution.Status.COMPLETED)
+                .orElseGet(() -> quoteService.createWorkflow(
+                        "Procurement Workflow #" + (workflowRepository.count() + 1),
                         "Auto-created for quote upload",
-                        CurrentUser.id());
+                        CurrentUser.id()));
     }
 
     /**
