@@ -18,16 +18,16 @@ The platform includes a dedicated **Python FastAPI AI Microservice (`AI-SERVICE/
 
 ## 📋 Table of Contents
 1. [Project Overview](#1-project-overview)
-2. [Complete End-to-End Workflow](#2-complete-end-to-end-workflow)
-3. [Email Workflow](#3-email-workflow)
-4. [System Architecture](#4-system-architecture)
+2. [Complete End-to-End Workflow & AI Pipeline](#2-complete-end-to-end-workflow--ai-pipeline)
+3. [Email Workflow & Approval Sequence](#3-email-workflow--approval-sequence)
+4. [System Microservice Architecture](#4-system-microservice-architecture)
 5. [Technology Stack](#5-technology-stack)
 6. [Python FastAPI AI Microservice (`AI-SERVICE/`)](#6-python-fastapi-ai-microservice-ai-service)
 7. [Database Architecture](#7-database-architecture)
 8. [API Architecture](#8-api-architecture)
 9. [Frontend Architecture](#9-frontend-architecture)
 10. [Backend Architecture](#10-backend-architecture)
-11. [AI Architecture & Agent Framework](#11-ai-architecture--agent-framework)
+11. [AI Architecture & Multi-Agent Framework](#11-ai-architecture--multi-agent-framework)
 12. [Authentication & Security](#12-authentication--security)
 13. [Project Structure](#13-project-structure)
 14. [Setup & Installation](#14-setup--installation)
@@ -68,128 +68,139 @@ Traditional enterprise procurement is slow, fragmented, and prone to overspendin
 
 ---
 
-## 2. Complete End-to-End Workflow
+## 2. Complete End-to-End Workflow & AI Pipeline
 
 ```mermaid
 flowchart TD
-    A[1. Quote Upload / Text Input] --> B[2. AI Parsing & OCR PDF Stripping]
-    B --> C[3. Quote Normalization & Calculation]
-    C --> D[4. Market Benchmark Check]
-    D --> E[5. Multi-Criteria Vendor Comparison]
-    E --> F[6. Gemini AI Strategy & Email Drafting]
-    F --> G{7. Human Approval Gate}
-    G -- Approved --> H[8. Outbound Email Dispatch via Brevo]
-    G -- Rejected --> I[Workflow Paused / Re-drafted]
-    H --> J[9. Vendor Response / Simulator Inbox]
-    J --> K[10. AI Counter-Offer Evaluation]
-    K -- Target Agreed --> L[11. Vendor Selection & PO Generation]
-    K -- Counter High --> F
-    L --> M[12. Server-Side PDF Generation PDFBox]
-    M --> N[13. Final Success & Analytics Dashboard Sync]
-```
+    subgraph Ingestion ["📥 Ingestion Phase"]
+        A["1. Vendor Quote Upload (PDF / Plain Text)"] --> B["2. OCR & PDF Text Stripping (Apache PDFBox)"]
+    end
 
-### Step-by-Step Execution Breakdown:
-1. **Quote Ingestion**: Front-end (`QuotesPage.tsx`) POSTs JSON or Multipart PDF to `/api/quotes`.
-2. **Extraction & Validation**: `QuoteService.java` invokes `GeminiAIProvider.java` / `PythonAIService.java` (using Apache PDFBox `PDFTextStripper` for PDFs). Text is validated against `QuoteUploadRequest` DTO.
-3. **Calculation & Benchmarking**: `QuoteCalculationService.java` computes authoritative subtotal, tax, and shipping. `BenchmarkService.java` assigns `BELOW`, `WITHIN`, or `ABOVE` market status.
-4. **Auto-Orchestration**: `QuoteService.java` auto-triggers `ComparisonService.java` and `NegotiationService.java`.
-5. **Comparison & Ranking**: Quotes are scored out of 100 based on price, delivery, warranty, and reliability.
-6. **Negotiation Drafting**: `NegotiationService.java` asks Gemini for target counter-price and drafts a negotiation email bounded by `maxApprovedPrice` (enhanced with FastAPI `[Defensive]`, `[Balanced]`, or `[Aggressive]` approach framing).
-7. **Human Approval Gate**: Request saved as `PENDING_APPROVAL`. Displayed in `ApprovalsPage.tsx` and `NegotiationPage.tsx`.
-8. **Brevo Email Dispatch**: Upon human approval, `BrevoEmailService.java` dispatches the email via Brevo REST API v3. Status becomes `SENT`.
-9. **Vendor Counter Response**: Submitted via `VendorInboxPage.tsx` or simulated in `NegotiationPage.tsx` (`POST /api/negotiations/{id}/simulate-response`).
-10. **AI Evaluation**: Gemini evaluates counter-offer. If within budget, status becomes `ACCEPTED`.
-11. **PO & PDF Generation**: `PurchaseOrderService.java` creates `PurchaseOrder` entity and renders PDFBox PDF file in `./po-output`.
-12. **Dashboard Synchronization**: `AnalyticsService.java` updates spend, savings, and workflow status across all pages reactively.
+    subgraph AI_Processing ["🧠 AI Microservice Processing (FastAPI + Gemini)"]
+        B --> C["3. Quote Extraction Agent (JSON Parser)"]
+        C --> D["4. Market Benchmarking (Floor / Ceiling Check)"]
+        D --> E["5. Multi-Agent Vendor Evaluation (1-10 Scorecard)"]
+        E --> F["6. AI Negotiation Strategy Agent (Defensive / Balanced / Aggressive)"]
+        F --> G["7. AI Negotiation Email Generator"]
+    end
+
+    subgraph Governance ["🛡️ Human Governance Gate"]
+        G --> H{"8. Human Approval Gate"}
+        H -- "Rejected / Edit" --> G
+    end
+
+    subgraph Execution ["✉️ Execution & Settlement"]
+        H -- "Approved" --> I["9. Outbound Email Dispatch via Brevo REST API v3"]
+        I --> J["10. Vendor Counter-Offer Inbox"]
+        J --> K["11. AI Response Evaluator Agent"]
+        K -- "Counter Target Agreed" --> L["12. PO Generation & Server PDF Render (PDFBox)"]
+        K -- "Counter High" --> F
+        L --> M["13. Analytics Sync & PO Delivery to Vendor"]
+    end
+
+    style AI_Processing fill:#1e1b4b,stroke:#6366f1,stroke-width:2px,color:#fff
+    style Governance fill:#312e81,stroke:#818cf8,stroke-width:2px,color:#fff
+    style Execution fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#fff
+```
 
 ---
 
-## 3. Email Workflow
-
-ProcureAI integrates with the **Brevo (Sendinblue) v3 REST API** to manage outbound vendor negotiations and Purchase Order dispatches.
+## 3. Email Workflow & Approval Sequence
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor Officer as Human Procurement Officer
-    participant UI as Frontend (React)
-    participant Sec as Security / Auth
-    participant Controller as NegotiationController
-    participant Service as NegotiationService
+    participant UI as Frontend (React SPA)
+    participant Core as Spring Boot Core Backend
+    participant PyAI as Python FastAPI AI Microservice
+    participant Gemini as Google Gemini 1.5 Flash
     participant Brevo as Brevo Email API v3
     participant Vendor as Vendor Email Inbox
 
-    Officer->>UI: Review AI Drafted Negotiation Email
-    Officer->>UI: Click "Approve & Send Email via Brevo"
-    UI->>Sec: POST /api/negotiations/{id}/approve (Bearer JWT)
-    Sec->>Controller: Authenticated (ADMIN/APPROVER/PROCUREMENT_USER)
-    Controller->>Service: decideApproval(id, approve=true, body)
-    Service->>Brevo: POST https://api.brevo.com/v3/smtp/email
-    Note over Brevo: API Key: ${BREVO_API_KEY}
-    Brevo-->>Vendor: Transactional Email Dispatched
-    Brevo-->>Service: Returns Message-ID
-    Service-->>UI: Returns updated Negotiation (Status: SENT)
-    UI-->>Officer: Display Toast "Email Dispatched via Brevo API"
-```
+    Note over Officer, Vendor: Phase 1: AI Strategy & Negotiation Email Drafting
+    Core->>PyAI: POST /api/ai/negotiation-strategy (Current, Target, Market Intel)
+    PyAI->>Gemini: Prompt: Negotiation Strategy Framework
+    Gemini-->>PyAI: Strategy: Aggressive | Approach: Volume Leverage
+    PyAI-->>Core: JSON Strategy & Leverage Points
+    Core->>PyAI: POST /api/ai/generate-negotiation (Vendor, Approach, Round)
+    PyAI->>Gemini: Prompt: Formal Negotiation Email Generator
+    Gemini-->>PyAI: Draft Subject & Email Body
+    PyAI-->>Core: JSON Email Draft Body
 
-### Key Email Features:
-- **Strict Human Approval Gate**: The backend refuses to invoke `BrevoEmailService` until a human officer explicitly sends `approve: true` to `/api/negotiations/{id}/approve`.
-- **Editable Drafts**: Officers can customize the AI-generated email body before approval.
-- **Fail-Safe Fallback**: If `BREVO_API_KEY` is not provided or network is offline, `BrevoEmailService` automatically delegates to `MockEmailService`, logging the email body to console without failing the execution.
+    Note over Officer, Vendor: Phase 2: Human Governance & Approval
+    Core-->>UI: Display Draft Email in Governance Queue (Status: PENDING_APPROVAL)
+    Officer->>UI: Review & Edit Draft Email Text
+    Officer->>UI: Click "Approve & Send via Brevo"
+    UI->>Core: POST /api/negotiations/{id}/approve (Bearer JWT)
+
+    Note over Officer, Vendor: Phase 3: Outbound Brevo Dispatch
+    Core->>Brevo: POST https://api.brevo.com/v3/smtp/email
+    Brevo-->>Vendor: Transactional Email Dispatched
+    Brevo-->>Core: Message-ID Returned
+    Core-->>UI: Status Updated to SENT (Audit Log Recorded)
+```
 
 ---
 
-## 4. System Architecture
-
-ProcureAI uses a decoupled 3-tier microservice architecture:
+## 4. System Microservice Architecture
 
 ```mermaid
 graph TD
-    subgraph Frontend Layer [React 18 + Vite + TailwindCSS]
-        UI[User Interface / Navigation]
-        API_CLIENT[API Client Axios]
+    subgraph Client_Layer ["💻 Frontend Layer (React 18 + Vite + Tailwind)"]
+        UI["Procurement Command Center SPA"]
+        API_CLIENT["Axios API Client (JWT Interceptor)"]
     end
 
-    subgraph Security Layer [Spring Security]
-        JWT[JwtAuthFilter]
-        RBAC[Role-Based Access Control]
+    subgraph Security_Layer ["🔒 Security Layer (Spring Security)"]
+        JWT["JwtAuthFilter (HMAC-SHA256)"]
+        RBAC["Role-Based Access Control"]
     end
 
-    subgraph Core Backend [Java Spring Boot 3.3.2]
-        CTRL[REST Controllers]
-        SERV[Business Services]
-        PY_BRIDGE[PythonAIService Bridge]
-        REPO[Spring Data JPA Repositories]
+    subgraph Backend_Core ["⚙️ Core Backend (Java Spring Boot 3.3.2)"]
+        CTRL["REST API Controllers"]
+        SERV["Business Services & DB Logic"]
+        CALC["Authoritative Math & Scoring Engine"]
+        PY_CLIENT["PythonAIClient HTTP Client"]
+        REPO["Spring Data JPA Repositories"]
     end
 
-    subgraph AI Microservice Layer [Python FastAPI 0.115]
-        FASTAPI[FastAPI Endpoints]
-        AI_ENGINE[AI Engine & Prompts]
-        MKT_INTEL[Market Intelligence Dataset]
+    subgraph AI_Microservice ["🤖 AI Microservice Layer (Python FastAPI 0.115)"]
+        FASTAPI["FastAPI Routing (/api/ai/*)"]
+        AI_ENGINE["ai_engine.py Reasoning Engine"]
+        MKT_DATA["Category Market Intelligence JSON"]
+        SCHEMAS["Pydantic Contract Validation"]
     end
 
-    subgraph External Services & Storage
-        GEMINI[Google Gemini 1.5 Flash API]
-        BREVO[Brevo Email API v3]
-        PDFBOX[Apache PDFBox Engine]
-        DB[(H2 / MySQL Database)]
+    subgraph External_Providers ["🌐 External Providers & Engine"]
+        GEMINI["Google Gemini 1.5 Flash API"]
+        BREVO["Brevo Transactional Email API v3"]
+        PDFBOX["Apache PDFBox PDF Renderer"]
+        DB[("H2 / MySQL Database")]
     end
 
     UI --> API_CLIENT
-    API_CLIENT -->|HTTP + JWT| JWT
+    API_CLIENT -->|HTTP REST + Bearer JWT| JWT
     JWT --> RBAC
     RBAC --> CTRL
     CTRL --> SERV
+    SERV --> CALC
     SERV --> REPO
     REPO --> DB
-    SERV -->|HTTP RestClient| PY_BRIDGE
-    PY_BRIDGE -->|POST /api/ai/*| FASTAPI
-    FASTAPI --> AI_ENGINE
-    AI_ENGINE --> MKT_INTEL
-    AI_ENGINE --> GEMINI
-    SERV --> GEMINI
-    SERV --> BREVO
-    SERV --> PDFBOX
+    SERV --> PY_CLIENT
+    PY_CLIENT -->|POST /api/ai/*| FASTAPI
+    FASTAPI --> SCHEMAS
+    SCHEMAS --> AI_ENGINE
+    AI_ENGINE --> MKT_DATA
+    AI_ENGINE -->|Prompt JSON| GEMINI
+    SERV -->|Direct LLM Fallback| GEMINI
+    SERV -->|Outbound Dispatch| BREVO
+    SERV -->|Generate A4 PDF| PDFBOX
+
+    style Client_Layer fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style Backend_Core fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#fff
+    style AI_Microservice fill:#022c22,stroke:#34d399,stroke-width:2px,color:#fff
+    style External_Providers fill:#31103f,stroke:#c084fc,stroke-width:2px,color:#fff
 ```
 
 ---
@@ -364,12 +375,56 @@ com.procureai
 
 ---
 
-## 11. AI Architecture & Agent Framework
+## 11. AI Architecture & Multi-Agent Framework
 
 ProcureAI uses Google Gemini 1.5 Flash for unstructured text parsing, strategic reasoning, and natural language evaluation.
 
+```mermaid
+flowchart LR
+    subgraph Multi_Agent_Prompts ["🤖 Multi-Agent Prompt Orchestration"]
+        RFP["RFP Compliance Agent"]
+        LEGAL["Legal Compliance Agent"]
+        EVAL["Vendor Evaluation Agent (1-10 Scorecard)"]
+        MKT["Market Intelligence Agent"]
+        STRAT["Negotiation Strategy Agent (Defensive/Balanced/Aggressive)"]
+        REPORT["Executive Report Generator Agent"]
+    end
+
+    subgraph Data_Inputs ["📄 Context Inputs"]
+        DOC["Vendor Quote PDF / Text"]
+        BENCH["Market Benchmark Database"]
+        DATASET["Category Market Intel JSON"]
+    end
+
+    subgraph AI_Inference ["⚡ Gemini AI Reasoning"]
+        PROMPT_ENGINE["ai_engine.py Prompt Formatter"]
+        GEMINI_LLM["Google Gemini 1.5 Flash LLM"]
+        PYDANTIC["Pydantic Output Validator"]
+    end
+
+    subgraph Guardrails ["🛡️ Business Logic & Safety"]
+        MATH["Spring Boot Total Math Validator"]
+        FLOOR["Budget Ceiling & Price Floor Guard"]
+        APPROVAL["Human Approval Gate"]
+    end
+
+    DOC --> PROMPT_ENGINE
+    BENCH --> PROMPT_ENGINE
+    DATASET --> MKT
+    MKT --> PROMPT_ENGINE
+    RFP & LEGAL & EVAL & STRAT & REPORT --> PROMPT_ENGINE
+    PROMPT_ENGINE --> GEMINI_LLM
+    GEMINI_LLM --> PYDANTIC
+    PYDANTIC --> MATH
+    MATH --> FLOOR
+    FLOOR --> APPROVAL
+
+    style Multi_Agent_Prompts fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#fff
+    style AI_Inference fill:#022c22,stroke:#34d399,stroke-width:2px,color:#fff
+    style Guardrails fill:#31103f,stroke:#c084fc,stroke-width:2px,color:#fff
+```
+
 ### Multi-Agent Prompts & Intelligence Models
-Adapted from agent prompt Jinja templates and document intelligence summarizers:
 1. **RFP Compliance Agent**: Evaluates vendor proposal compliance against core requirements (scoring 1-10).
 2. **Legal Compliance Agent**: Checks alignment with legal/regulatory framework and policy documents.
 3. **Vendor Evaluation Agent**: Scores reputation, warranty, delivery, and price across 4 dimensions.
