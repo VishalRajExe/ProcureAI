@@ -24,14 +24,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 /**
- * Production-hardened Spring Security configuration.
+ * Production Spring Security configuration with JWT authentication and RBAC.
  */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    @Value("${app.cors.allowed-origins}")
+    @Value("${app.cors.allowed-origins:*}")
     private String allowedOrigins;
 
     private final JwtAuthFilter jwtAuthFilter;
@@ -60,7 +60,6 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
             )
             .authorizeHttpRequests(auth -> auth
-                // Auth, H2-console, Actuator, and PO PDF downloads are permitted for seamless browser viewing
                 .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/actuator/health").permitAll()
@@ -81,13 +80,14 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        List<String> origins = List.of(allowedOrigins.split(","));
-        config.setAllowedOrigins(origins);
+        if (allowedOrigins == null || allowedOrigins.isBlank() || allowedOrigins.equals("*")) {
+            config.addAllowedOriginPattern("*");
+        } else {
+            List<String> origins = List.of(allowedOrigins.split(","));
+            config.setAllowedOrigins(origins);
+        }
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of(
-            "Authorization", "Content-Type", "Accept",
-            "X-Requested-With", "Cache-Control"
-        ));
+        config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("Authorization"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
