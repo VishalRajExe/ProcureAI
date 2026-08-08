@@ -12,6 +12,8 @@ po-output/
 # Environment & Credentials
 .env
 .env.local
+run-local.bat
+run-local.ps1
 *.pem
 *.key
 
