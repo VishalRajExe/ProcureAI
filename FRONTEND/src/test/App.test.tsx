@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import App from '../App';
 
 // Mock API calls
@@ -40,6 +40,12 @@ vi.mock('../api/client', () => ({
 }));
 
 describe('ProcureAI Application Core Flow & Accessibility', () => {
+  beforeEach(() => {
+    localStorage.setItem('procureai_token', 'mock_jwt_token');
+    localStorage.setItem('procureai_user', JSON.stringify({
+      id: 1, email: 'admin@procureai.demo', name: 'Admin Officer', role: 'ADMIN'
+    }));
+  });
   it('renders application navigation header and brand title', () => {
     render(<App />);
     expect(screen.getByText(/Procurement Command Center/i)).toBeInTheDocument();

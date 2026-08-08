@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, FileText, Scale, Handshake, ShieldCheck,
@@ -20,6 +21,18 @@ const navItems = [
 
 export function Layout() {
   const navigate = useNavigate();
+
+  const token = localStorage.getItem('procureai_token');
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
+
+  if (!token) {
+    return null;
+  }
 
   let user: { name: string; email?: string; role: string } | null = null;
   try {

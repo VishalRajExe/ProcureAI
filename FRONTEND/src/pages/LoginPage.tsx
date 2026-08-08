@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
-import { Cpu, Eye, EyeOff, AlertCircle, ShieldCheck, UserCheck, Lock, Zap } from 'lucide-react';
+import { Cpu, Eye, EyeOff, AlertCircle, ShieldCheck, UserCheck, Lock } from 'lucide-react';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -19,23 +19,6 @@ export function LoginPage() {
     }
   }, [navigate]);
 
-  const handleGuestBypass = async () => {
-    setLoading(true);
-    try {
-      await api.login('admin@procureai.demo', 'Admin@12345');
-      navigate('/');
-    } catch (e) {
-      console.warn('Real backend login issue — setting demo user context');
-      localStorage.setItem('procureai_token', 'demo_fallback_token');
-      localStorage.setItem('procureai_user', JSON.stringify({
-        id: 1, email: 'admin@procureai.demo', name: 'Admin Officer', role: 'ADMIN'
-      }));
-      navigate('/');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -48,8 +31,12 @@ export function LoginPage() {
       }
       navigate('/');
     } catch (err: any) {
-      // Fallback to guest session if backend login endpoint is cold-starting
-      handleGuestBypass();
+      setError(
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.message ||
+        'Authentication failed. Please check your credentials.'
+      );
     } finally {
       setLoading(false);
     }
@@ -80,13 +67,6 @@ export function LoginPage() {
 
         {/* Auth Card Container */}
         <div className="bg-[#12151C] border border-[#1E2330] rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6 backdrop-blur-xl">
-          <button
-            type="button"
-            onClick={handleGuestBypass}
-            className="w-full py-3 px-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-500/20 hover:opacity-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wider"
-          >
-            <Zap className="w-4 h-4 fill-white" /> Instant Guest Access (Evaluation Mode)
-          </button>
 
           {/* Mode Tab Switcher */}
           <div className="flex rounded-xl bg-[#0B0D12] p-1 border border-[#1E2330]">

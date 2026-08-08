@@ -18,13 +18,10 @@ class ApiClient {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    // Attach JWT token from localStorage automatically (auto-authenticates if token missing)
+    // Attach JWT token from localStorage automatically
     this.http.interceptors.request.use(async (config) => {
       if (!config.url?.includes('/api/auth/')) {
-        let token = localStorage.getItem('procureai_token');
-        if (!token || token === 'undefined' || token === 'null') {
-          token = await this.ensureAuthenticated();
-        }
+        const token = localStorage.getItem('procureai_token');
         if (token && token !== 'undefined' && token !== 'null') {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -83,13 +80,7 @@ class ApiClient {
     if (token && token !== 'undefined' && token !== 'null') {
       return token;
     }
-    try {
-      const authData = await this.login('admin@procureai.demo', 'Admin@12345');
-      return authData?.token ?? null;
-    } catch (e) {
-      console.warn('Auto-login failed — waiting for manual authentication');
-      return null;
-    }
+    return null;
   }
 
   async getCurrentUser(): Promise<User> {

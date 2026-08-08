@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastProvider } from './components/Toast';
 import { Layout } from './components/layout/Layout';
@@ -14,16 +13,8 @@ import { WorkflowDetail } from './pages/WorkflowDetail';
 import { DemoPage } from './pages/DemoPage';
 import { LoginPage } from './pages/LoginPage';
 import { MarketPage } from './pages/MarketPage';
-import { api } from './api/client';
 
 function App() {
-  useEffect(() => {
-    // Silently acquire a real valid backend JWT token for evaluators & guest visitors if unauthenticated
-    if (!localStorage.getItem('procureai_token')) {
-      api.ensureAuthenticated();
-    }
-  }, []);
-
   return (
     <ToastProvider>
       <BrowserRouter>
