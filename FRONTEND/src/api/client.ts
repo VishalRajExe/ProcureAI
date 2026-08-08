@@ -122,11 +122,14 @@ class ApiClient {
     return data;
   }
 
-  async submitQuoteText(workflowId: number, vendorName: string, rawText: string): Promise<Quote> {
+  async submitQuoteText(workflowId: number, vendorName: string, rawText: string, vendorEmail?: string): Promise<Quote> {
     const { data } = await this.http.post<Quote>('/api/quotes', {
       workflowId,
       vendorName,
-      rawText,
+      vendorEmail,
+      rawDocumentText: rawText,
+      rawText: rawText,
+      sourceFileName: 'Direct Input',
     });
     return data;
   }

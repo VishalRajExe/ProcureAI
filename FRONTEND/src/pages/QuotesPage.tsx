@@ -66,7 +66,7 @@ export function QuotesPage() {
         await api.uploadQuote(wfId, vendorName, file);
         showToast('Quote Ingested', `PDF for ${vendorName} processed via Gemini AI`);
       } else {
-        await api.submitQuoteText(wfId, vendorName, rawText);
+        await api.submitQuoteText(wfId, vendorName, rawText, vendorEmail);
         showToast('Quote Ingested', `Quote text for ${vendorName} parsed via Gemini AI`);
       }
 

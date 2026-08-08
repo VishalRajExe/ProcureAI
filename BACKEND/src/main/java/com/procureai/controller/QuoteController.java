@@ -71,8 +71,12 @@ public class QuoteController {
             @Valid @RequestBody QuoteDtos.QuoteUploadRequest req) {
 
         WorkflowExecution wf = resolveOrCreateWorkflow(workflowId);
+        String docText = req.getEffectiveRawText();
+        if (docText == null || docText.isBlank()) {
+            throw new IllegalArgumentException("Quote document text is required");
+        }
         Quote quote = quoteService.ingestQuote(wf,
-                req.vendorName(), req.vendorEmail(), req.rawDocumentText(),
+                req.vendorName(), req.vendorEmail(), docText,
                 sanitizeFilename(req.sourceFileName()), Quote.SourceType.JSON, CurrentUser.id());
         return ResponseEntity.status(HttpStatus.CREATED).body(quote);
     }

@@ -6,41 +6,36 @@ import java.math.BigDecimal;
 
 /**
  * Request DTOs for the financial quote submission endpoint.
- *
- * All fields carry server-side Bean Validation.
- * The backend NEVER trusts any total/computed value sent from the client —
- * the backend recalculates all totals from line items.
  */
 public class QuoteDtos {
 
     /**
-     * JSON-based quote submission — for the demo and for API clients that already
-     * have structured text. PDF uploads go through the multipart endpoint.
+     * JSON-based quote submission.
      */
     public record QuoteUploadRequest(
             @NotBlank(message = "Vendor name is required")
             @Size(min = 1, max = 200, message = "Vendor name must be between 1 and 200 characters")
-            @Pattern(regexp = "^[\\p{L}\\p{N} .,'&\\-/()]+$",
-                     message = "Vendor name contains invalid characters")
             String vendorName,
 
             @Email(message = "Vendor email must be a valid email address")
             @Size(max = 254, message = "Vendor email must not exceed 254 characters")
             String vendorEmail,
 
-            @NotBlank(message = "Quote document text is required")
-            @Size(min = 10, max = 50_000, message = "Quote document text must be between 10 and 50,000 characters")
             String rawDocumentText,
 
-            @Size(max = 255, message = "Source file name must not exceed 255 characters")
-            @Pattern(regexp = "^[\\p{L}\\p{N} ._()+\\-]*$",
-                     message = "Source file name contains invalid characters")
-            String sourceFileName
-    ) {}
+            String rawText,
 
-    /**
-     * Workflow creation request — replaces the insecure raw Map<String,String> body.
-     */
+            @Size(max = 255, message = "Source file name must not exceed 255 characters")
+            String sourceFileName
+    ) {
+        public String getEffectiveRawText() {
+            if (rawDocumentText != null && !rawDocumentText.isBlank()) {
+                return rawDocumentText;
+            }
+            return rawText != null ? rawText : "";
+        }
+    }
+
     public record CreateWorkflowRequest(
             @NotBlank(message = "Workflow title is required")
             @Size(min = 3, max = 200, message = "Title must be between 3 and 200 characters")
@@ -50,10 +45,6 @@ public class QuoteDtos {
             String description
     ) {}
 
-    /**
-     * Negotiation approval — the 'approve' field must be explicitly provided.
-     * A null body defaults to REJECTION (fail-safe), not approval.
-     */
     public record NegotiationApprovalRequest(
             @NotNull(message = "approve is required — must be true or false")
             Boolean approve,
@@ -65,11 +56,6 @@ public class QuoteDtos {
             String notes
     ) {}
 
-    /**
-     * Vendor counter-price submission.
-     * counterPrice must be a positive, reasonable value.
-     * Maximum 100 crore (10^9) prevents overflow/manipulation.
-     */
     public record VendorResponseRequest(
             @NotNull(message = "counterPrice is required")
             @DecimalMin(value = "0.01", message = "Counter price must be greater than zero")
@@ -78,9 +64,6 @@ public class QuoteDtos {
             BigDecimal counterPrice
     ) {}
 
-    /**
-     * Scoring weights for vendor comparison. All weights must be in [0.0, 1.0].
-     */
     public record ScoringWeightsRequest(
             @DecimalMin("0.0") @DecimalMax("1.0") Double price,
             @DecimalMin("0.0") @DecimalMax("1.0") Double warranty,
