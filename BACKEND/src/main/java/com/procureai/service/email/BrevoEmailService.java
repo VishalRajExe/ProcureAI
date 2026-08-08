@@ -12,9 +12,13 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import jakarta.mail.internet.MimeMessage;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Real email integration using Brevo Transactional Email REST API v3.
@@ -112,6 +116,9 @@ public class BrevoEmailService implements EmailService {
     }
 
     private EmailMessage dispatchBrevoEmail(EmailMessage msg) {
+        if (apiKey != null && apiKey.trim().startsWith("xsmtpsib-")) {
+            return dispatchSmtpEmail(msg);
+        }
         try {
             Map<String, Object> payload = Map.of(
                     "sender", Map.of("name", senderName, "email", senderEmail),
@@ -163,6 +170,58 @@ public class BrevoEmailService implements EmailService {
             msg = emailMessageRepository.save(msg);
 
             auditService.logFailure(null, null, "BREVO_EMAIL_FALLBACK", "EmailMessage", msg.getId(),
+                    "to=" + msg.getToAddress() + " error=" + error);
+            return msg;
+        }
+    }
+
+    private EmailMessage dispatchSmtpEmail(EmailMessage msg) {
+        try {
+            log.info("Sending email via Brevo SMTP Relay (xsmtpsib detected) to: {}", msg.getToAddress());
+
+            JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+            mailSender.setHost("smtp-relay.brevo.com");
+            mailSender.setPort(587);
+            mailSender.setUsername(senderEmail.trim());
+            mailSender.setPassword(apiKey.trim());
+
+            Properties props = mailSender.getJavaMailProperties();
+            props.put("mail.transport.protocol", "smtp");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.starttls.required", "true");
+            props.put("mail.smtp.connectiontimeout", "5000");
+            props.put("mail.smtp.timeout", "5000");
+            props.put("mail.smtp.writetimeout", "5000");
+
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setFrom(senderEmail.trim(), senderName);
+            helper.setTo(msg.getToAddress().trim());
+            helper.setSubject(msg.getSubject());
+            helper.setText(formatHtmlContent(msg.getBody()), true);
+
+            mailSender.send(mimeMessage);
+
+            msg.setStatus(EmailMessage.Status.SENT);
+            msg.setErrorMessage(null);
+            msg = emailMessageRepository.save(msg);
+
+            auditService.log(null, null, "BREVO_SMTP_SENT", "EmailMessage", msg.getId(),
+                    "to=" + msg.getToAddress() + " subject=" + msg.getSubject());
+            log.info("Email successfully sent via Brevo SMTP to {}", msg.getToAddress());
+            return msg;
+
+        } catch (Exception ex) {
+            String error = "Brevo SMTP Error: " + (ex.getMessage() != null ? ex.getMessage() : ex.getClass().getSimpleName());
+            log.error("Failed to send email via Brevo SMTP to {}: {}. Falling back to MockEmailService.", msg.getToAddress(), error);
+
+            mockEmailFallback.sendEmailDetails(msg.getToAddress(), msg.getSubject(), msg.getBody(), msg.getNegotiationId(), msg.getPurchaseOrderId());
+            msg.setStatus(EmailMessage.Status.SENT);
+            msg.setErrorMessage(error + " - fell back to MockEmail");
+            msg = emailMessageRepository.save(msg);
+
+            auditService.logFailure(null, null, "BREVO_SMTP_FALLBACK", "EmailMessage", msg.getId(),
                     "to=" + msg.getToAddress() + " error=" + error);
             return msg;
         }
