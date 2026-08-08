@@ -1,5 +1,18 @@
 services:
   - type: web
+    name: procureai-ai
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: ./AI-SERVICE
+    plan: free
+    region: singapore
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-1.5-flash-latest
+
+  - type: web
     name: procureai-backend
     env: docker
     dockerfilePath: ./Dockerfile
@@ -29,3 +42,7 @@ services:
         generateValue: true
       - key: CORS_ORIGINS
         value: https://procureai-89869.web.app,https://procureai-89869.firebaseapp.com,http://localhost:5173
+      - key: PYTHON_AI_ENABLED
+        value: "true"
+      - key: PYTHON_AI_URL
+        sync: false
