@@ -44,7 +44,7 @@ export function PurchaseOrdersPage() {
     setActionLoading(poId);
     try {
       await api.sendPoEmail(poId);
-      showToast('PO Issued', 'Purchase Order PDF dispatched to vendor via Brevo API', 'success');
+      showToast('PO Issued', 'Purchase Order PDF dispatched to vendor via Email', 'success');
       await loadData();
     } catch (err: any) {
       showToast('Dispatch Failed', err?.response?.data?.message ?? 'Failed to send PO email', 'error');
@@ -62,7 +62,7 @@ export function PurchaseOrdersPage() {
             <ShoppingBag className="w-3.5 h-3.5" /> Dynamic Order Generation & Dispatch
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Purchase Orders</h1>
-          <p className="text-sm text-[#8F8FA2]">Server-generated PDF purchase orders and Brevo automated dispatch</p>
+          <p className="text-sm text-[#8F8FA2]">Server-generated PDF purchase orders and automated email dispatch</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -167,7 +167,7 @@ export function PurchaseOrdersPage() {
                           className="px-3 py-1.5 bg-[#3E52FF] text-white rounded-xl text-xs font-medium hover:opacity-90 transition-all inline-flex items-center gap-1.5 shadow-md shadow-blue-500/20"
                         >
                           {actionLoading === po.id ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
-                          Send PO via Brevo
+                          Send PO via Email
                         </button>
                       </div>
                     </td>

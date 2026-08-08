@@ -64,10 +64,10 @@ export function QuotesPage() {
 
       if (file) {
         await api.uploadQuote(wfId, vendorName, file);
-        showToast('Quote Ingested', `PDF for ${vendorName} processed via Gemini AI`);
+        showToast('Quote Ingested', `PDF for ${vendorName} processed via AI Engine`);
       } else {
         await api.submitQuoteText(wfId, vendorName, rawText, vendorEmail);
-        showToast('Quote Ingested', `Quote text for ${vendorName} parsed via Gemini AI`);
+        showToast('Quote Ingested', `Quote text for ${vendorName} parsed via AI Engine`);
       }
 
       setVendorName('');
@@ -96,7 +96,7 @@ export function QuotesPage() {
             <Cpu className="w-3.5 h-3.5" /> AI Quote Ingestion Gateway
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Quotes & Ingestion</h1>
-          <p className="text-sm text-[#8F8FA2]">Ingest vendor quotations (PDF/Text) with real-time Gemini AI parsing</p>
+          <p className="text-sm text-[#8F8FA2]">Ingest vendor quotations (PDF/Text) with real-time AI parsing</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -119,7 +119,7 @@ export function QuotesPage() {
               <FileUp className="w-4 h-4 text-[#3E52FF]" /> Ingest New Quote
             </h2>
             <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-              Gemini Active
+              AI Engine Active
             </span>
           </div>
 
@@ -156,7 +156,7 @@ export function QuotesPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#8F8FA2] mb-1.5">Vendor Email (for Brevo sending)</label>
+              <label className="block text-xs font-medium text-[#8F8FA2] mb-1.5">Vendor Email (for automated negotiation)</label>
               <input
                 type="email"
                 value={vendorEmail}
@@ -203,7 +203,7 @@ export function QuotesPage() {
             >
               {uploading ? (
                 <>
-                  <RefreshCw className="w-4 h-4 animate-spin" /> Ingesting with Gemini AI...
+                  <RefreshCw className="w-4 h-4 animate-spin" /> Ingesting with AI Engine...
                 </>
               ) : (
                 <>

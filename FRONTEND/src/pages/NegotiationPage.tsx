@@ -45,7 +45,7 @@ export function NegotiationPage() {
     setActionLoading(true);
     try {
       const draft = await api.draftNegotiation(quoteId);
-      showToast('Negotiation Drafted', 'Gemini AI strategy & email drafted', 'success');
+      showToast('Negotiation Drafted', 'AI strategy & email drafted', 'success');
       await loadData();
       setSelectedNeg(draft);
       setEditedEmail(draft.draftEmailBody ?? '');
@@ -61,7 +61,7 @@ export function NegotiationPage() {
     setActionLoading(true);
     try {
       const updated = await api.approveNegotiation(selectedNeg.id, true, editedEmail, 'Approved by Human Procurement Officer');
-      showToast('Approved & Sent', `Negotiation email sent to vendor via Brevo API!`, 'success');
+      showToast('Approved & Sent', `Negotiation email sent to vendor!`, 'success');
       setSelectedNeg(updated);
       await loadData();
     } catch (err: any) {
@@ -94,7 +94,7 @@ export function NegotiationPage() {
     setActionLoading(true);
     try {
       const updated = await api.simulateVendorResponse(selectedNeg.id, Number(counterPrice));
-      showToast('Vendor Counter Received', `Gemini AI evaluated counter price of ₹${Number(counterPrice).toLocaleString('en-IN')}`);
+      showToast('Vendor Counter Received', `AI evaluated counter price of ₹${Number(counterPrice).toLocaleString('en-IN')}`);
       setSelectedNeg(updated);
       setCounterPrice('');
       await loadData();
@@ -114,7 +114,7 @@ export function NegotiationPage() {
             <Cpu className="w-3.5 h-3.5" /> Autonomous Negotiation Engine
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">AI Negotiation Center</h1>
-          <p className="text-sm text-[#8F8FA2]">Human-in-the-loop AI negotiation drafting, Brevo email dispatch, and counter-offer evaluation</p>
+          <p className="text-sm text-[#8F8FA2]">Human-in-the-loop AI negotiation drafting, email dispatch, and counter-offer evaluation</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -162,7 +162,7 @@ export function NegotiationPage() {
           <div className="lg:col-span-1 bg-[#12151C] border border-[#1E2330] rounded-2xl p-5 space-y-4">
             <h2 className="font-semibold text-white text-sm flex items-center justify-between border-b border-[#1E2330] pb-3">
               <span>Negotiations ({negotiations.length})</span>
-              <span className="text-xs font-mono text-[#3E52FF]">Brevo & Gemini Live</span>
+              <span className="text-xs font-mono text-[#3E52FF]">AI & Email Service Active</span>
             </h2>
 
             <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
@@ -234,7 +234,7 @@ export function NegotiationPage() {
                     <div className="text-lg font-bold font-mono text-white">₹{Number(selectedNeg.currentPrice).toLocaleString('en-IN')}</div>
                   </div>
                   <div className="bg-[#0B0D12] p-3 rounded-xl border border-[#1E2330]">
-                    <div className="text-xs text-[#8F8FA2] mb-1">Gemini Target</div>
+                    <div className="text-xs text-[#8F8FA2] mb-1">AI Target</div>
                     <div className="text-lg font-bold font-mono text-emerald-400">₹{Number(selectedNeg.targetPrice).toLocaleString('en-IN')}</div>
                   </div>
                   <div className="bg-[#0B0D12] p-3 rounded-xl border border-[#1E2330]">
@@ -245,7 +245,7 @@ export function NegotiationPage() {
 
                 <div className="bg-[#0B0D12]/80 border border-[#3E52FF]/20 rounded-xl p-4 space-y-2">
                   <div className="flex items-center gap-2 text-xs font-mono text-[#3E52FF] font-semibold">
-                    <Cpu className="w-3.5 h-3.5" /> Gemini AI Reasoning Strategy
+                    <Cpu className="w-3.5 h-3.5" /> AI Reasoning Strategy
                   </div>
                   <p className="text-xs text-[#E0E3E5] leading-relaxed font-mono">
                     {selectedNeg.aiStrategy ?? selectedNeg.aiReason}
@@ -259,7 +259,7 @@ export function NegotiationPage() {
                   <h3 className="font-semibold text-white text-sm flex items-center gap-2">
                     <Mail className="w-4 h-4 text-[#3E52FF]" /> Negotiation Email Draft (Human Approval Required)
                   </h3>
-                  <span className="text-xs text-[#8F8FA2] font-mono">Brevo Delivery Ready</span>
+                  <span className="text-xs text-[#8F8FA2] font-mono">Email Delivery Ready</span>
                 </div>
 
                 <div className="text-xs font-mono text-[#E0E3E5] bg-[#0B0D12] p-3 rounded-xl border border-[#1E2330]">
@@ -291,7 +291,7 @@ export function NegotiationPage() {
                       className="px-5 py-2.5 bg-gradient-to-r from-[#3E52FF] to-indigo-600 text-white rounded-xl text-sm font-semibold shadow-lg shadow-blue-500/20 hover:opacity-95 transition-all flex items-center gap-2"
                     >
                       {actionLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                      Approve & Send Email via Brevo
+                      Approve & Send Email
                     </button>
                   </div>
                 ) : (
@@ -303,7 +303,7 @@ export function NegotiationPage() {
                       </Link>
                     ) : (
                       <span className="text-emerald-400 flex items-center gap-1 font-mono">
-                        <CheckCircle2 className="w-3.5 h-3.5" /> Email Dispatched via Brevo API
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Email Dispatched
                       </span>
                     )}
                   </div>

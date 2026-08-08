@@ -162,7 +162,7 @@ export function Dashboard() {
         <KpiCard
           label="Issued Purchase Orders"
           value={data?.completedWorkflows ?? data?.purchaseOrdersGenerated ?? 0}
-          sub="Dispatched via Brevo API"
+          sub="Dispatched via Email"
           icon={ShoppingBag}
           accent="bg-cyan-500/15 text-cyan-400"
         />
@@ -196,11 +196,11 @@ export function Dashboard() {
           </div>
         </div>
 
-        {/* Gemini AI Live Activity Panel */}
+        {/* AI Live Activity Panel */}
         <div className="bg-[#12151C] border border-[#1E2330] rounded-2xl p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-[#1E2330] pb-3">
             <h2 className="font-semibold text-white text-sm flex items-center gap-2">
-              <Cpu className="w-4 h-4 text-[#3E52FF]" /> Gemini AI Live Insights
+              <Cpu className="w-4 h-4 text-[#3E52FF]" /> AI Live Insights
             </h2>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           </div>
@@ -211,7 +211,7 @@ export function Dashboard() {
                 <span>QUOTE EXTRACTION</span>
                 <span>LIVE REACTIVE</span>
               </div>
-              <p className="text-[#E0E3E5]">Extracted and normalized vendor quotes with Gemini AI confidence scoring.</p>
+              <p className="text-[#E0E3E5]">Extracted and normalized vendor quotes with AI confidence scoring.</p>
             </div>
 
             <div className="p-3 bg-[#0B0D12] rounded-xl border border-[#1E2330] space-y-1">
@@ -224,10 +224,10 @@ export function Dashboard() {
 
             <div className="p-3 bg-[#0B0D12] rounded-xl border border-[#1E2330] space-y-1">
               <div className="flex items-center justify-between font-mono text-[10px] text-emerald-400">
-                <span>BREVO DISPATCH</span>
+                <span>EMAIL DISPATCH</span>
                 <span>LIVE REACTIVE</span>
               </div>
-              <p className="text-[#E0E3E5]">Approved negotiation emails & PO PDFs dispatched via Brevo REST API.</p>
+              <p className="text-[#E0E3E5]">Approved negotiation emails & PO PDFs dispatched via Email Service.</p>
             </div>
           </div>
         </div>

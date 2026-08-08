@@ -20,7 +20,7 @@ export function ComparisonPage() {
     setDraftingId(quoteId);
     try {
       await api.draftNegotiation(quoteId);
-      showToast('Negotiation Drafted', 'Gemini AI strategy & email drafted', 'success');
+      showToast('Negotiation Drafted', 'AI strategy & email drafted', 'success');
       navigate('/negotiation');
     } catch (err: any) {
       showToast('Error', err?.response?.data?.message ?? 'Failed to draft negotiation', 'error');
@@ -73,7 +73,7 @@ export function ComparisonPage() {
             <Cpu className="w-3.5 h-3.5" /> AI Decision Intelligence Engine
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Vendor Quote Comparison</h1>
-          <p className="text-sm text-[#8F8FA2]">Multi-criteria scoring matrix, benchmark analysis, and Gemini AI vendor recommendations</p>
+          <p className="text-sm text-[#8F8FA2]">Multi-criteria scoring matrix, benchmark analysis, and AI vendor recommendations</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -104,7 +104,7 @@ export function ComparisonPage() {
       {comparing ? (
         <div className="bg-[#12151C] border border-[#1E2330] rounded-2xl p-12 text-center text-[#8F8FA2]">
           <RefreshCw className="w-8 h-8 text-[#3E52FF] mx-auto mb-3 animate-spin" />
-          <p className="text-sm font-medium text-white">Running Gemini AI Multi-criteria Scoring & Benchmark Analysis...</p>
+          <p className="text-sm font-medium text-white">Running AI Multi-criteria Scoring & Benchmark Analysis...</p>
         </div>
       ) : !comparison || comparison.rankedQuotes.length === 0 ? (
         <div className="bg-[#12151C] border border-dashed border-[#1E2330] rounded-2xl p-12 text-center">
@@ -120,7 +120,7 @@ export function ComparisonPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Gemini AI Recommendation Banner */}
+          {/* AI Recommendation Banner */}
           {topQuote && (
             <div className="bg-gradient-to-r from-[#12151C] via-[#161B28] to-[#12151C] border border-[#3E52FF]/40 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#3E52FF]/10 rounded-full blur-3xl -z-0 pointer-events-none" />
@@ -128,7 +128,7 @@ export function ComparisonPage() {
               <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div className="space-y-2 max-w-3xl">
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#3E52FF]/20 text-[#BDC2FF] border border-[#3E52FF]/30 rounded-full text-xs font-semibold uppercase tracking-wider">
-                    <Award className="w-3.5 h-3.5 text-[#3E52FF]" /> Gemini AI Selected Top Vendor
+                    <Award className="w-3.5 h-3.5 text-[#3E52FF]" /> AI Selected Top Vendor
                   </div>
                   <h2 className="text-xl font-bold text-white tracking-tight">
                     {topQuote.vendor.name} — Recommended Choice

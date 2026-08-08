@@ -33,7 +33,7 @@ export function ApprovalsPage() {
     setActionLoading(true);
     try {
       await api.approveNegotiation(negId, true, body, 'Approved via Human Approvals Queue');
-      showToast('Approved', 'Negotiation approved and email dispatched via Brevo API', 'success');
+      showToast('Approved', 'Negotiation approved and email dispatched', 'success');
       await loadData();
     } catch (err: any) {
       showToast('Error', err?.response?.data?.message ?? 'Failed to approve', 'error');
@@ -64,7 +64,7 @@ export function ApprovalsPage() {
             <ShieldCheck className="w-3.5 h-3.5" /> Human Governance Gateway
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Human Approval Queue</h1>
-          <p className="text-sm text-[#8F8FA2]">Review and approve AI-generated procurement actions and Brevo outbound emails</p>
+          <p className="text-sm text-[#8F8FA2]">Review and approve AI-generated procurement actions and outbound emails</p>
         </div>
 
         <button
@@ -125,7 +125,7 @@ export function ApprovalsPage() {
 
                     {neg.draftEmailBody && (
                       <div className="bg-[#12151C] p-3 rounded-lg border border-[#1E2330] text-xs font-mono text-[#E0E3E5]">
-                        <div className="text-[#8F8FA2] text-[10px] uppercase mb-1">Draft Email Preview (Brevo Delivery)</div>
+                        <div className="text-[#8F8FA2] text-[10px] uppercase mb-1">Draft Email Preview (Email Dispatch)</div>
                         <p className="line-clamp-3">{neg.draftEmailBody}</p>
                       </div>
                     )}

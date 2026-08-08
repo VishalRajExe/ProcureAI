@@ -41,7 +41,7 @@ export function VendorInboxPage() {
     setSubmitting(true);
     try {
       const updated = await api.simulateVendorResponse(selectedNeg.id, Number(counterPrice));
-      showToast('Vendor Counter Submitted', `Gemini AI evaluated counter price of ₹${Number(counterPrice).toLocaleString('en-IN')}`);
+      showToast('Vendor Counter Submitted', `AI evaluated counter price of ₹${Number(counterPrice).toLocaleString('en-IN')}`);
       setSelectedNeg(updated);
       setCounterPrice('');
       await loadData();
@@ -63,7 +63,7 @@ export function VendorInboxPage() {
             <Inbox className="w-3.5 h-3.5" /> Outbound Communication Simulator
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Vendor Inbox & Response Simulator</h1>
-          <p className="text-sm text-[#8F8FA2]">Simulate vendor responses to Brevo outbound negotiation emails</p>
+          <p className="text-sm text-[#8F8FA2]">Simulate vendor responses to outbound negotiation emails</p>
         </div>
 
         <button
@@ -87,7 +87,7 @@ export function VendorInboxPage() {
           <div className="lg:col-span-1 bg-[#12151C] border border-[#1E2330] rounded-2xl p-5 space-y-4">
             <h2 className="font-semibold text-white text-sm border-b border-[#1E2330] pb-3 flex items-center justify-between">
               <span>Dispatched Emails ({sentNegotiations.length})</span>
-              <span className="text-xs text-emerald-400 font-mono">Brevo Active</span>
+              <span className="text-xs text-emerald-400 font-mono">Email System Active</span>
             </h2>
 
             {sentNegotiations.length === 0 ? (
@@ -152,7 +152,7 @@ export function VendorInboxPage() {
                     <CornerDownRight className="w-4 h-4 text-[#3E52FF]" /> Simulate Vendor Counter-Offer Reply
                   </h3>
                   <p className="text-xs text-[#8F8FA2]">
-                    Submit a counter price to trigger real-time Gemini AI re-evaluation against maximum approved budget limits.
+                    Submit a counter price to trigger real-time AI re-evaluation against maximum approved budget limits.
                   </p>
 
                   <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
