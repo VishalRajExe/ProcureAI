@@ -7,6 +7,7 @@ dist/
 build/
 target/
 *.jar
+po-output/
 
 # Environment & Credentials
 .env
