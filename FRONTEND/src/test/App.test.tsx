@@ -35,7 +35,9 @@ vi.mock('../api/client', () => ({
         regulatoryChanges: ['BIS certification required'],
         competitorInsights: ['Dell Latitude vs Lenovo ThinkPad']
       }
-    })
+    }),
+    listEmailsForNegotiation: vi.fn().mockResolvedValue([]),
+    retryEmail: vi.fn().mockResolvedValue({ status: 'SENT' })
   }
 }));
 

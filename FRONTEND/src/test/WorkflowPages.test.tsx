@@ -47,7 +47,9 @@ vi.mock('../api/client', () => ({
       quotes: []
     }),
     getPdfUrl: vi.fn().mockImplementation((id) => `/api/purchase-orders/${id}/pdf`),
-    generatePO: vi.fn().mockResolvedValue({ id: 31, poNumber: 'PO-2026-1002' })
+    generatePO: vi.fn().mockResolvedValue({ id: 31, poNumber: 'PO-2026-1002' }),
+    listEmailsForNegotiation: vi.fn().mockResolvedValue([]),
+    retryEmail: vi.fn().mockResolvedValue({ status: 'SENT' })
   }
 }));
 

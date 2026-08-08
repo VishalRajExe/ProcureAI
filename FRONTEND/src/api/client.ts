@@ -277,6 +277,13 @@ class ApiClient {
     const { data } = await this.http.post<Record<string, unknown>>('/api/demo/seed');
     return data;
   }
+
+  // ── Emails ──────────────────────────────────────────────────────────────────
+
+  async listEmailsForNegotiation(negotiationId: number): Promise<any[]> {
+    const { data } = await this.http.get<any[]>(`/api/emails/negotiation/${negotiationId}`);
+    return data;
+  }
 }
 
 export const api = new ApiClient();

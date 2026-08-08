@@ -7,6 +7,7 @@ import { api } from '../api/client';
 import type { Negotiation, Quote } from '../types';
 import { useToast } from '../components/Toast';
 import { Link } from 'react-router-dom';
+import { clsx } from 'clsx';
 
 export function NegotiationPage() {
   const { showToast } = useToast();
@@ -17,6 +18,36 @@ export function NegotiationPage() {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [counterPrice, setCounterPrice] = useState<number | ''>('');
+  const [emails, setEmails] = useState<any[]>([]);
+  const [loadingEmails, setLoadingEmails] = useState(false);
+  const [resendingId, setResendingId] = useState<number | null>(null);
+
+  const fetchEmailsForNegotiation = async (negId: number) => {
+    setLoadingEmails(true);
+    try {
+      const list = await api.listEmailsForNegotiation(negId);
+      setEmails(list);
+    } catch (err) {
+      console.error('Failed to load emails', err);
+    } finally {
+      setLoadingEmails(false);
+    }
+  };
+
+  const handleResendEmail = async (emailId: number) => {
+    setResendingId(emailId);
+    try {
+      await api.retryEmail(emailId);
+      showToast('Email Resent', 'Outbound email successfully re-dispatched!', 'success');
+      if (selectedNeg) {
+        fetchEmailsForNegotiation(selectedNeg.id);
+      }
+    } catch (err: any) {
+      showToast('Resend Failed', err?.response?.data?.message ?? 'Failed to resend email', 'error');
+    } finally {
+      setResendingId(null);
+    }
+  };
 
   const loadData = async () => {
     setLoading(true);
@@ -31,6 +62,7 @@ export function NegotiationPage() {
         const latest = negs[negs.length - 1];
         setSelectedNeg(latest);
         setEditedEmail(latest.draftEmailBody ?? '');
+        fetchEmailsForNegotiation(latest.id);
       }
     } catch (err: any) {
       showToast('Error', 'Failed to load negotiation details', 'error');
@@ -49,6 +81,7 @@ export function NegotiationPage() {
       await loadData();
       setSelectedNeg(draft);
       setEditedEmail(draft.draftEmailBody ?? '');
+      fetchEmailsForNegotiation(draft.id);
     } catch (err: any) {
       showToast('Error', err?.response?.data?.message ?? 'Failed to draft negotiation', 'error');
     } finally {
@@ -64,6 +97,7 @@ export function NegotiationPage() {
       showToast('Approved & Sent', `Negotiation email sent to vendor!`, 'success');
       setSelectedNeg(updated);
       await loadData();
+      fetchEmailsForNegotiation(selectedNeg.id);
     } catch (err: any) {
       showToast('Action Failed', err?.response?.data?.message ?? 'Failed to approve negotiation', 'error');
     } finally {
@@ -79,6 +113,7 @@ export function NegotiationPage() {
       showToast('Negotiation Rejected', 'Negotiation cancelled', 'info');
       setSelectedNeg(updated);
       await loadData();
+      fetchEmailsForNegotiation(selectedNeg.id);
     } catch (err: any) {
       showToast('Error', err?.response?.data?.message ?? 'Failed to reject', 'error');
     } finally {
@@ -98,6 +133,7 @@ export function NegotiationPage() {
       setSelectedNeg(updated);
       setCounterPrice('');
       await loadData();
+      fetchEmailsForNegotiation(selectedNeg.id);
     } catch (err: any) {
       showToast('Error', err?.response?.data?.message ?? 'Failed to process vendor counter', 'error');
     } finally {
@@ -174,6 +210,7 @@ export function NegotiationPage() {
                     onClick={() => {
                       setSelectedNeg(neg);
                       setEditedEmail(neg.draftEmailBody ?? '');
+                      fetchEmailsForNegotiation(neg.id);
                     }}
                     className={`p-4 rounded-xl border cursor-pointer transition-all ${
                       isSelected
@@ -338,6 +375,75 @@ export function NegotiationPage() {
                   </div>
                 </div>
               )}
+
+              {/* Communication Dispatch Logs */}
+              <div className="bg-[#12151C] border border-[#1E2330] rounded-2xl p-6 space-y-4">
+                <div className="flex items-center justify-between border-b border-[#1E2330] pb-3">
+                  <h3 className="font-semibold text-white text-sm flex items-center gap-2">
+                    <Mail className="w-4 h-4 text-[#3E52FF]" /> Email Communication Logs
+                  </h3>
+                  <span className="text-xs text-[#8F8FA2] font-mono">Outbound Audit Feed</span>
+                </div>
+
+                {loadingEmails ? (
+                  <div className="text-center py-4 text-[#8F8FA2]">
+                    <RefreshCw className="w-5 h-5 mx-auto animate-spin mb-2" />
+                    <p className="text-xs">Loading logs...</p>
+                  </div>
+                ) : emails.length === 0 ? (
+                  <div className="text-center py-6 text-[#8F8FA2]">
+                    <Mail className="w-8 h-8 mx-auto opacity-30 mb-2" />
+                    <p className="text-xs">No email messages dispatched yet for this negotiation.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {emails.map((msg) => (
+                      <div key={msg.id} className="bg-[#0B0D12] border border-[#1E2330] rounded-xl p-4 space-y-2">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-[#8F8FA2] font-mono">To: <strong className="text-white">{msg.toAddress}</strong></span>
+                          <span className="text-[#8F8FA2] font-mono">{new Date(msg.createdAt).toLocaleString('en-IN')}</span>
+                        </div>
+                        <div className="text-sm font-semibold text-white">{msg.subject}</div>
+                        <div className="text-xs text-[#8F8FA2] font-mono bg-[#12151C]/60 p-2.5 rounded-lg whitespace-pre-wrap leading-relaxed line-clamp-3 overflow-hidden border border-[#1E2330]/50">
+                          {msg.body}
+                        </div>
+                        <div className="flex items-center justify-between pt-1">
+                          <div className="flex items-center gap-2">
+                            <span className={clsx(
+                              "text-[10px] font-mono px-2 py-0.5 rounded-full border uppercase",
+                              msg.status === 'SENT'
+                                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                                : msg.status === 'FAILED'
+                                ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                                : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                            )}>
+                              {msg.status}
+                            </span>
+                            {msg.errorMessage && (
+                              <span className="text-[10px] text-rose-400 font-mono max-w-[200px] truncate" title={msg.errorMessage}>
+                                {msg.errorMessage}
+                              </span>
+                            )}
+                          </div>
+
+                          <button
+                            onClick={() => handleResendEmail(msg.id)}
+                            disabled={resendingId !== null}
+                            className="px-2.5 py-1 bg-[#3E52FF]/10 hover:bg-[#3E52FF] text-[#BDC2FF] hover:text-white border border-[#3E52FF]/20 hover:border-transparent rounded-lg text-[10px] font-semibold transition-all flex items-center gap-1"
+                          >
+                            {resendingId === msg.id ? (
+                              <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                            ) : (
+                              <Send className="w-3 h-3" />
+                            )}
+                            Resend Email
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
