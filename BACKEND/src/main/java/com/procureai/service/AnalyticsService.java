@@ -82,8 +82,8 @@ public class AnalyticsService {
         // Dynamic category spend computation
         Map<String, BigDecimal> catSpendMap = new HashMap<>();
         for (PurchaseOrder po : pos) {
-            String pName = (po.getQuote() != null && po.getQuote().getItems() != null && !po.getQuote().getItems().isEmpty())
-                    ? po.getQuote().getItems().get(0).getProductName() : null;
+            String pName = (po.getSourceQuote() != null && po.getSourceQuote().getItems() != null && !po.getSourceQuote().getItems().isEmpty())
+                    ? po.getSourceQuote().getItems().get(0).getProductName() : null;
             String vCat = po.getVendor() != null ? po.getVendor().getCategory() : null;
             String cat = extractCategory(pName, vCat);
             catSpendMap.merge(cat, po.getTotalAmount() != null ? po.getTotalAmount() : BigDecimal.ZERO, BigDecimal::add);
