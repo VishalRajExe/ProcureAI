@@ -26,8 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Generates a real, dynamic Purchase Order (persisted entity + rendered PDF) from the
- * data of the final selected vendor's quote. Never produces a static/template PDF —
- * every field is pulled from the completed workflow.
+ * data of the final selected vendor's quote.
  */
 @Service
 public class PurchaseOrderService {
@@ -55,7 +54,6 @@ public class PurchaseOrderService {
     @Transactional
     public PurchaseOrder generate(Quote selectedQuote, WorkflowExecution workflow, Long userId, Long approvedNegotiationId) {
         if (approvedNegotiationId != null) {
-            // If a negotiation drove the final price, its approval is mandatory before PO generation.
             approvalService.assertApproved(Approval.ApprovalType.NEGOTIATION, approvedNegotiationId);
         }
 
@@ -100,7 +98,17 @@ public class PurchaseOrderService {
         return po;
     }
 
-    /** Issues and emails the Purchase Order to the vendor via EmailService (Brevo/Mock). */
+    @Transactional
+    public PurchaseOrder ensurePdfGenerated(PurchaseOrder po) {
+        try {
+            String path = renderPdf(po);
+            po.setPdfFilePath(path);
+            return purchaseOrderRepository.save(po);
+        } catch (IOException e) {
+            throw new BusinessRuleException("Failed to render Purchase Order PDF: " + e.getMessage());
+        }
+    }
+
     @Transactional
     public PurchaseOrder sendPoEmail(Long purchaseOrderId, Long userId) {
         PurchaseOrder po = get(purchaseOrderId);
@@ -220,8 +228,6 @@ public class PurchaseOrderService {
     }
 
     private String sanitize(String text) {
-        // WinAnsiEncoding used by the standard PDF fonts can't render the ₹ glyph or other
-        // non-Latin1 characters — keep the PDF renderer ASCII-safe (amounts use "Rs." above).
         return text.replace("₹", "Rs.").replaceAll("[^\\x00-\\xFF]", "?");
     }
 

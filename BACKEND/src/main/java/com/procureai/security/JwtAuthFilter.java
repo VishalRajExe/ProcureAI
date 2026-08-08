@@ -31,8 +31,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                      @NonNull HttpServletResponse response,
                                      @NonNull FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader("Authorization");
+        String token = null;
+
         if (header != null && header.startsWith("Bearer ")) {
-            String token = header.substring(7);
+            token = header.substring(7);
+        } else if (request.getParameter("token") != null) {
+            token = request.getParameter("token");
+        }
+
+        if (token != null && !token.isBlank()) {
             try {
                 Claims claims = jwtService.parse(token);
                 String email = claims.getSubject();
@@ -43,7 +50,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(new AuthenticatedUser(uid, email, role), null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (JwtException | IllegalArgumentException ex) {
-                // Invalid/expired token -> leave unauthenticated; downstream security rules will reject as needed.
                 SecurityContextHolder.clearContext();
             }
         }

@@ -23,12 +23,6 @@ import java.util.List;
 
 /**
  * Hardened Purchase Order REST controller.
- *
- * Security:
- * - PO generation requires ADMIN or APPROVER role
- * - PDF download validates file path stays within allowed output directory (no path traversal)
- * - PO total is always calculated server-side from the Quote entity — never from client input
- * - Negotiation approval is verified before PO generation when a negotiation ID is given
  */
 @RestController
 @RequestMapping("/api/purchase-orders")
@@ -38,7 +32,6 @@ public class PurchaseOrderController {
     private final QuoteService quoteService;
     private final WorkflowExecutionRepository workflowRepository;
 
-    /** The configured output directory — used for path traversal prevention */
     @org.springframework.beans.factory.annotation.Value("${app.po.output-dir:./po-output}")
     private String outputDir;
 
@@ -56,7 +49,6 @@ public class PurchaseOrderController {
             Long negotiationId
     ) {}
 
-    /** PO generation restricted to ADMIN and APPROVER roles. */
     @PostMapping({"/generate", "/workflows/{workflowId}/generate"})
     @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER')")
     public ResponseEntity<PurchaseOrder> generate(
@@ -78,7 +70,6 @@ public class PurchaseOrderController {
         Quote quote;
         if (quoteId != null) {
             quote = quoteService.getQuote(quoteId);
-            // Security: verify quote belongs to the requested workflow
             if (!quote.getWorkflow().getId().equals(targetWfId)) {
                 throw new BusinessRuleException(
                         "Quote does not belong to the specified workflow");
@@ -92,7 +83,6 @@ public class PurchaseOrderController {
         }
 
         Long negId = req != null ? req.negotiationId() : null;
-        // PO total is calculated server-side from quote — client never submits a total
         PurchaseOrder po = purchaseOrderService.generate(quote, wf, CurrentUser.id(), negId);
         return ResponseEntity.status(HttpStatus.CREATED).body(po);
     }
@@ -108,7 +98,6 @@ public class PurchaseOrderController {
         return ResponseEntity.ok(purchaseOrderService.get(id));
     }
 
-    /** Issues and dispatches the Purchase Order email to the vendor. Requires ADMIN or APPROVER role. */
     @PostMapping("/{id}/send-email")
     @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER')")
     public ResponseEntity<PurchaseOrder> sendPoEmail(@PathVariable Long id) {
@@ -116,30 +105,26 @@ public class PurchaseOrderController {
     }
 
     /**
-     * Serves the PO PDF file.
-     *
-     * Security: Path traversal prevention — validates the resolved file path
-     * is within the configured output directory before serving.
+     * Serves the PO PDF file with auto-regeneration if missing on disk.
      */
     @GetMapping("/{id}/pdf")
     public ResponseEntity<FileSystemResource> pdf(@PathVariable Long id) {
         PurchaseOrder po = purchaseOrderService.get(id);
 
-        if (po.getPdfFilePath() == null || po.getPdfFilePath().isBlank()) {
-            throw new BusinessRuleException("PDF has not been generated for this purchase order yet");
+        Path requestedPath = null;
+        if (po.getPdfFilePath() != null && !po.getPdfFilePath().isBlank()) {
+            requestedPath = Paths.get(po.getPdfFilePath()).toAbsolutePath().normalize();
+        }
+
+        if (requestedPath == null || !requestedPath.toFile().exists()) {
+            po = purchaseOrderService.ensurePdfGenerated(po);
+            requestedPath = Paths.get(po.getPdfFilePath()).toAbsolutePath().normalize();
         }
 
         // Path traversal prevention
-        Path requestedPath = Paths.get(po.getPdfFilePath()).toAbsolutePath().normalize();
         Path allowedBase = Paths.get(outputDir).toAbsolutePath().normalize();
-
         if (!requestedPath.startsWith(allowedBase)) {
-            // This should never happen for legitimate POs — reject immediately
             throw new BusinessRuleException("PO file path is outside the allowed directory");
-        }
-
-        if (!requestedPath.toFile().exists()) {
-            throw new com.procureai.exception.NotFoundException("PO PDF file not found on disk");
         }
 
         String safeFilename = po.getPoNumber().replaceAll("[^A-Za-z0-9_\\-]", "_") + ".pdf";

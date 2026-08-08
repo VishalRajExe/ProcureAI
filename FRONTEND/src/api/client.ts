@@ -214,7 +214,8 @@ class ApiClient {
   }
 
   getPdfUrl(poId: number): string {
-    return `${BASE_URL}/api/purchase-orders/${poId}/pdf`;
+    const token = localStorage.getItem('procureai_token');
+    return `${BASE_URL}/api/purchase-orders/${poId}/pdf${token ? `?token=${token}` : ''}`;
   }
 
   // ── Dashboard ───────────────────────────────────────────────────────────────
