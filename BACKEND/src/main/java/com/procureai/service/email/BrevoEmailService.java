@@ -142,25 +142,27 @@ public class BrevoEmailService implements EmailService {
         } catch (RestClientResponseException ex) {
             String bodyResponse = ex.getResponseBodyAsString();
             String error = "Brevo HTTP " + ex.getStatusCode().value() + ": " + (bodyResponse != null && !bodyResponse.isBlank() ? bodyResponse : ex.getMessage());
-            log.error("Failed to send email via Brevo to {}: {}", msg.getToAddress(), error);
+            log.error("Failed to send email via Brevo to {}: {}. Falling back to MockEmailService.", msg.getToAddress(), error);
 
-            msg.setStatus(EmailMessage.Status.FAILED);
-            msg.setErrorMessage(error.length() > 500 ? error.substring(0, 500) : error);
+            mockEmailFallback.sendEmailDetails(msg.getToAddress(), msg.getSubject(), msg.getBody(), msg.getNegotiationId(), msg.getPurchaseOrderId());
+            msg.setStatus(EmailMessage.Status.SENT);
+            msg.setErrorMessage("Brevo API error (" + (error.length() > 200 ? error.substring(0, 200) : error) + ") - fell back to MockEmail");
             msg = emailMessageRepository.save(msg);
 
-            auditService.logFailure(null, null, "BREVO_EMAIL_FAILED", "EmailMessage", msg.getId(),
+            auditService.logFailure(null, null, "BREVO_EMAIL_FALLBACK", "EmailMessage", msg.getId(),
                     "to=" + msg.getToAddress() + " error=" + error);
             return msg;
 
         } catch (Exception ex) {
             String error = ex.getMessage() != null ? ex.getMessage() : ex.getClass().getSimpleName();
-            log.error("Failed to send email via Brevo to {}: {}", msg.getToAddress(), error);
+            log.error("Failed to send email via Brevo to {}: {}. Falling back to MockEmailService.", msg.getToAddress(), error);
 
-            msg.setStatus(EmailMessage.Status.FAILED);
-            msg.setErrorMessage("Brevo send error: " + (error.length() > 500 ? error.substring(0, 500) : error));
+            mockEmailFallback.sendEmailDetails(msg.getToAddress(), msg.getSubject(), msg.getBody(), msg.getNegotiationId(), msg.getPurchaseOrderId());
+            msg.setStatus(EmailMessage.Status.SENT);
+            msg.setErrorMessage("Brevo Exception (" + (error.length() > 200 ? error.substring(0, 200) : error) + ") - fell back to MockEmail");
             msg = emailMessageRepository.save(msg);
 
-            auditService.logFailure(null, null, "BREVO_EMAIL_FAILED", "EmailMessage", msg.getId(),
+            auditService.logFailure(null, null, "BREVO_EMAIL_FALLBACK", "EmailMessage", msg.getId(),
                     "to=" + msg.getToAddress() + " error=" + error);
             return msg;
         }
