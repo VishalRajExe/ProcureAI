@@ -11,6 +11,7 @@ import lombok.Setter;
 public class EmailMessage extends BaseEntity {
 
     private Long negotiationId;
+    private Long purchaseOrderId;
 
     @Enumerated(EnumType.STRING)
     private Direction direction; // OUTBOUND (to vendor) / INBOUND (simulated vendor reply)
@@ -24,6 +25,9 @@ public class EmailMessage extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.SENT;
+
+    @Column(length = 2000)
+    private String errorMessage;
 
     public enum Direction { OUTBOUND, INBOUND }
     public enum Status { DRAFT, SENT, FAILED, RECEIVED }

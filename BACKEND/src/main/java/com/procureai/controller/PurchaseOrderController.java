@@ -108,6 +108,13 @@ public class PurchaseOrderController {
         return ResponseEntity.ok(purchaseOrderService.get(id));
     }
 
+    /** Issues and dispatches the Purchase Order email to the vendor. Requires ADMIN or APPROVER role. */
+    @PostMapping("/{id}/send-email")
+    @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER')")
+    public ResponseEntity<PurchaseOrder> sendPoEmail(@PathVariable Long id) {
+        return ResponseEntity.ok(purchaseOrderService.sendPoEmail(id, CurrentUser.id()));
+    }
+
     /**
      * Serves the PO PDF file.
      *

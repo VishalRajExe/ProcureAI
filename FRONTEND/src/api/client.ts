@@ -187,6 +187,16 @@ class ApiClient {
     return data;
   }
 
+  async sendPoEmail(poId: number): Promise<PurchaseOrder> {
+    const { data } = await this.http.post<PurchaseOrder>(`/api/purchase-orders/${poId}/send-email`);
+    return data;
+  }
+
+  async retryEmail(emailId: number): Promise<Record<string, unknown>> {
+    const { data } = await this.http.post<Record<string, unknown>>(`/api/emails/${emailId}/retry`);
+    return data;
+  }
+
   getPdfUrl(poId: number): string {
     return `${BASE_URL}/api/purchase-orders/${poId}/pdf`;
   }

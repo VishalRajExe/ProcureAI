@@ -4,6 +4,7 @@ import com.procureai.entity.*;
 import com.procureai.exception.BusinessRuleException;
 import com.procureai.exception.NotFoundException;
 import com.procureai.repository.PurchaseOrderRepository;
+import com.procureai.service.email.EmailService;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -35,6 +36,7 @@ public class PurchaseOrderService {
     private final QuoteCalculationService calculationService;
     private final ApprovalService approvalService;
     private final AuditService auditService;
+    private final EmailService emailService;
 
     @Value("${app.po.output-dir:./po-output}")
     private String outputDir;
@@ -42,11 +44,12 @@ public class PurchaseOrderService {
     private static final AtomicInteger SEQ = new AtomicInteger(1000);
 
     public PurchaseOrderService(PurchaseOrderRepository purchaseOrderRepository, QuoteCalculationService calculationService,
-                                 ApprovalService approvalService, AuditService auditService) {
+                                 ApprovalService approvalService, AuditService auditService, EmailService emailService) {
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.calculationService = calculationService;
         this.approvalService = approvalService;
         this.auditService = auditService;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -94,6 +97,44 @@ public class PurchaseOrderService {
 
         auditService.log(workflow.getId(), userId, "PURCHASE_ORDER_GENERATED", "PurchaseOrder", po.getId(),
                 "poNumber=" + po.getPoNumber() + " vendor=" + po.getVendor().getName() + " total=" + po.getTotalAmount());
+        return po;
+    }
+
+    /** Issues and emails the Purchase Order to the vendor via EmailService (Brevo/Mock). */
+    @Transactional
+    public PurchaseOrder sendPoEmail(Long purchaseOrderId, Long userId) {
+        PurchaseOrder po = get(purchaseOrderId);
+        String vendorEmail = po.getVendor().getContactEmail();
+        String to = (vendorEmail != null && !vendorEmail.isBlank()) ? vendorEmail : "vendor@example-demo.com";
+
+        String subject = "Official Purchase Order: " + po.getPoNumber() + " - ProcureAI";
+        String body = """
+                Dear %s Team,
+
+                Please find attached the official Purchase Order %s for your confirmed quotation.
+
+                Order Summary:
+                - PO Number: %s
+                - Total Amount: Rs. %s
+                - Payment Terms: %s
+                - Delivery Days: %s
+
+                Please confirm receipt of this purchase order.
+
+                Best regards,
+                Procurement Team
+                """.formatted(
+                po.getVendor().getName(), po.getPoNumber(), po.getPoNumber(),
+                po.getTotalAmount(), po.getPaymentTerms() != null ? po.getPaymentTerms() : "Net 30",
+                po.getDeliveryDays() != null ? po.getDeliveryDays() : 7
+        );
+
+        Long emailId = emailService.sendPoEmail(to, subject, body, po.getId());
+        po.setStatus(PurchaseOrder.Status.ISSUED);
+        po = purchaseOrderRepository.save(po);
+
+        auditService.log(po.getWorkflow().getId(), userId, "PURCHASE_ORDER_ISSUED_EMAIL", "PurchaseOrder", po.getId(),
+                "poNumber=" + po.getPoNumber() + " emailId=" + emailId);
         return po;
     }
 

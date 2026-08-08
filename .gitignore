@@ -25,3 +25,6 @@ Thumbs.db
 # Graphify temporary runtime configs
 graphify-out/.graphify_python
 graphify-out/.graphify_root
+
+# Reference/demo projects — local only, not pushed to remote
+demoprojects/
