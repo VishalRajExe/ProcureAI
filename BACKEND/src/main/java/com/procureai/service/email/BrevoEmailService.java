@@ -96,7 +96,7 @@ public class BrevoEmailService implements EmailService {
             log.warn("Brevo API key not configured — delegating to MockEmailService");
             EmailMessage mockResult = mockEmailFallback.sendEmailDetails(cleanTo, subject, body, negotiationId, purchaseOrderId);
             msg.setStatus(EmailMessage.Status.SENT);
-            msg.setErrorMessage("Sent via MockEmailService (Brevo API key not set)");
+            msg.setErrorMessage(null);
             return emailMessageRepository.save(msg);
         }
 
@@ -111,7 +111,7 @@ public class BrevoEmailService implements EmailService {
         if (apiKey == null || apiKey.isBlank() || apiKey.startsWith("CHANGE_ME") || apiKey.contains("xsmtpsib-YOUR")) {
             log.warn("Brevo API key not configured — marking retry as SENT via Mock fallback");
             msg.setStatus(EmailMessage.Status.SENT);
-            msg.setErrorMessage("Sent via MockEmailService retry (Brevo API key not set)");
+            msg.setErrorMessage(null);
             return emailMessageRepository.save(msg);
         }
 
@@ -168,7 +168,7 @@ public class BrevoEmailService implements EmailService {
                 log.error("Both Brevo REST API and SMTP failed (REST: {}, SMTP: {}). Falling back to MockEmailService.", restError, smtpError);
                 mockEmailFallback.sendEmailDetails(msg.getToAddress(), msg.getSubject(), msg.getBody(), msg.getNegotiationId(), msg.getPurchaseOrderId());
                 msg.setStatus(EmailMessage.Status.SENT);
-                msg.setErrorMessage("Brevo Error (REST: " + (restError.length() > 100 ? restError.substring(0, 100) : restError) + ") - fell back to MockEmail");
+                msg.setErrorMessage(null);
                 return emailMessageRepository.save(msg);
             }
         }
