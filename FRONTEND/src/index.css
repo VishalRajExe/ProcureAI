@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #0B0D12;
+    --bg-surface: #12151C;
+    --bg-surface-hover: #1A1E27;
+    --border-default: #242832;
+    --text-primary: #F5F6F8;
+    --text-secondary: #9AA1AE;
+    --text-muted: #6B7280;
+    --accent-primary: #4F7CFF;
+    --accent-hover: #3E68E6;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .font-numeric {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.surface-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 0.75rem;
+}
+
+.surface-card:hover {
+  background-color: var(--bg-surface-hover);
+}

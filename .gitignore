@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Builds & Outputs
+dist/
+build/
+target/
+*.jar
+
+# Environment & Credentials
+.env
+.env.local
+*.pem
+*.key
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Graphify temporary runtime configs
+graphify-out/.graphify_python
+graphify-out/.graphify_root

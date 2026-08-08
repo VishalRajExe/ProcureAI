@@ -1,0 +1,4 @@
+{
+  "_description": "edges.json — part of the Graph Layer (Phase 3). The graph is the structural source of truth. Graphify is responsible for updating these files. The AI must never manually edit graph structures.",
+  "data": {}
+}

@@ -1,0 +1,2570 @@
+{
+  "nodes": [
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/deploy-to-vercel/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/deploy-to-vercel/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/frontend-design/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/frontend-design/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/agents-md.md",
+      "label": "agents-md.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/agents-md.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/antigravity-rules.md",
+      "label": "antigravity-rules.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/antigravity-rules.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/claude-md.md",
+      "label": "claude-md.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/claude-md.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/gemini-md.md",
+      "label": "gemini-md.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/gemini-md.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/kiro-steering.md",
+      "label": "kiro-steering.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/kiro-steering.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/vscode-instructions.md",
+      "label": "vscode-instructions.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/always_on/vscode-instructions.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/command-kilo.md",
+      "label": "command-kilo.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/command-kilo.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/extractors/MIGRATION.md",
+      "label": "MIGRATION.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/extractors/MIGRATION.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-agents.md",
+      "label": "skill-agents.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-agents.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-aider.md",
+      "label": "skill-aider.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-aider.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-amp.md",
+      "label": "skill-amp.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-amp.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-claw.md",
+      "label": "skill-claw.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-claw.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-codex.md",
+      "label": "skill-codex.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-codex.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-copilot.md",
+      "label": "skill-copilot.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-copilot.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-devin.md",
+      "label": "skill-devin.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-devin.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-droid.md",
+      "label": "skill-droid.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-droid.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-kilo.md",
+      "label": "skill-kilo.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-kilo.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-kiro.md",
+      "label": "skill-kiro.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-kiro.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-opencode.md",
+      "label": "skill-opencode.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-opencode.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-pi.md",
+      "label": "skill-pi.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-pi.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-trae.md",
+      "label": "skill-trae.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-trae.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-vscode.md",
+      "label": "skill-vscode.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-vscode.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-windows.md",
+      "label": "skill-windows.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill-windows.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skill.md",
+      "label": "skill.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skill.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/agents/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/amp/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claude/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/claw/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/codex/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/copilot/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/droid/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kilo/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/kiro/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/opencode/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/pi/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/trae/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/vscode/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/add-watch.md",
+      "label": "add-watch.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/add-watch.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/exports.md",
+      "label": "exports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/exports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/extraction-spec.md",
+      "label": "extraction-spec.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/extraction-spec.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/github-and-merge.md",
+      "label": "github-and-merge.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/github-and-merge.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/hooks.md",
+      "label": "hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/query.md",
+      "label": "query.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/query.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/transcribe.md",
+      "label": "transcribe.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/transcribe.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/update.md",
+      "label": "update.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/graphify/skills/windows/references/update.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/codebase-mapper/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/codebase-mapper/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/debugger/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/debugger/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/executor/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/executor/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/integration-checker/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/integration-checker/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/phase-researcher/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/phase-researcher/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/plan-checker/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/plan-checker/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/planner/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/planner/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/project-researcher/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/project-researcher/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/research-synthesizer/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/research-synthesizer/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/roadmapper/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/roadmapper/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/verifier/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/agents/verifier/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/add-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/add-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/add-todo/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/add-todo/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/audit-milestone/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/audit-milestone/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/check-todos/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/check-todos/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/complete-checkpoint/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/complete-checkpoint/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/complete-milestone/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/complete-milestone/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/continue-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/continue-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/create-checkpoint/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/create-checkpoint/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/debug/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/debug/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/discuss-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/discuss-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/execute-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/execute-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/help/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/help/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/init-repo/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/init-repo/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/insert-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/insert-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/integrate/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/integrate/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/list-phase-assumptions/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/list-phase-assumptions/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/map-codebase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/map-codebase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/new-milestone/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/new-milestone/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/new-project/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/new-project/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/pause-work/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/pause-work/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/plan-milestone-gaps/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/plan-milestone-gaps/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/plan-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/plan-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/progress/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/progress/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/remove-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/remove-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/research-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/research-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/research-project/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/research-project/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/resume-work/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/resume-work/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/review-plan/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/review-plan/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/roadmap/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/roadmap/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/synthesize/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/synthesize/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/update-checkpoint/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/update-checkpoint/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/update/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/update/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/verify-work/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/verify-work/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/whats-new/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/commands/whats-new/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/references/checkpoints/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/references/checkpoints/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/references/continuation-format/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/references/continuation-format/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/references/git-integration/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/references/git-integration/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/references/questioning/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/references/questioning/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/references/tdd/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/references/tdd/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/references/ui-brand/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/references/ui-brand/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/references/verification-patterns/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/references/verification-patterns/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/brownfield/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/brownfield/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/checkpoint/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/checkpoint/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/complete-milestone/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/complete-milestone/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/debug/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/debug/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/diagnose-issues/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/diagnose-issues/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/discovery-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/discovery-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/discuss-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/discuss-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/execute-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/execute-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/execute-plan/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/execute-plan/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/list-phase-assumptions/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/list-phase-assumptions/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/new-project/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/new-project/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/research/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/research/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/resume-project/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/resume-project/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/transition/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/transition/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/verify-phase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/verify-phase/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/verify-work/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/gsd/workflows/verify-work/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/ponytail/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/ponytail/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/stitch-design-taste/DESIGN.md",
+      "label": "DESIGN.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/stitch-design-taste/DESIGN.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/stitch-design-taste/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/stitch-design-taste/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/supabase/CHANGELOG.md",
+      "label": "CHANGELOG.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/supabase/CHANGELOG.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/supabase/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/supabase/SKILL.md"
+    },
+    {
+      "id": "doc:references/skill-feedback.md",
+      "label": "skill-feedback.md",
+      "type": "document",
+      "source_file": "references/skill-feedback.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/supabase/assets/feedback-issue-template.md",
+      "label": "feedback-issue-template.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/supabase/assets/feedback-issue-template.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/supabase/references/skill-feedback.md",
+      "label": "skill-feedback.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/supabase/references/skill-feedback.md"
+    },
+    {
+      "id": "doc:assets/feedback-issue-template.md",
+      "label": "feedback-issue-template.md",
+      "type": "document",
+      "source_file": "assets/feedback-issue-template.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/ui-ux-pro-max/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/ui-ux-pro-max/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "label": "pro-rules.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/ui-ux-pro-max/references/pro-rules.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "label": "quick-reference.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/ui-ux-pro-max/references/quick-reference.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md"
+    },
+    {
+      "id": "doc:references/sandbox.md",
+      "label": "sandbox.md",
+      "type": "document",
+      "source_file": "references/sandbox.md"
+    },
+    {
+      "id": "doc:references/analyze-db.md",
+      "label": "analyze-db.md",
+      "type": "document",
+      "source_file": "references/analyze-db.md"
+    },
+    {
+      "id": "doc:references/setup.md",
+      "label": "setup.md",
+      "type": "document",
+      "source_file": "references/setup.md"
+    },
+    {
+      "id": "doc:references/deploy.md",
+      "label": "deploy.md",
+      "type": "document",
+      "source_file": "references/deploy.md"
+    },
+    {
+      "id": "doc:references/configure.md",
+      "label": "configure.md",
+      "type": "document",
+      "source_file": "references/configure.md"
+    },
+    {
+      "id": "doc:references/feature-flags.md",
+      "label": "feature-flags.md",
+      "type": "document",
+      "source_file": "references/feature-flags.md"
+    },
+    {
+      "id": "doc:references/iac.md",
+      "label": "iac.md",
+      "type": "document",
+      "source_file": "references/iac.md"
+    },
+    {
+      "id": "doc:references/operate.md",
+      "label": "operate.md",
+      "type": "document",
+      "source_file": "references/operate.md"
+    },
+    {
+      "id": "doc:references/request.md",
+      "label": "request.md",
+      "type": "document",
+      "source_file": "references/request.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-mongo.md",
+      "label": "analyze-db-mongo.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-mongo.md"
+    },
+    {
+      "id": "doc:analyze-db.md",
+      "label": "analyze-db.md",
+      "type": "document",
+      "source_file": "analyze-db.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-mysql.md",
+      "label": "analyze-db-mysql.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-mysql.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-postgres.md",
+      "label": "analyze-db-postgres.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-postgres.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-redis.md",
+      "label": "analyze-db-redis.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-redis.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db.md",
+      "label": "analyze-db.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db.md"
+    },
+    {
+      "id": "doc:analyze-db-postgres.md",
+      "label": "analyze-db-postgres.md",
+      "type": "document",
+      "source_file": "analyze-db-postgres.md"
+    },
+    {
+      "id": "doc:analyze-db-mysql.md",
+      "label": "analyze-db-mysql.md",
+      "type": "document",
+      "source_file": "analyze-db-mysql.md"
+    },
+    {
+      "id": "doc:analyze-db-redis.md",
+      "label": "analyze-db-redis.md",
+      "type": "document",
+      "source_file": "analyze-db-redis.md"
+    },
+    {
+      "id": "doc:analyze-db-mongo.md",
+      "label": "analyze-db-mongo.md",
+      "type": "document",
+      "source_file": "analyze-db-mongo.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/configure.md",
+      "label": "configure.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/configure.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/deploy.md",
+      "label": "deploy.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/deploy.md"
+    },
+    {
+      "id": "doc:operate.md",
+      "label": "operate.md",
+      "type": "document",
+      "source_file": "operate.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/feature-flags.md",
+      "label": "feature-flags.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/feature-flags.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/iac.md",
+      "label": "iac.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/iac.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/operate.md",
+      "label": "operate.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/operate.md"
+    },
+    {
+      "id": "doc:request.md",
+      "label": "request.md",
+      "type": "document",
+      "source_file": "request.md"
+    },
+    {
+      "id": "doc:configure.md",
+      "label": "configure.md",
+      "type": "document",
+      "source_file": "configure.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/request.md",
+      "label": "request.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/request.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/sandbox.md",
+      "label": "sandbox.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/sandbox.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/setup.md",
+      "label": "setup.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/setup.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/AGENTS.md",
+      "label": "AGENTS.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/AGENTS.md"
+    },
+    {
+      "id": "doc:async-defer-await.md",
+      "label": "async-defer-await.md",
+      "type": "document",
+      "source_file": "async-defer-await.md"
+    },
+    {
+      "id": "doc:async-cheap-condition-before-await.md",
+      "label": "async-cheap-condition-before-await.md",
+      "type": "document",
+      "source_file": "async-cheap-condition-before-await.md"
+    },
+    {
+      "id": "doc:server-hoist-static-io.md",
+      "label": "server-hoist-static-io.md",
+      "type": "document",
+      "source_file": "server-hoist-static-io.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/README.md",
+      "label": "README.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/README.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/SKILL.md",
+      "label": "SKILL.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/SKILL.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/_sections.md",
+      "label": "_sections.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/_sections.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/_template.md",
+      "label": "_template.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/_template.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "label": "advanced-effect-event-deps.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "label": "advanced-event-handler-refs.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/advanced-init-once.md",
+      "label": "advanced-init-once.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/advanced-init-once.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md",
+      "label": "advanced-use-latest.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "label": "async-api-routes.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "label": "async-cheap-condition-before-await.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "label": "async-defer-await.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md",
+      "label": "async-dependencies.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-parallel.md",
+      "label": "async-parallel.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-parallel.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "label": "async-suspense-boundaries.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md",
+      "label": "bundle-analyzable-paths.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "label": "bundle-barrel-imports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-conditional.md",
+      "label": "bundle-conditional.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-conditional.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md",
+      "label": "bundle-defer-third-party.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md",
+      "label": "bundle-dynamic-imports.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-preload.md",
+      "label": "bundle-preload.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/bundle-preload.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md",
+      "label": "client-event-listeners.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md",
+      "label": "client-localstorage-schema.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md",
+      "label": "client-passive-event-listeners.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md",
+      "label": "client-swr-dedup.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md",
+      "label": "js-batch-dom-css.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "label": "js-cache-function-results.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-cache-property-access.md",
+      "label": "js-cache-property-access.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-cache-property-access.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "label": "js-cache-storage.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-cache-storage.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-combine-iterations.md",
+      "label": "js-combine-iterations.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-combine-iterations.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-early-exit.md",
+      "label": "js-early-exit.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-early-exit.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md",
+      "label": "js-flatmap-filter.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "label": "js-hoist-regexp.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-index-maps.md",
+      "label": "js-index-maps.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-index-maps.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-length-check-first.md",
+      "label": "js-length-check-first.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-length-check-first.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md",
+      "label": "js-min-max-loop.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md",
+      "label": "js-request-idle-callback.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md",
+      "label": "js-set-map-lookups.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md",
+      "label": "js-tosorted-immutable.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-activity.md",
+      "label": "rendering-activity.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-activity.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "label": "rendering-animate-svg-wrapper.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-conditional-render.md",
+      "label": "rendering-conditional-render.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-conditional-render.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md",
+      "label": "rendering-content-visibility.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md",
+      "label": "rendering-hoist-jsx.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "label": "rendering-hydration-no-flicker.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "label": "rendering-hydration-suppress-warning.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "label": "rendering-resource-hints.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "label": "rendering-script-defer-async.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md",
+      "label": "rendering-svg-precision.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "label": "rendering-usetransition-loading.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md",
+      "label": "rerender-defer-reads.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md",
+      "label": "rerender-dependencies.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "label": "rerender-derived-state-no-effect.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md",
+      "label": "rerender-derived-state.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "label": "rerender-functional-setstate.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md",
+      "label": "rerender-lazy-state-init.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md",
+      "label": "rerender-memo-with-default-value.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-memo.md",
+      "label": "rerender-memo.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-memo.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md",
+      "label": "rerender-move-effect-to-event.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md",
+      "label": "rerender-no-inline-components.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "label": "rerender-simple-expression-in-memo.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md",
+      "label": "rerender-split-combined-hooks.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-transitions.md",
+      "label": "rerender-transitions.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-transitions.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md",
+      "label": "rerender-use-deferred-value.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "label": "rerender-use-ref-transient-values.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-after-nonblocking.md",
+      "label": "server-after-nonblocking.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-after-nonblocking.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-auth-actions.md",
+      "label": "server-auth-actions.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-auth-actions.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "label": "server-cache-lru.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-cache-react.md",
+      "label": "server-cache-react.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-cache-react.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-dedup-props.md",
+      "label": "server-dedup-props.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-dedup-props.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-hoist-static-io.md",
+      "label": "server-hoist-static-io.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-hoist-static-io.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md",
+      "label": "server-no-shared-module-state.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md",
+      "label": "server-parallel-fetching.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md",
+      "label": "server-parallel-nested-fetching.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-serialization.md",
+      "label": "server-serialization.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-serialization.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/Architecture.md",
+      "label": "Architecture.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/Architecture.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/Design.md",
+      "label": "Design.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/Design.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/Memory.md",
+      "label": "Memory.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/Memory.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/PRD.md",
+      "label": "PRD.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/PRD.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/Phases.md",
+      "label": "Phases.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/Phases.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/Rules.md",
+      "label": "Rules.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/Rules.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/README.md",
+      "label": "README.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/README.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/cache/last-plan.md",
+      "label": "last-plan.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/cache/last-plan.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/cache/recent-context.md",
+      "label": "recent-context.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/cache/recent-context.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/cache/recent-files.md",
+      "label": "recent-files.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/cache/recent-files.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/cache/recent-review.md",
+      "label": "recent-review.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/cache/recent-review.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/graph/README.md",
+      "label": "README.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/graph/README.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/memory/api.md",
+      "label": "api.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/memory/api.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/memory/architecture.md",
+      "label": "architecture.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/memory/architecture.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/memory/backend.md",
+      "label": "backend.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/memory/backend.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/memory/database.md",
+      "label": "database.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/memory/database.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/memory/dependencies.md",
+      "label": "dependencies.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/memory/dependencies.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/memory/frontend.md",
+      "label": "frontend.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/memory/frontend.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/memory/overview.md",
+      "label": "overview.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/memory/overview.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/memory/patterns.md",
+      "label": "patterns.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/memory/patterns.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/memory/routing.md",
+      "label": "routing.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/memory/routing.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/reviews/architecture-review.md",
+      "label": "architecture-review.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/reviews/architecture-review.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/reviews/code-quality.md",
+      "label": "code-quality.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/reviews/code-quality.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/reviews/documentation-review.md",
+      "label": "documentation-review.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/reviews/documentation-review.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/reviews/performance-review.md",
+      "label": "performance-review.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/reviews/performance-review.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/reviews/security-review.md",
+      "label": "security-review.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/reviews/security-review.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/runtime/context-loader.md",
+      "label": "context-loader.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/runtime/context-loader.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/runtime/execution-engine.md",
+      "label": "execution-engine.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/runtime/execution-engine.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/runtime/graph-retriever.md",
+      "label": "graph-retriever.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/runtime/graph-retriever.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/runtime/graph-updater.md",
+      "label": "graph-updater.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/runtime/graph-updater.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/runtime/memory-updater.md",
+      "label": "memory-updater.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/runtime/memory-updater.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/runtime/review-engine.md",
+      "label": "review-engine.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/runtime/review-engine.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/runtime/task-classifier.md",
+      "label": "task-classifier.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/runtime/task-classifier.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/standards/documentation.md",
+      "label": "documentation.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/standards/documentation.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/standards/naming.md",
+      "label": "naming.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/standards/naming.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/standards/nextjs.md",
+      "label": "nextjs.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/standards/nextjs.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/standards/performance.md",
+      "label": "performance.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/standards/performance.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/standards/react.md",
+      "label": "react.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/standards/react.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/standards/security.md",
+      "label": "security.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/standards/security.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/standards/typescript.md",
+      "label": "typescript.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/standards/typescript.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/system/planner.md",
+      "label": "planner.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/system/planner.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/system/system.md",
+      "label": "system.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/system/system.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/system/workflow.md",
+      "label": "workflow.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/system/workflow.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/tasks/active.md",
+      "label": "active.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/tasks/active.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/tasks/changelog.md",
+      "label": "changelog.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/tasks/changelog.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/tasks/completed.md",
+      "label": "completed.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/tasks/completed.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/tasks/failed.md",
+      "label": "failed.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/tasks/failed.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/templates/confidence-score-template.md",
+      "label": "confidence-score-template.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/templates/confidence-score-template.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/templates/review-template.md",
+      "label": "review-template.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/templates/review-template.md"
+    },
+    {
+      "id": "doc:D:/HACKATHON-PROJECT/project-brain/templates/task-template.md",
+      "label": "task-template.md",
+      "type": "document",
+      "source_file": "D:/HACKATHON-PROJECT/project-brain/templates/task-template.md"
+    }
+  ],
+  "edges": [
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/supabase/SKILL.md",
+      "target": "doc:references/skill-feedback.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/supabase/references/skill-feedback.md",
+      "target": "doc:assets/feedback-issue-template.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/sandbox.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/setup.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/deploy.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/configure.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/feature-flags.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/iac.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/operate.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/sandbox.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/request.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/SKILL.md",
+      "target": "doc:references/operate.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-mongo.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-mongo.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-mongo.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-mysql.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-mysql.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-postgres.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-postgres.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-postgres.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-redis.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-redis.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db-redis.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db.md",
+      "target": "doc:analyze-db-postgres.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db.md",
+      "target": "doc:analyze-db-mysql.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db.md",
+      "target": "doc:analyze-db-redis.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/analyze-db.md",
+      "target": "doc:analyze-db-mongo.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/deploy.md",
+      "target": "doc:operate.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/operate.md",
+      "target": "doc:request.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/operate.md",
+      "target": "doc:analyze-db.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/operate.md",
+      "target": "doc:configure.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/request.md",
+      "target": "doc:configure.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/setup.md",
+      "target": "doc:request.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/setup.md",
+      "target": "doc:request.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/use-railway/references/setup.md",
+      "target": "doc:configure.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/AGENTS.md",
+      "target": "doc:async-defer-await.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/AGENTS.md",
+      "target": "doc:async-cheap-condition-before-await.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/AGENTS.md",
+      "target": "doc:server-hoist-static-io.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "target": "doc:async-defer-await.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "target": "doc:async-cheap-condition-before-await.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    },
+    {
+      "source": "doc:D:/HACKATHON-PROJECT/.agents/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md",
+      "target": "doc:server-hoist-static-io.md",
+      "relation": "REFERENCES",
+      "confidence": 1.0,
+      "type": "EXTRACTED"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}
