@@ -59,8 +59,10 @@ public class AuthDtos {
      */
     public record AuthResponse(
             String token,
+            Long id,
             String email,
             String name,
-            String role
+            String role,
+            java.util.List<String> permissions
     ) {}
 }

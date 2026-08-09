@@ -35,9 +35,12 @@ public class SecurityConfig {
     private String allowedOrigins;
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final com.procureai.security.RateLimitingFilter rateLimitingFilter;
 
-    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter,
+                          com.procureai.security.RateLimitingFilter rateLimitingFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
+        this.rateLimitingFilter = rateLimitingFilter;
     }
 
     @Bean
@@ -73,6 +76,7 @@ public class SecurityConfig {
                 .referrerPolicy(rp -> rp.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
                 .cacheControl(cc -> {})
             )
+            .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

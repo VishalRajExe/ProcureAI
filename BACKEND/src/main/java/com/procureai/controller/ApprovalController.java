@@ -18,11 +18,13 @@ public class ApprovalController {
     }
 
     @GetMapping("/pending")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('ADMIN', 'APPROVER')")
     public ResponseEntity<List<Approval>> pending() {
         return ResponseEntity.ok(approvalService.pending());
     }
 
     @GetMapping
+    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('ADMIN', 'APPROVER')")
     public ResponseEntity<List<Approval>> all() {
         return ResponseEntity.ok(approvalService.all());
     }

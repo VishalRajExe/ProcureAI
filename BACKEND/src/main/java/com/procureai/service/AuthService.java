@@ -55,7 +55,7 @@ public class AuthService {
         user = userRepository.save(user);
         log.info("New user registered: {} with role {}", cleanEmail, user.getRole());
         String token = jwtService.generateToken(user.getEmail(), user.getRole().name(), user.getId());
-        return new AuthDtos.AuthResponse(token, user.getEmail(), user.getName(), user.getRole().name());
+        return new AuthDtos.AuthResponse(token, user.getId(), user.getEmail(), user.getName(), user.getRole().name(), getPermissionsForRole(user.getRole()));
     }
 
     public AuthDtos.AuthResponse login(AuthDtos.LoginRequest req) {
@@ -70,7 +70,7 @@ public class AuthService {
             throw new BadCredentialsException("Invalid email or password");
         }
         String token = jwtService.generateToken(user.getEmail(), user.getRole().name(), user.getId());
-        return new AuthDtos.AuthResponse(token, user.getEmail(), user.getName(), user.getRole().name());
+        return new AuthDtos.AuthResponse(token, user.getId(), user.getEmail(), user.getName(), user.getRole().name(), getPermissionsForRole(user.getRole()));
     }
 
     public AuthDtos.AuthResponse getCurrentUser(Long userId) {
@@ -79,6 +79,16 @@ public class AuthService {
         }
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BadCredentialsException("User not found"));
-        return new AuthDtos.AuthResponse(null, user.getEmail(), user.getName(), user.getRole().name());
+        return new AuthDtos.AuthResponse(null, user.getId(), user.getEmail(), user.getName(), user.getRole().name(), getPermissionsForRole(user.getRole()));
+    }
+
+    private java.util.List<String> getPermissionsForRole(User.Role role) {
+        if (role == null) return java.util.List.of("READ");
+        return switch (role) {
+            case ADMIN -> java.util.List.of("READ", "WRITE", "APPROVE", "DELETE", "MANAGE_USERS", "EXECUTE_DEMO");
+            case APPROVER -> java.util.List.of("READ", "WRITE", "APPROVE");
+            case PROCUREMENT_USER -> java.util.List.of("READ", "WRITE");
+            case VIEWER -> java.util.List.of("READ");
+        };
     }
 }
