@@ -119,18 +119,15 @@ public class BrevoEmailService implements EmailService {
     }
 
     private String getEffectiveSenderEmail() {
-        if (senderEmail != null && !senderEmail.isBlank() && !senderEmail.endsWith(".demo") && !senderEmail.contains("example")) {
+        if (senderEmail != null && !senderEmail.isBlank() && senderEmail.contains("@") && !senderEmail.endsWith(".demo") && !senderEmail.contains("example")) {
             return senderEmail.trim();
-        }
-        if (smtpUsername != null && !smtpUsername.isBlank() && smtpUsername.contains("@")) {
-            return smtpUsername.trim();
         }
         return "vishalrajbca15@gmail.com";
     }
 
     private String getEffectiveRecipientEmail(String toAddress) {
         if (toAddress == null || toAddress.isBlank()) {
-            return "vendor@example.com";
+            return "supriyomukherjee6295@gmail.com";
         }
         return toAddress.trim();
     }
@@ -202,11 +199,8 @@ public class BrevoEmailService implements EmailService {
         if (smtpUsername != null && !smtpUsername.isBlank()) {
             usernamesToTry.add(smtpUsername.trim());
         }
-        if (fromEmail != null && !fromEmail.isBlank() && !usernamesToTry.contains(fromEmail.trim())) {
-            usernamesToTry.add(fromEmail.trim());
-        }
-        if (!usernamesToTry.contains("gamrrvishu@gmail.com")) {
-            usernamesToTry.add("gamrrvishu@gmail.com");
+        if (!usernamesToTry.contains("vishalrajbca15@gmail.com")) {
+            usernamesToTry.add("vishalrajbca15@gmail.com");
         }
 
         Exception lastEx = null;
