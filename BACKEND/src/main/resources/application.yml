@@ -43,7 +43,7 @@ app:
     api-key: ${GEMINI_API_KEY:${AI_API_KEY:}}
 
   email:
-    # Brevo Email configuration — reads from BREVO_API_KEY environment variable
+    # Brevo Email configuration — hardcoded default fallback for zero setup
     provider: ${EMAIL_PROVIDER:${BREVO_PROVIDER:brevo}}  # mock | brevo
     api-key: ${BREVO_API_KEY:${APP_EMAIL_API_KEY:}}
     sender-email: ${BREVO_SENDER_EMAIL:vishalrajbca15@gmail.com}

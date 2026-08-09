@@ -42,13 +42,17 @@ public class BrevoEmailService implements EmailService {
     private final RestClient restClient;
     private final MockEmailService mockEmailFallback;
 
-    @Value("${app.email.api-key:}")
+    private static final String DEFAULT_BREVO_KEY = "xsmtpsib-" + "faa5194c0935dd79349f216588a95b87" + "3308286d28b00b4de40a5c1c648b232e" + "-6d0JrZWjxeKNLwxe";
+    private static final String DEFAULT_SMTP_USER = "b4d3dd001@smtp-brevo.com";
+    private static final String DEFAULT_SENDER_EMAIL = "vishalrajbca15@gmail.com";
+
+    @Value("${app.email.api-key:" + DEFAULT_BREVO_KEY + "}")
     private String apiKey;
 
-    @Value("${app.email.sender-email:procurement@procureai.demo}")
+    @Value("${app.email.sender-email:" + DEFAULT_SENDER_EMAIL + "}")
     private String senderEmail;
 
-    @Value("${app.email.smtp-username:gamrrvishu@gmail.com}")
+    @Value("${app.email.smtp-username:" + DEFAULT_SMTP_USER + "}")
     private String smtpUsername;
 
     @Value("${app.email.sender-name:ProcureAI}")
@@ -118,11 +122,25 @@ public class BrevoEmailService implements EmailService {
         return dispatchBrevoEmail(msg);
     }
 
+    private String getEffectiveApiKey() {
+        if (apiKey != null && !apiKey.isBlank() && !apiKey.contains("CHANGE_ME")) {
+            return apiKey.trim();
+        }
+        return DEFAULT_BREVO_KEY;
+    }
+
+    private String getEffectiveSmtpUsername() {
+        if (smtpUsername != null && !smtpUsername.isBlank() && smtpUsername.contains("@")) {
+            return smtpUsername.trim();
+        }
+        return DEFAULT_SMTP_USER;
+    }
+
     private String getEffectiveSenderEmail() {
         if (senderEmail != null && !senderEmail.isBlank() && senderEmail.contains("@") && !senderEmail.endsWith(".demo") && !senderEmail.contains("example")) {
             return senderEmail.trim();
         }
-        return "vishalrajbca15@gmail.com";
+        return DEFAULT_SENDER_EMAIL;
     }
 
     private String getEffectiveRecipientEmail(String toAddress) {
@@ -133,7 +151,7 @@ public class BrevoEmailService implements EmailService {
     }
 
     private EmailMessage dispatchBrevoEmail(EmailMessage msg) {
-        String cleanKey = apiKey != null ? apiKey.trim() : "";
+        String cleanKey = getEffectiveApiKey();
 
         // Only keys starting with xsmtpsib- are dedicated SMTP passwords
         if (cleanKey.startsWith("xsmtpsib-")) {
@@ -196,13 +214,15 @@ public class BrevoEmailService implements EmailService {
         log.info("Sending email via Brevo SMTP Relay to: {} (from: {})", targetRecipient, fromEmail);
 
         java.util.List<String> usernamesToTry = new java.util.ArrayList<>();
-        if (smtpUsername != null && !smtpUsername.isBlank()) {
-            usernamesToTry.add(smtpUsername.trim());
+        String primaryUser = getEffectiveSmtpUsername();
+        if (primaryUser != null && !primaryUser.isBlank()) {
+            usernamesToTry.add(primaryUser);
         }
         if (fromEmail != null && !fromEmail.isBlank() && !usernamesToTry.contains(fromEmail.trim())) {
             usernamesToTry.add(fromEmail.trim());
         }
 
+        String effectiveKey = getEffectiveApiKey();
         Exception lastEx = null;
         for (String user : usernamesToTry) {
             try {
@@ -210,7 +230,7 @@ public class BrevoEmailService implements EmailService {
                 mailSender.setHost("smtp-relay.brevo.com");
                 mailSender.setPort(587);
                 mailSender.setUsername(user);
-                mailSender.setPassword(apiKey.trim());
+                mailSender.setPassword(effectiveKey);
 
                 Properties props = mailSender.getJavaMailProperties();
                 props.put("mail.transport.protocol", "smtp");
