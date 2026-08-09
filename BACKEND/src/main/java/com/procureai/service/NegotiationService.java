@@ -162,6 +162,11 @@ public class NegotiationService {
     /** Human approves or rejects the drafted negotiation. */
     @Transactional
     public Negotiation decideApproval(Long negotiationId, boolean approve, String editedEmailBody, Long approverUserId, String notes) {
+        return decideApproval(negotiationId, approve, editedEmailBody, null, approverUserId, notes);
+    }
+
+    @Transactional
+    public Negotiation decideApproval(Long negotiationId, boolean approve, String editedEmailBody, String recipientEmail, Long approverUserId, String notes) {
         Negotiation negotiation = getNegotiation(negotiationId);
         if (negotiation.getStatus() != Negotiation.Status.PENDING_APPROVAL) {
             throw new BusinessRuleException("Negotiation is not pending approval (current status: " + negotiation.getStatus() + ")");
@@ -179,15 +184,20 @@ public class NegotiationService {
         if (editedEmailBody != null && !editedEmailBody.isBlank()) {
             negotiation.setDraftEmailBody(editedEmailBody);
         }
+        if (recipientEmail != null && !recipientEmail.isBlank() && negotiation.getQuote() != null && negotiation.getQuote().getVendor() != null) {
+            negotiation.getQuote().getVendor().setContactEmail(recipientEmail.trim());
+        }
         negotiation.setStatus(Negotiation.Status.APPROVED);
         negotiation = negotiationRepository.save(negotiation);
         auditService.log(negotiation.getWorkflow().getId(), approverUserId, "NEGOTIATION_APPROVED", "Negotiation", negotiationId, notes);
 
-        return sendNegotiationEmail(negotiation, approverUserId);
+        return sendNegotiationEmail(negotiation, recipientEmail, approverUserId);
     }
 
-    private Negotiation sendNegotiationEmail(Negotiation negotiation, Long userId) {
-        String vendorEmail = negotiation.getQuote().getVendor().getContactEmail();
+    private Negotiation sendNegotiationEmail(Negotiation negotiation, String customRecipientEmail, Long userId) {
+        String vendorEmail = (customRecipientEmail != null && !customRecipientEmail.isBlank())
+                ? customRecipientEmail.trim()
+                : negotiation.getQuote().getVendor().getContactEmail();
         String to = (vendorEmail != null && !vendorEmail.isBlank()) ? vendorEmail : "vendor@example-demo.com";
         String subject = "Quotation Discussion — " + (negotiation.getQuote().getItems().isEmpty() ? negotiation.getQuote().getVendor().getName() : negotiation.getQuote().getItems().get(0).getProductName());
         EmailMessage emailMsg = emailService.sendEmailDetails(to, subject, negotiation.getDraftEmailBody(), negotiation.getId(), null);

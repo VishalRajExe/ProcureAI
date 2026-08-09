@@ -184,11 +184,13 @@ class ApiClient {
     id: number,
     approve: boolean,
     editedEmailBody?: string,
+    recipientEmail?: string,
     notes?: string
   ): Promise<Negotiation> {
     const { data } = await this.http.post<Negotiation>(`/api/negotiations/${id}/approve`, {
       approve,
       editedEmailBody,
+      recipientEmail,
       notes,
     });
     return data;
@@ -223,8 +225,12 @@ class ApiClient {
     return data;
   }
 
-  async retryEmail(emailId: number): Promise<Record<string, unknown>> {
-    const { data } = await this.http.post<Record<string, unknown>>(`/api/emails/${emailId}/retry`);
+  async retryEmail(emailId: number, toAddress?: string, body?: string, subject?: string): Promise<Record<string, unknown>> {
+    const { data } = await this.http.post<Record<string, unknown>>(`/api/emails/${emailId}/retry`, {
+      toAddress,
+      body,
+      subject,
+    });
     return data;
   }
 

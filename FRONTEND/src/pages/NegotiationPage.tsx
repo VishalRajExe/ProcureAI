@@ -15,6 +15,7 @@ export function NegotiationPage() {
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [selectedNeg, setSelectedNeg] = useState<Negotiation | null>(null);
   const [editedEmail, setEditedEmail] = useState('');
+  const [recipientEmail, setRecipientEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [counterPrice, setCounterPrice] = useState<number | ''>('');
@@ -25,6 +26,7 @@ export function NegotiationPage() {
   const [emailsPage, setEmailsPage] = useState(1);
   const [editingEmailId, setEditingEmailId] = useState<number | null>(null);
   const [editingEmailText, setEditingEmailText] = useState('');
+  const [editingRecipientEmail, setEditingRecipientEmail] = useState('');
 
   const emailsPageSize = 3;
   const totalEmailPages = Math.ceil(emails.length / emailsPageSize);
@@ -35,6 +37,12 @@ export function NegotiationPage() {
     setActiveWorkspaceTab('workspace');
     setEmailsPage(1);
   }, [selectedNeg]);
+
+  const updateSelectedNegState = (neg: Negotiation) => {
+    setSelectedNeg(neg);
+    setEditedEmail(neg.draftEmailBody ?? '');
+    setRecipientEmail(neg.quote?.vendor?.contactEmail ?? 'vendor@example.com');
+  };
 
   const fetchEmailsForNegotiation = async (negId: number) => {
     setLoadingEmails(true);
@@ -64,11 +72,11 @@ export function NegotiationPage() {
   };
 
   const handleSendEditedEmail = async () => {
-    if (!selectedNeg) return;
+    if (!selectedNeg || !editingEmailId) return;
     setActionLoading(true);
     try {
-      await api.approveNegotiation(selectedNeg.id, true, editingEmailText, 'Re-edited and re-dispatched by user from email logs');
-      showToast('Email Dispatched', 'Updated negotiation email successfully sent to vendor!', 'success');
+      await api.retryEmail(editingEmailId, editingRecipientEmail, editingEmailText);
+      showToast('Email Dispatched', 'Updated email content & recipient mail ID successfully sent!', 'success');
       setEditingEmailId(null);
       await loadData();
       fetchEmailsForNegotiation(selectedNeg.id);
@@ -90,8 +98,7 @@ export function NegotiationPage() {
       setQuotes(qList);
       if (negs.length > 0) {
         const latest = negs[negs.length - 1];
-        setSelectedNeg(latest);
-        setEditedEmail(latest.draftEmailBody ?? '');
+        updateSelectedNegState(latest);
         fetchEmailsForNegotiation(latest.id);
       }
     } catch (err: any) {
@@ -109,8 +116,7 @@ export function NegotiationPage() {
       const draft = await api.draftNegotiation(quoteId);
       showToast('Negotiation Drafted', 'AI strategy & email drafted', 'success');
       await loadData();
-      setSelectedNeg(draft);
-      setEditedEmail(draft.draftEmailBody ?? '');
+      updateSelectedNegState(draft);
       fetchEmailsForNegotiation(draft.id);
     } catch (err: any) {
       showToast('Error', err?.response?.data?.message ?? 'Failed to draft negotiation', 'error');
@@ -123,9 +129,9 @@ export function NegotiationPage() {
     if (!selectedNeg) return;
     setActionLoading(true);
     try {
-      const updated = await api.approveNegotiation(selectedNeg.id, true, editedEmail, 'Approved by Human Procurement Officer');
-      showToast('Approved & Sent', `Negotiation email sent to vendor!`, 'success');
-      setSelectedNeg(updated);
+      const updated = await api.approveNegotiation(selectedNeg.id, true, editedEmail, recipientEmail, 'Approved by Human Procurement Officer');
+      showToast('Approved & Sent', `Negotiation email sent to ${recipientEmail || 'vendor'}!`, 'success');
+      updateSelectedNegState(updated);
       await loadData();
       fetchEmailsForNegotiation(selectedNeg.id);
     } catch (err: any) {
@@ -356,13 +362,35 @@ export function NegotiationPage() {
                       </h3>
                     </div>
 
-                    <textarea
-                      value={editedEmail}
-                      onChange={(e) => setEditedEmail(e.target.value)}
-                      disabled={selectedNeg.status !== 'PENDING_APPROVAL' && selectedNeg.status !== 'DRAFTED'}
-                      rows={8}
-                      className="w-full bg-[#0B0D12] border border-[#1E2330] rounded-xl p-4 text-xs font-mono text-white focus:outline-none focus:border-[#3E52FF] leading-relaxed"
-                    />
+                    <div className="space-y-3">
+                      <div>
+                        <label htmlFor="recipient-mail-id" className="block text-xs font-mono text-[#8F8FA2] mb-1.5 font-medium">
+                          Recipient Mail ID (To):
+                        </label>
+                        <input
+                          id="recipient-mail-id"
+                          type="email"
+                          value={recipientEmail}
+                          onChange={(e) => setRecipientEmail(e.target.value)}
+                          placeholder="vendor@example.com"
+                          disabled={selectedNeg.status !== 'PENDING_APPROVAL' && selectedNeg.status !== 'DRAFTED'}
+                          className="w-full bg-[#0B0D12] border border-[#1E2330] rounded-xl px-4 py-2.5 text-xs font-mono text-white focus:outline-none focus:border-[#3E52FF] transition-all disabled:opacity-60"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email-draft-body" className="block text-xs font-mono text-[#8F8FA2] mb-1.5 font-medium">
+                          Email Body Content:
+                        </label>
+                        <textarea
+                          id="email-draft-body"
+                          value={editedEmail}
+                          onChange={(e) => setEditedEmail(e.target.value)}
+                          disabled={selectedNeg.status !== 'PENDING_APPROVAL' && selectedNeg.status !== 'DRAFTED'}
+                          rows={8}
+                          className="w-full bg-[#0B0D12] border border-[#1E2330] rounded-xl p-4 text-xs font-mono text-white focus:outline-none focus:border-[#3E52FF] leading-relaxed disabled:opacity-60"
+                        />
+                      </div>
+                    </div>
 
                     {selectedNeg.status === 'PENDING_APPROVAL' || selectedNeg.status === 'DRAFTED' ? (
                       <div className="flex items-center justify-end gap-3 pt-2">
@@ -459,14 +487,29 @@ export function NegotiationPage() {
                             </div>
                             <div className="text-sm font-semibold text-white">{msg.subject}</div>
                             {editingEmailId === msg.id ? (
-                              <div className="space-y-2 pt-2 border-t border-[#1E2330]">
-                                <span className="text-[10px] font-mono text-[#3E52FF] font-semibold">Modify Email Content Before Re-sending:</span>
-                                <textarea
-                                  value={editingEmailText}
-                                  onChange={(e) => setEditingEmailText(e.target.value)}
-                                  rows={6}
-                                  className="w-full bg-[#0B0D12] border border-[#3E52FF]/50 rounded-xl p-3 text-xs font-mono text-white focus:outline-none focus:border-[#3E52FF] leading-relaxed"
-                                />
+                              <div className="space-y-3 pt-2 border-t border-[#1E2330]">
+                                <span className="text-[10px] font-mono text-[#3E52FF] font-semibold block">Modify Email Recipient & Content Before Re-sending:</span>
+                                <div className="space-y-2">
+                                  <div>
+                                    <label className="block text-[10px] font-mono text-[#8F8FA2] mb-1 font-medium">Recipient Mail ID (To):</label>
+                                    <input
+                                      type="email"
+                                      value={editingRecipientEmail}
+                                      onChange={(e) => setEditingRecipientEmail(e.target.value)}
+                                      placeholder="vendor@example.com"
+                                      className="w-full bg-[#0B0D12] border border-[#3E52FF]/50 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-[#3E52FF]"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-[10px] font-mono text-[#8F8FA2] mb-1 font-medium">Email Content:</label>
+                                    <textarea
+                                      value={editingEmailText}
+                                      onChange={(e) => setEditingEmailText(e.target.value)}
+                                      rows={6}
+                                      className="w-full bg-[#0B0D12] border border-[#3E52FF]/50 rounded-xl p-3 text-xs font-mono text-white focus:outline-none focus:border-[#3E52FF] leading-relaxed"
+                                    />
+                                  </div>
+                                </div>
                                 <div className="flex justify-end gap-2">
                                   <button
                                     onClick={() => setEditingEmailId(null)}
@@ -516,6 +559,7 @@ export function NegotiationPage() {
                                     } else {
                                       setEditingEmailId(msg.id);
                                       setEditingEmailText(msg.body);
+                                      setEditingRecipientEmail(msg.toAddress || '');
                                     }
                                   }}
                                   className="px-2.5 py-1 bg-[#1E2330] hover:bg-[#2A2F3E] text-[#BDC2FF] hover:text-white border border-[#2A2F3E] rounded-lg text-[10px] font-semibold transition-all flex items-center gap-1"

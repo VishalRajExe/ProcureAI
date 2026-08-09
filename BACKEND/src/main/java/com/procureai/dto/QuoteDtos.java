@@ -52,6 +52,10 @@ public class QuoteDtos {
             @Size(max = 10_000, message = "Email body must not exceed 10,000 characters")
             String editedEmailBody,
 
+            @Email(message = "Recipient email must be a valid email address")
+            @Size(max = 254, message = "Recipient email must not exceed 254 characters")
+            String recipientEmail,
+
             @Size(max = 1000, message = "Notes must not exceed 1000 characters")
             String notes
     ) {}

@@ -88,11 +88,12 @@ public class NegotiationController {
         // SECURITY: if no body provided, default to REJECTION, not approval.
         // This is a fail-safe: a missing/empty body must never result in financial action.
         boolean approve = req != null && Boolean.TRUE.equals(req.approve());
-        String body = req != null ? req.editedEmailBody() : null;
+        String editedEmailBody = req != null ? req.editedEmailBody() : null;
+        String recipientEmail = req != null ? req.recipientEmail() : null;
         String notes = (req != null && req.notes() != null && !req.notes().isBlank())
                 ? req.notes() : (approve ? "Approved via API" : "Rejected — no approval body provided");
 
-        Negotiation result = negotiationService.decideApproval(id, approve, body, CurrentUser.id(), notes);
+        Negotiation result = negotiationService.decideApproval(id, approve, editedEmailBody, recipientEmail, CurrentUser.id(), notes);
         return ResponseEntity.ok(result);
     }
 

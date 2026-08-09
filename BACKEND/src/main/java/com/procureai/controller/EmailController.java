@@ -31,10 +31,28 @@ public class EmailController {
         return ResponseEntity.ok(emailMessageRepository.findByNegotiationIdOrderByCreatedAtAsc(negotiationId));
     }
 
-    /** Retry a failed email message */
+    public record RetryEmailRequest(String toAddress, String body, String subject) {}
+
+    /** Retry or edit & resend an outbound email message */
     @PostMapping("/{id}/retry")
-    @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER')")
-    public ResponseEntity<EmailMessage> retrySend(@PathVariable Long id) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER', 'PROCUREMENT_USER')")
+    public ResponseEntity<EmailMessage> retrySend(
+            @PathVariable Long id,
+            @RequestBody(required = false) RetryEmailRequest req) {
+        if (req != null) {
+            com.procureai.entity.EmailMessage msg = emailMessageRepository.findById(id)
+                    .orElseThrow(() -> new com.procureai.exception.NotFoundException("Email message not found: " + id));
+            if (req.toAddress() != null && !req.toAddress().isBlank()) {
+                msg.setToAddress(req.toAddress().trim());
+            }
+            if (req.body() != null && !req.body().isBlank()) {
+                msg.setBody(req.body());
+            }
+            if (req.subject() != null && !req.subject().isBlank()) {
+                msg.setSubject(req.subject());
+            }
+            emailMessageRepository.save(msg);
+        }
         return ResponseEntity.ok(emailService.retrySend(id));
     }
 }
