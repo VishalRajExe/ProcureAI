@@ -83,7 +83,7 @@ app.add_middleware(
 # ─── Auth middleware (optional) ────────────────────────────────────────────────
 @app.middleware("http")
 async def auth_middleware(request: Request, call_next):
-    if request.url.path in ("/api/ai/health", "/docs", "/openapi.json"):
+    if request.url.path in ("/", "/health", "/api/ai/health", "/docs", "/openapi.json"):
         return await call_next(request)
     if INTERNAL_TOKEN:
         token = request.headers.get("X-Internal-Token", "")
@@ -122,6 +122,23 @@ async def global_exception_handler(request: Request, exc: Exception):
 # ─────────────────────────────────────────────────────────────────────────────
 # ENDPOINTS
 # ─────────────────────────────────────────────────────────────────────────────
+
+@app.get("/", tags=["Health"])
+async def root():
+    """Root endpoint — welcome banner & navigation links."""
+    mode = "real_ai" if not settings.demo_mode else "demo"
+    return {
+        "service": "ProcureAI FastAPI AI Microservice",
+        "status": "healthy",
+        "mode": mode,
+        "docs": "http://localhost:8000/docs",
+        "health": "http://localhost:8000/api/ai/health",
+    }
+
+@app.get("/health", response_model=HealthResponse, tags=["Health"])
+async def health_alias():
+    """Health check alias."""
+    return await health()
 
 @app.get("/api/ai/health", response_model=HealthResponse, tags=["Health"])
 async def health():
