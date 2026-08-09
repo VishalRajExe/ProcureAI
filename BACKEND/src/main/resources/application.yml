@@ -112,7 +112,7 @@ spring:
     console:
       enabled: false
   jpa:
-    database-platform: ${DB_DIALECT:org.hibernate.dialect.MySQL8Dialect}
+    database-platform: ${DB_DIALECT:org.hibernate.dialect.MySQLDialect}
     hibernate:
       ddl-auto: ${DDL_AUTO:update}
 
@@ -128,14 +128,14 @@ spring:
     driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
     hikari:
       maximum-pool-size: 20
-      minimum-idle: 5
-      connection-timeout: 30000
+      minimum-idle: 2
+      connection-timeout: 5000
       idle-timeout: 600000
       max-lifetime: 1800000
   h2:
     console:
       enabled: false
   jpa:
-    database-platform: ${DB_DIALECT:org.hibernate.dialect.MySQL8Dialect}
+    database-platform: ${DB_DIALECT:org.hibernate.dialect.MySQLDialect}
     hibernate:
       ddl-auto: ${DDL_AUTO:update}

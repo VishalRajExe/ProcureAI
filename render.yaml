@@ -31,7 +31,7 @@ services:
       - key: DB_DRIVER
         value: com.mysql.cj.jdbc.Driver
       - key: DB_DIALECT
-        value: org.hibernate.dialect.MySQL8Dialect
+        value: org.hibernate.dialect.MySQLDialect
       - key: DDL_AUTO
         value: update
       - key: GEMINI_API_KEY
