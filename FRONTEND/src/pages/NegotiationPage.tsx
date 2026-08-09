@@ -78,6 +78,30 @@ export function NegotiationPage() {
       const updatedMsg: any = await api.retryEmail(editingEmailId, editingRecipientEmail, editingEmailText);
       showToast('Email Updated & Sent', 'Recipient mail ID and email body updated successfully!', 'success');
       setEditingEmailId(null);
+
+      // Immediately synchronize Recipient Mail ID & Email Draft Body across the Workspace tab
+      if (editingRecipientEmail) {
+        setRecipientEmail(editingRecipientEmail);
+        setSelectedNeg((prev) => {
+          if (!prev) return prev;
+          return {
+            ...prev,
+            draftEmailBody: editingEmailText || prev.draftEmailBody,
+            quote: prev.quote
+              ? {
+                  ...prev.quote,
+                  vendor: prev.quote.vendor
+                    ? { ...prev.quote.vendor, contactEmail: editingRecipientEmail }
+                    : prev.quote.vendor,
+                }
+              : prev.quote,
+          };
+        });
+      }
+      if (editingEmailText) {
+        setEditedEmail(editingEmailText);
+      }
+
       setEmails((prev) =>
         prev.map((item) =>
           item.id === editingEmailId
@@ -85,6 +109,7 @@ export function NegotiationPage() {
             : item
         )
       );
+      await loadData();
       fetchEmailsForNegotiation(selectedNeg.id);
     } catch (err: any) {
       showToast('Dispatch Failed', err?.response?.data?.message ?? 'Failed to send updated email', 'error');

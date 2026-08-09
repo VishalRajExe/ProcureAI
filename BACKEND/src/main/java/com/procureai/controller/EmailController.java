@@ -17,10 +17,15 @@ import java.util.List;
 public class EmailController {
 
     private final EmailMessageRepository emailMessageRepository;
+    private final com.procureai.repository.NegotiationRepository negotiationRepository;
     private final EmailService emailService;
 
-    public EmailController(EmailMessageRepository emailMessageRepository, EmailService emailService) {
+    public EmailController(
+            EmailMessageRepository emailMessageRepository,
+            com.procureai.repository.NegotiationRepository negotiationRepository,
+            EmailService emailService) {
         this.emailMessageRepository = emailMessageRepository;
+        this.negotiationRepository = negotiationRepository;
         this.emailService = emailService;
     }
 
@@ -52,6 +57,19 @@ public class EmailController {
                 msg.setSubject(req.subject());
             }
             emailMessageRepository.save(msg);
+
+            // Also synchronize updated vendor contact email and negotiation draft email body
+            if (msg.getNegotiationId() != null) {
+                negotiationRepository.findById(msg.getNegotiationId()).ifPresent(neg -> {
+                    if (req.toAddress() != null && !req.toAddress().isBlank() && neg.getQuote() != null && neg.getQuote().getVendor() != null) {
+                        neg.getQuote().getVendor().setContactEmail(req.toAddress().trim());
+                    }
+                    if (req.body() != null && !req.body().isBlank()) {
+                        neg.setDraftEmailBody(req.body());
+                    }
+                    negotiationRepository.save(neg);
+                });
+            }
         }
         return ResponseEntity.ok(emailService.retrySend(id));
     }
