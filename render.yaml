@@ -23,7 +23,7 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: DB_URL
-        value: jdbc:mysql://mysql-ece12c5-gamrrvishu-864d.c.aivencloud.com:17148/defaultdb?sslMode=REQUIRED&useSSL=true&allowPublicKeyRetrieval=true
+        value: jdbc:mysql://mysql-ece12c5-gamrrvishu-864d.c.aivencloud.com:17148/defaultdb?sslMode=REQUIRED&useSSL=true&trustServerCertificate=true&allowPublicKeyRetrieval=true&serverTimezone=UTC
       - key: DB_USERNAME
         value: avnadmin
       - key: DB_PASSWORD

@@ -25,7 +25,7 @@ public class ResilientDataSourceConfig {
 
     private static final Logger log = LoggerFactory.getLogger(ResilientDataSourceConfig.class);
 
-    private static final String DEFAULT_AIVEN_URL = "jdbc:mysql://mysql-ece12c5-gamrrvishu-864d.c.aivencloud.com:17148/defaultdb?sslMode=REQUIRED&useSSL=true&allowPublicKeyRetrieval=true";
+    private static final String DEFAULT_AIVEN_URL = "jdbc:mysql://mysql-ece12c5-gamrrvishu-864d.c.aivencloud.com:17148/defaultdb?sslMode=REQUIRED&useSSL=true&trustServerCertificate=true&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String DEFAULT_AIVEN_USER = "avnadmin";
     private static final String DEFAULT_AIVEN_PASS = "AVNS_7qp" + "P3o8WC5H7528kQnA";
 

@@ -30,19 +30,24 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        seedBenchmark("Business Laptop", "60000", "72000");
-        seedBenchmark("HP EliteBook", "55000", "75000");
-        seedBenchmark("Dell Latitude", "62000", "82000");
-        seedBenchmark("Lenovo ThinkPad", "52000", "70000");
-        seedBenchmark("Server", "150000", "500000");
-        seedBenchmark("Office Furniture", "8000", "35000");
-        seedBenchmark("Software License", "2000", "40000");
-        seedBenchmark("Displays & TVs", "40000", "160000");
-        seedBenchmark("LG 55-inch OLED TV", "90000", "150000");
+        try {
+            seedBenchmark("Business Laptop", "60000", "72000");
+            seedBenchmark("HP EliteBook", "55000", "75000");
+            seedBenchmark("Dell Latitude", "62000", "82000");
+            seedBenchmark("Lenovo ThinkPad", "52000", "70000");
+            seedBenchmark("Server", "150000", "500000");
+            seedBenchmark("Office Furniture", "8000", "35000");
+            seedBenchmark("Software License", "2000", "40000");
+            seedBenchmark("Displays & TVs", "40000", "160000");
+            seedBenchmark("LG 55-inch OLED TV", "90000", "150000");
 
-        seedUser("admin@procureai.demo", "Admin User", "Admin@12345", User.Role.ADMIN);
-        seedUser("approver@procureai.demo", "Approver User", "Approver@12345", User.Role.APPROVER);
-        seedUser("viewer@procureai.demo", "Procurement Viewer", "Viewer@12345", User.Role.VIEWER);
+            seedUser("admin@procureai.demo", "Admin User", "Admin@12345", User.Role.ADMIN);
+            seedUser("approver@procureai.demo", "Approver User", "Approver@12345", User.Role.APPROVER);
+            seedUser("viewer@procureai.demo", "Procurement Viewer", "Viewer@12345", User.Role.VIEWER);
+        } catch (Exception e) {
+            org.slf4j.LoggerFactory.getLogger(DataSeeder.class)
+                    .warn("DataSeeder skipped initial seeding due to DB state: {}", e.getMessage());
+        }
     }
 
     private void seedUser(String email, String name, String rawPassword, User.Role role) {
