@@ -216,9 +216,11 @@ public class BrevoEmailService implements EmailService {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.starttls.required", "true");
-        props.put("mail.smtp.connectiontimeout", "7000");
-        props.put("mail.smtp.timeout", "7000");
-        props.put("mail.smtp.writetimeout", "7000");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2 TLSv1.3");
+        props.put("mail.smtp.ssl.trust", "smtp-relay.brevo.com");
+        props.put("mail.smtp.connectiontimeout", "10000");
+        props.put("mail.smtp.timeout", "10000");
+        props.put("mail.smtp.writetimeout", "10000");
 
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
