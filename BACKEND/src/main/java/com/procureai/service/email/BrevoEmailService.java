@@ -127,7 +127,7 @@ public class BrevoEmailService implements EmailService {
 
     private String getEffectiveRecipientEmail(String toAddress) {
         if (toAddress == null || toAddress.isBlank()) {
-            return "supriyomukherjee6295@gmail.com";
+            return "vendor@example.com";
         }
         return toAddress.trim();
     }
@@ -199,8 +199,8 @@ public class BrevoEmailService implements EmailService {
         if (smtpUsername != null && !smtpUsername.isBlank()) {
             usernamesToTry.add(smtpUsername.trim());
         }
-        if (!usernamesToTry.contains("vishalrajbca15@gmail.com")) {
-            usernamesToTry.add("vishalrajbca15@gmail.com");
+        if (fromEmail != null && !fromEmail.isBlank() && !usernamesToTry.contains(fromEmail.trim())) {
+            usernamesToTry.add(fromEmail.trim());
         }
 
         Exception lastEx = null;
