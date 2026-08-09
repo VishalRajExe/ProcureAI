@@ -136,7 +136,10 @@ public class BrevoEmailService implements EmailService {
     }
 
     private EmailMessage dispatchBrevoEmail(EmailMessage msg) {
-        if (apiKey != null && (apiKey.trim().startsWith("xsmtpsib-") || apiKey.trim().startsWith("AQ."))) {
+        String cleanKey = apiKey != null ? apiKey.trim() : "";
+
+        // Only keys starting with xsmtpsib- are dedicated SMTP passwords
+        if (cleanKey.startsWith("xsmtpsib-")) {
             try {
                 return dispatchSmtpEmail(msg);
             } catch (Exception smtpEx) {
@@ -154,11 +157,11 @@ public class BrevoEmailService implements EmailService {
                     "htmlContent", formatHtmlContent(msg.getBody())
             );
 
-            log.info("Sending email via Brevo REST API (from: {}, to: {})", fromEmail, targetRecipient);
+            log.info("Sending email via Brevo REST API v3 (from: {}, to: {})", fromEmail, targetRecipient);
 
             restClient.post()
                     .uri(BREVO_API_URL)
-                    .header("api-key", apiKey.trim())
+                    .header("api-key", cleanKey)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(payload)
                     .retrieve()
@@ -175,17 +178,7 @@ public class BrevoEmailService implements EmailService {
 
         } catch (Exception restEx) {
             String restError = restEx.getMessage() != null ? restEx.getMessage() : restEx.getClass().getSimpleName();
-            boolean isAuthError = restError.contains("401") || restError.contains("Unauthorized") || restError.contains("Key not found") || restError.contains("Authentication failed");
-
-            if (isAuthError) {
-                log.info("Brevo API key unauthorized or expired ({}) — delegating email delivery to MockEmailService.", restError);
-                mockEmailFallback.sendEmailDetails(msg.getToAddress(), msg.getSubject(), msg.getBody(), msg.getNegotiationId(), msg.getPurchaseOrderId());
-                msg.setStatus(EmailMessage.Status.SENT);
-                msg.setErrorMessage(null);
-                return emailMessageRepository.save(msg);
-            }
-
-            log.warn("Brevo REST API call failed ({}) — attempting SMTP Relay fallback...", restError);
+            log.warn("Brevo REST API call failed ({}) — trying SMTP Relay fallback...", restError);
 
             try {
                 return dispatchSmtpEmail(msg);
@@ -243,11 +236,8 @@ public class BrevoEmailService implements EmailService {
 
         } catch (Exception ex) {
             String error = "Brevo SMTP Error: " + (ex.getMessage() != null ? ex.getMessage() : ex.getClass().getSimpleName());
-            log.warn("Brevo SMTP Relay failed for {}: {}. Falling back to Mock delivery.", targetRecipient, error);
-            mockEmailFallback.sendEmailDetails(msg.getToAddress(), msg.getSubject(), msg.getBody(), msg.getNegotiationId(), msg.getPurchaseOrderId());
-            msg.setStatus(EmailMessage.Status.SENT);
-            msg.setErrorMessage(null);
-            return emailMessageRepository.save(msg);
+            log.warn("Brevo SMTP Relay failed for {}: {}", targetRecipient, error);
+            throw new RuntimeException(error, ex);
         }
     }
 

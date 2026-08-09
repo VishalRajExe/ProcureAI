@@ -25,12 +25,17 @@ public class EmailConfig {
     @Primary
     public EmailService emailService(MockEmailService mockEmailService, BrevoEmailService brevoEmailService) {
         boolean isValidBrevoKey = apiKey != null && !apiKey.isBlank()
-                && (apiKey.startsWith("xkeysib-") || apiKey.startsWith("xsmtpsib-") || apiKey.startsWith("AQ.") || apiKey.length() >= 20)
+                && (apiKey.startsWith("xkeysib-") || apiKey.startsWith("xsmtpsib-") || apiKey.startsWith("AQ.") || apiKey.length() >= 15)
                 && !apiKey.contains("CHANGE_ME");
 
-        if ("brevo".equalsIgnoreCase(configuredProvider) && isValidBrevoKey) {
+        if (isValidBrevoKey && !"mock".equalsIgnoreCase(configuredProvider)) {
+            org.slf4j.LoggerFactory.getLogger(EmailConfig.class).info("=================================================");
+            org.slf4j.LoggerFactory.getLogger(EmailConfig.class).info("Active EmailService: BrevoEmailService (Brevo SMTP Active)");
+            org.slf4j.LoggerFactory.getLogger(EmailConfig.class).info("=================================================");
             return brevoEmailService;
         }
+
+        org.slf4j.LoggerFactory.getLogger(EmailConfig.class).info("Active EmailService: MockEmailService (Fallback)");
         return mockEmailService;
     }
 }
