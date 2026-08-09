@@ -84,7 +84,7 @@ public class BrevoEmailService implements EmailService {
         msg.setNegotiationId(negotiationId);
         msg.setPurchaseOrderId(purchaseOrderId);
         msg.setDirection(EmailMessage.Direction.OUTBOUND);
-        msg.setFromAddress(senderEmail);
+        msg.setFromAddress(getEffectiveSenderEmail());
         msg.setToAddress(cleanTo);
         msg.setSubject(subject);
         msg.setBody(body);

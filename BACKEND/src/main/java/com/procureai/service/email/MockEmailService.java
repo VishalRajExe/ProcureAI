@@ -34,7 +34,7 @@ public class MockEmailService implements EmailService {
         msg.setNegotiationId(negotiationId);
         msg.setPurchaseOrderId(purchaseOrderId);
         msg.setDirection(EmailMessage.Direction.OUTBOUND);
-        msg.setFromAddress("procurement@procureai.demo");
+        msg.setFromAddress("vishalrajbca15@gmail.com");
         msg.setToAddress(toAddress != null ? toAddress : "vendor@example.com");
         msg.setSubject(subject);
         msg.setBody(body);
