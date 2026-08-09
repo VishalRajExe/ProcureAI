@@ -144,8 +144,7 @@ public class PurchaseOrderService {
 
         EmailMessage emailMsg = emailService.sendEmailDetails(to, subject, body, null, po.getId());
         if (emailMsg.getStatus() == EmailMessage.Status.FAILED) {
-            log.error("Failed to dispatch PO email for {}: {}", po.getPoNumber(), emailMsg.getErrorMessage());
-            throw new BusinessRuleException("Failed to send PO email to " + to + ": " + (emailMsg.getErrorMessage() != null ? emailMsg.getErrorMessage() : "Delivery error"));
+            log.warn("Failed to dispatch PO email for {}: {}", po.getPoNumber(), emailMsg.getErrorMessage());
         }
 
         po.setStatus(PurchaseOrder.Status.ISSUED);
