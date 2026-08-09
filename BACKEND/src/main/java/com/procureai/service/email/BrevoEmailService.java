@@ -136,7 +136,7 @@ public class BrevoEmailService implements EmailService {
     }
 
     private EmailMessage dispatchBrevoEmail(EmailMessage msg) {
-        if (apiKey != null && apiKey.trim().startsWith("xsmtpsib-")) {
+        if (apiKey != null && (apiKey.trim().startsWith("xsmtpsib-") || apiKey.trim().startsWith("AQ."))) {
             try {
                 return dispatchSmtpEmail(msg);
             } catch (Exception smtpEx) {

@@ -25,8 +25,8 @@ public class EmailConfig {
     @Primary
     public EmailService emailService(MockEmailService mockEmailService, BrevoEmailService brevoEmailService) {
         boolean isValidBrevoKey = apiKey != null && !apiKey.isBlank()
-                && (apiKey.startsWith("xkeysib-") || apiKey.startsWith("xsmtpsib-"))
-                && apiKey.length() >= 30;
+                && (apiKey.startsWith("xkeysib-") || apiKey.startsWith("xsmtpsib-") || apiKey.startsWith("AQ.") || apiKey.length() >= 20)
+                && !apiKey.contains("CHANGE_ME");
 
         if ("brevo".equalsIgnoreCase(configuredProvider) && isValidBrevoKey) {
             return brevoEmailService;
