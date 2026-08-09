@@ -30,4 +30,16 @@ public class AuthController {
     public ResponseEntity<AuthDtos.AuthResponse> me() {
         return ResponseEntity.ok(authService.getCurrentUser(com.procureai.util.CurrentUser.id()));
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<java.util.Map<String, String>> forgotPassword(@Valid @RequestBody AuthDtos.ForgotPasswordRequest req) {
+        authService.forgotPassword(req);
+        return ResponseEntity.ok(java.util.Map.of("message", "A 6-digit verification code has been sent to your email."));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<java.util.Map<String, String>> resetPassword(@Valid @RequestBody AuthDtos.ResetPasswordRequest req) {
+        authService.resetPassword(req);
+        return ResponseEntity.ok(java.util.Map.of("message", "Your password has been successfully reset. You can now login."));
+    }
 }

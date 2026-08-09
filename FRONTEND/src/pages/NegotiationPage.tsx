@@ -56,11 +56,11 @@ export function NegotiationPage() {
     }
   };
 
-  const handleResendEmail = async (emailId: number) => {
-    setResendingId(emailId);
+  const handleResendEmail = async (msg: any) => {
+    setResendingId(msg.id);
     try {
-      await api.retryEmail(emailId);
-      showToast('Email Resent', 'Outbound email successfully re-dispatched!', 'success');
+      await api.retryEmail(msg.id, msg.toAddress, msg.body, msg.subject);
+      showToast('Email Resent', `Outbound email re-dispatched to ${msg.toAddress}!`, 'success');
       if (selectedNeg) {
         fetchEmailsForNegotiation(selectedNeg.id);
       }
@@ -608,7 +608,7 @@ export function NegotiationPage() {
                                   </button>
 
                                   <button
-                                    onClick={() => handleResendEmail(msg.id)}
+                                    onClick={() => handleResendEmail(msg)}
                                     disabled={resendingId !== null}
                                     className="px-3 py-1.5 bg-[#3E52FF]/10 hover:bg-[#3E52FF] text-[#BDC2FF] hover:text-white border border-[#3E52FF]/20 hover:border-transparent rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm"
                                   >

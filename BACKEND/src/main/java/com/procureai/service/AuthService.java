@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.procureai.service.email.EmailService;
+
 @Service
 public class AuthService {
 
@@ -20,11 +22,13 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final EmailService emailService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -80,6 +84,57 @@ public class AuthService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BadCredentialsException("User not found"));
         return new AuthDtos.AuthResponse(null, user.getId(), user.getEmail(), user.getName(), user.getRole().name(), getPermissionsForRole(user.getRole()));
+    }
+
+    @Transactional
+    public void forgotPassword(AuthDtos.ForgotPasswordRequest req) {
+        String cleanEmail = InputSanitizer.sanitizeEmail(req.email());
+        if (cleanEmail == null) {
+            throw new IllegalArgumentException("Invalid email address");
+        }
+        User user = userRepository.findByEmail(cleanEmail)
+                .orElseThrow(() -> new com.procureai.exception.NotFoundException("No account found with email address: " + cleanEmail));
+
+        // Generate 6-digit verification code OTP
+        String otp = String.format("%06d", new java.security.SecureRandom().nextInt(1000000));
+        user.setResetOtp(otp);
+        user.setResetOtpExpiry(java.time.LocalDateTime.now().plusMinutes(15));
+        userRepository.save(user);
+
+        String subject = "ProcureAI Password Reset Verification Code: " + otp;
+        String body = "Dear " + user.getName() + ",\n\n"
+                + "You have requested a password reset for your ProcureAI Enterprise Procurement Platform account.\n\n"
+                + "Your 6-digit verification code (OTP) is:\n\n"
+                + "   " + otp + "\n\n"
+                + "This verification code will expire in 15 minutes.\n"
+                + "If you did not request a password reset, please ignore this email.\n\n"
+                + "Best regards,\n"
+                + "ProcureAI Security Team";
+
+        log.info("Sending password reset verification code (OTP) via Brevo/EmailService to {}", cleanEmail);
+        emailService.sendEmailDetails(cleanEmail, subject, body, null, null);
+    }
+
+    @Transactional
+    public void resetPassword(AuthDtos.ResetPasswordRequest req) {
+        String cleanEmail = InputSanitizer.sanitizeEmail(req.email());
+        if (cleanEmail == null) {
+            throw new IllegalArgumentException("Invalid email address");
+        }
+        User user = userRepository.findByEmail(cleanEmail)
+                .orElseThrow(() -> new com.procureai.exception.NotFoundException("No account found with email address: " + cleanEmail));
+
+        if (user.getResetOtp() == null || user.getResetOtpExpiry() == null
+                || !user.getResetOtp().trim().equals(req.otp().trim())
+                || java.time.LocalDateTime.now().isAfter(user.getResetOtpExpiry())) {
+            throw new IllegalArgumentException("Invalid or expired verification code (OTP). Please request a new code.");
+        }
+
+        user.setPasswordHash(passwordEncoder.encode(req.newPassword()));
+        user.setResetOtp(null);
+        user.setResetOtpExpiry(null);
+        userRepository.save(user);
+        log.info("Password successfully reset for user {}", cleanEmail);
     }
 
     private java.util.List<String> getPermissionsForRole(User.Role role) {

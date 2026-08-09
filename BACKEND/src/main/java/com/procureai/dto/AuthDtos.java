@@ -65,4 +65,23 @@ public class AuthDtos {
             String role,
             java.util.List<String> permissions
     ) {}
+
+    public record ForgotPasswordRequest(
+            @Email(message = "A valid email address is required")
+            @NotBlank(message = "Email is required")
+            String email
+    ) {}
+
+    public record ResetPasswordRequest(
+            @Email(message = "A valid email address is required")
+            @NotBlank(message = "Email is required")
+            String email,
+
+            @NotBlank(message = "Verification code (OTP) is required")
+            String otp,
+
+            @NotBlank(message = "New password is required")
+            @Size(min = 8, max = 128, message = "Password must be between 8 and 128 characters")
+            String newPassword
+    ) {}
 }

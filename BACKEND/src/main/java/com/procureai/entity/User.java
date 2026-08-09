@@ -26,6 +26,12 @@ public class User extends BaseEntity {
 
     private boolean enabled = true;
 
+    @Column(name = "reset_otp")
+    private String resetOtp;
+
+    @Column(name = "reset_otp_expiry")
+    private java.time.LocalDateTime resetOtpExpiry;
+
     public enum Role {
         ADMIN, APPROVER, PROCUREMENT_USER, VIEWER
     }

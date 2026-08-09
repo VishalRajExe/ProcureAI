@@ -75,6 +75,16 @@ class ApiClient {
     return data;
   }
 
+  async forgotPassword(email: string): Promise<{ message: string }> {
+    const { data } = await this.http.post<{ message: string }>('/api/auth/forgot-password', { email });
+    return data;
+  }
+
+  async resetPassword(email: string, otp: string, newPassword: string): Promise<{ message: string }> {
+    const { data } = await this.http.post<{ message: string }>('/api/auth/reset-password', { email, otp, newPassword });
+    return data;
+  }
+
   async ensureAuthenticated(): Promise<string | null> {
     let token = localStorage.getItem('procureai_token');
     if (token && token !== 'undefined' && token !== 'null') {
