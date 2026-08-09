@@ -108,18 +108,22 @@ export function LoginPage() {
             >
               Create Account
             </button>
-            <button
-              type="button"
-              onClick={() => { setMode('forgot'); setForgotStep('email'); setError(''); setSuccessMsg(''); }}
-              className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all ${
-                mode === 'forgot'
-                  ? 'bg-[#3E52FF] text-white shadow-md'
-                  : 'text-[#8F8FA2] hover:text-white'
-              }`}
-            >
-              Forgot Password
-            </button>
           </div>
+
+          {mode === 'forgot' && (
+            <div className="flex items-center justify-between border-b border-[#1E2330] pb-3">
+              <span className="text-xs font-semibold text-white font-mono flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5 text-[#3E52FF]" /> Password Recovery
+              </span>
+              <button
+                type="button"
+                onClick={() => { setMode('login'); setError(''); setSuccessMsg(''); }}
+                className="text-xs font-mono text-[#3E52FF] hover:underline"
+              >
+                ← Back to Sign In
+              </button>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === 'register' && (
