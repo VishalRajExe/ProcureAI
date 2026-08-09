@@ -23,9 +23,9 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: DB_URL
-        sync: false
+        value: jdbc:mysql://mysql-ece12c5-gamrrvishu-864d.c.aivencloud.com:17148/defaultdb?sslMode=REQUIRED&useSSL=true&allowPublicKeyRetrieval=true
       - key: DB_USERNAME
-        sync: false
+        value: avnadmin
       - key: DB_PASSWORD
         sync: false
       - key: DB_DRIVER

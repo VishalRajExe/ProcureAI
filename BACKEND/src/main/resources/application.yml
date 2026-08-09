@@ -112,7 +112,6 @@ spring:
     console:
       enabled: false
   jpa:
-    database-platform: ${DB_DIALECT:org.hibernate.dialect.MySQLDialect}
     hibernate:
       ddl-auto: ${DDL_AUTO:update}
 
@@ -122,9 +121,9 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/procureai?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:admin}
+    url: ${DB_URL:jdbc:mysql://mysql-ece12c5-gamrrvishu-864d.c.aivencloud.com:17148/defaultdb?sslMode=REQUIRED&useSSL=true&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:avnadmin}
+    password: ${DB_PASSWORD:}
     driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
     hikari:
       maximum-pool-size: 20
@@ -136,6 +135,5 @@ spring:
     console:
       enabled: false
   jpa:
-    database-platform: ${DB_DIALECT:org.hibernate.dialect.MySQLDialect}
     hibernate:
       ddl-auto: ${DDL_AUTO:update}

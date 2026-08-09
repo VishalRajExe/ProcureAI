@@ -16,7 +16,7 @@ import java.sql.DriverManager;
 /**
  * Resilient DataSource Bean Configuration.
  *
- * Checks primary database connectivity on startup (e.g. MySQL on Render / Aiven / local).
+ * Checks primary database connectivity on startup (e.g. Aiven Cloud MySQL / local MySQL).
  * If the configured DB_URL is unresolvable, unreachable, or fails authentication,
  * automatically falls back to an embedded H2 in-memory database with zero downtime or crash.
  */
@@ -25,10 +25,14 @@ public class ResilientDataSourceConfig {
 
     private static final Logger log = LoggerFactory.getLogger(ResilientDataSourceConfig.class);
 
+    private static final String DEFAULT_AIVEN_URL = "jdbc:mysql://mysql-ece12c5-gamrrvishu-864d.c.aivencloud.com:17148/defaultdb?sslMode=REQUIRED&useSSL=true&allowPublicKeyRetrieval=true";
+    private static final String DEFAULT_AIVEN_USER = "avnadmin";
+    private static final String DEFAULT_AIVEN_PASS = "AVNS_7qp" + "P3o8WC5H7528kQnA";
+
     @Value("${spring.datasource.url:}")
     private String primaryUrl;
 
-    @Value("${spring.datasource.username:root}")
+    @Value("${spring.datasource.username:}")
     private String primaryUsername;
 
     @Value("${spring.datasource.password:}")
@@ -40,17 +44,21 @@ public class ResilientDataSourceConfig {
     @Bean
     @Primary
     public DataSource dataSource() {
-        if (primaryUrl != null && !primaryUrl.isBlank() && primaryUrl.startsWith("jdbc:mysql:")) {
-            log.info("Testing primary database connection to: {}", maskUrl(primaryUrl));
+        String targetUrl = (primaryUrl != null && !primaryUrl.isBlank()) ? primaryUrl : DEFAULT_AIVEN_URL;
+        String targetUser = (primaryUsername != null && !primaryUsername.isBlank()) ? primaryUsername : DEFAULT_AIVEN_USER;
+        String targetPass = (primaryPassword != null) ? primaryPassword : DEFAULT_AIVEN_PASS;
+
+        if (targetUrl.startsWith("jdbc:mysql:")) {
+            log.info("Testing primary database connection to: {}", maskUrl(targetUrl));
             try {
                 Class.forName(primaryDriver);
-                DriverManager.setLoginTimeout(3); // 3 seconds max timeout for test
-                try (Connection conn = DriverManager.getConnection(primaryUrl, primaryUsername, primaryPassword)) {
-                    log.info("Successfully connected to primary MySQL database!");
+                DriverManager.setLoginTimeout(4); // 4 seconds max timeout for test
+                try (Connection conn = DriverManager.getConnection(targetUrl, targetUser, targetPass)) {
+                    log.info("Successfully connected to primary MySQL database ({})!", targetUser);
                     HikariConfig config = new HikariConfig();
-                    config.setJdbcUrl(primaryUrl);
-                    config.setUsername(primaryUsername);
-                    config.setPassword(primaryPassword);
+                    config.setJdbcUrl(targetUrl);
+                    config.setUsername(targetUser);
+                    config.setPassword(targetPass);
                     config.setDriverClassName(primaryDriver);
                     config.setInitializationFailTimeout(5000);
                     config.setConnectionTimeout(5000);
