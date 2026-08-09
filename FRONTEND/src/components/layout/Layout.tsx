@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, FileText, Scale, Handshake, ShieldCheck,
-  Mail, ShoppingBag, TrendingUp, PlayCircle, Cpu, LogOut, ChevronRight, Menu, ChevronLeft, X
+  Mail, ShoppingBag, TrendingUp, PlayCircle, LogOut, ChevronRight, Menu, ChevronLeft, X
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { api } from '../../api/client';
@@ -79,9 +79,11 @@ export function Layout() {
         {/* Brand */}
         <div className={clsx("px-5 py-5 border-b border-[#1E2330] flex items-center justify-between gap-3 flex-shrink-0", isCollapsed ? "md:justify-center md:px-2" : "")}>
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#3E52FF] to-[#7C5CFF] flex items-center justify-center shadow-lg shadow-blue-500/20 flex-shrink-0">
-              <Cpu className="w-5 h-5 text-white" />
-            </div>
+            <img
+              src="/logo.png"
+              alt="ProcureAI Logo"
+              className="w-9 h-9 object-contain drop-shadow-md flex-shrink-0"
+            />
             <div className={clsx("transition-all duration-200", isCollapsed ? "md:hidden" : "block")}>
               <div className="font-bold text-white tracking-tight flex items-center gap-1.5">
                 ProcureAI

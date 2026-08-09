@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
-import { Cpu, Eye, EyeOff, AlertCircle, ShieldCheck, UserCheck, Lock } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle, ShieldCheck, UserCheck, Lock } from 'lucide-react';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -55,10 +55,12 @@ export function LoginPage() {
 
       <div className="w-full max-w-md relative z-10 space-y-6">
         {/* Brand Header */}
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#12151C] border border-[#3E52FF]/40 shadow-2xl shadow-blue-950/50 mb-2">
-            <Cpu className="w-7 h-7 text-[#3E52FF]" />
-          </div>
+        <div className="text-center space-y-2 flex flex-col items-center">
+          <img
+            src="/logo.png"
+            alt="ProcureAI Logo"
+            className="w-20 h-20 object-contain drop-shadow-2xl mb-1 transition-transform hover:scale-105"
+          />
           <h1 className="text-3xl font-extrabold text-white tracking-tight">ProcureAI</h1>
           <p className="text-xs font-mono text-[#BDC2FF] uppercase tracking-widest">
             Autonomous Enterprise Procurement System
