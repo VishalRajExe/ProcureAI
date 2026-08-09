@@ -198,47 +198,64 @@ public class BrevoEmailService implements EmailService {
         String targetRecipient = getEffectiveRecipientEmail(msg.getToAddress());
         log.info("Sending email via Brevo SMTP Relay to: {} (from: {})", targetRecipient, fromEmail);
 
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp-relay.brevo.com");
-        mailSender.setPort(587);
-        mailSender.setUsername(smtpUsername != null && !smtpUsername.isBlank() ? smtpUsername.trim() : fromEmail);
-        mailSender.setPassword(apiKey.trim());
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.starttls.required", "true");
-        props.put("mail.smtp.ssl.protocols", "TLSv1.2 TLSv1.3");
-        props.put("mail.smtp.ssl.trust", "smtp-relay.brevo.com");
-        props.put("mail.smtp.connectiontimeout", "10000");
-        props.put("mail.smtp.timeout", "10000");
-        props.put("mail.smtp.writetimeout", "10000");
-
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            helper.setFrom(fromEmail, senderName);
-            helper.setTo(targetRecipient);
-            helper.setSubject(msg.getSubject());
-            helper.setText(formatHtmlContent(msg.getBody()), true);
-
-            mailSender.send(mimeMessage);
-
-            msg.setStatus(EmailMessage.Status.SENT);
-            msg.setErrorMessage(null);
-            msg = emailMessageRepository.save(msg);
-
-            auditService.log(null, null, "BREVO_SMTP_SENT", "EmailMessage", msg.getId(),
-                    "to=" + targetRecipient + " subject=" + msg.getSubject());
-            log.info("Email successfully sent via Brevo SMTP to {}", targetRecipient);
-            return msg;
-
-        } catch (Exception ex) {
-            String error = "Brevo SMTP Error: " + (ex.getMessage() != null ? ex.getMessage() : ex.getClass().getSimpleName());
-            log.warn("Brevo SMTP Relay failed for {}: {}", targetRecipient, error);
-            throw new RuntimeException(error, ex);
+        java.util.List<String> usernamesToTry = new java.util.ArrayList<>();
+        if (smtpUsername != null && !smtpUsername.isBlank()) {
+            usernamesToTry.add(smtpUsername.trim());
         }
+        if (fromEmail != null && !fromEmail.isBlank() && !usernamesToTry.contains(fromEmail.trim())) {
+            usernamesToTry.add(fromEmail.trim());
+        }
+        if (!usernamesToTry.contains("gamrrvishu@gmail.com")) {
+            usernamesToTry.add("gamrrvishu@gmail.com");
+        }
+
+        Exception lastEx = null;
+        for (String user : usernamesToTry) {
+            try {
+                JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+                mailSender.setHost("smtp-relay.brevo.com");
+                mailSender.setPort(587);
+                mailSender.setUsername(user);
+                mailSender.setPassword(apiKey.trim());
+
+                Properties props = mailSender.getJavaMailProperties();
+                props.put("mail.transport.protocol", "smtp");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.starttls.enable", "true");
+                props.put("mail.smtp.starttls.required", "true");
+                props.put("mail.smtp.ssl.protocols", "TLSv1.2 TLSv1.3");
+                props.put("mail.smtp.ssl.trust", "smtp-relay.brevo.com");
+                props.put("mail.smtp.connectiontimeout", "10000");
+                props.put("mail.smtp.timeout", "10000");
+                props.put("mail.smtp.writetimeout", "10000");
+
+                MimeMessage mimeMessage = mailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+                helper.setFrom(fromEmail, senderName);
+                helper.setTo(targetRecipient);
+                helper.setSubject(msg.getSubject());
+                helper.setText(formatHtmlContent(msg.getBody()), true);
+
+                mailSender.send(mimeMessage);
+
+                msg.setStatus(EmailMessage.Status.SENT);
+                msg.setErrorMessage(null);
+                msg = emailMessageRepository.save(msg);
+
+                auditService.log(null, null, "BREVO_SMTP_SENT", "EmailMessage", msg.getId(),
+                        "to=" + targetRecipient + " subject=" + msg.getSubject());
+                log.info("Email successfully sent via Brevo SMTP (user: {}) to {}", user, targetRecipient);
+                return msg;
+
+            } catch (Exception ex) {
+                lastEx = ex;
+                log.warn("Brevo SMTP authentication attempt with username '{}' failed: {}", user, ex.getMessage());
+            }
+        }
+
+        String error = "Brevo SMTP Error: " + (lastEx != null && lastEx.getMessage() != null ? lastEx.getMessage() : "Authentication failed for all usernames");
+        log.warn("Brevo SMTP Relay failed for {}: {}", targetRecipient, error);
+        throw new RuntimeException(error, lastEx);
     }
 
     private String formatHtmlContent(String body) {
