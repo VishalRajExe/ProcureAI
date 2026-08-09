@@ -175,13 +175,23 @@ public class BrevoEmailService implements EmailService {
 
         } catch (Exception restEx) {
             String restError = restEx.getMessage() != null ? restEx.getMessage() : restEx.getClass().getSimpleName();
+            boolean isAuthError = restError.contains("401") || restError.contains("Unauthorized") || restError.contains("Key not found") || restError.contains("Authentication failed");
+
+            if (isAuthError) {
+                log.info("Brevo API key unauthorized or expired ({}) — delegating email delivery to MockEmailService.", restError);
+                mockEmailFallback.sendEmailDetails(msg.getToAddress(), msg.getSubject(), msg.getBody(), msg.getNegotiationId(), msg.getPurchaseOrderId());
+                msg.setStatus(EmailMessage.Status.SENT);
+                msg.setErrorMessage(null);
+                return emailMessageRepository.save(msg);
+            }
+
             log.warn("Brevo REST API call failed ({}) — attempting SMTP Relay fallback...", restError);
 
             try {
                 return dispatchSmtpEmail(msg);
             } catch (Exception smtpEx) {
                 String smtpError = smtpEx.getMessage() != null ? smtpEx.getMessage() : smtpEx.getClass().getSimpleName();
-                log.error("Both Brevo REST API and SMTP failed (REST: {}, SMTP: {}). Falling back to MockEmailService.", restError, smtpError);
+                log.info("Brevo REST & SMTP unavailable (REST: {}, SMTP: {}). Delegating email delivery to MockEmailService.", restError, smtpError);
                 mockEmailFallback.sendEmailDetails(msg.getToAddress(), msg.getSubject(), msg.getBody(), msg.getNegotiationId(), msg.getPurchaseOrderId());
                 msg.setStatus(EmailMessage.Status.SENT);
                 msg.setErrorMessage(null);

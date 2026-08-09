@@ -24,7 +24,11 @@ public class EmailConfig {
     @Bean
     @Primary
     public EmailService emailService(MockEmailService mockEmailService, BrevoEmailService brevoEmailService) {
-        if ("brevo".equalsIgnoreCase(configuredProvider) && apiKey != null && !apiKey.isBlank()) {
+        boolean isValidBrevoKey = apiKey != null && !apiKey.isBlank()
+                && (apiKey.startsWith("xkeysib-") || apiKey.startsWith("xsmtpsib-"))
+                && apiKey.length() >= 30;
+
+        if ("brevo".equalsIgnoreCase(configuredProvider) && isValidBrevoKey) {
             return brevoEmailService;
         }
         return mockEmailService;
