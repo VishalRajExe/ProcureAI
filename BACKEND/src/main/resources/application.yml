@@ -51,7 +51,7 @@ app:
     sender-name: ${BREVO_SENDER_NAME:ProcureAI}
 
   cors:
-    allowed-origins: ${CORS_ORIGINS:${APP_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000,https://procureai-89869.web.app,https://procureai-89869.firebaseapp.com}}
+    allowed-origins: ${CORS_ORIGINS:${APP_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000,https://procure-ai.web.app,https://procure-ai.firebaseapp.com,https://procureai-89869.web.app,https://procureai-89869.firebaseapp.com}}
 
   po:
     output-dir: ${PO_OUTPUT_DIR:./po-output}

@@ -41,7 +41,7 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: CORS_ORIGINS
-        value: https://procureai-89869.web.app,https://procureai-89869.firebaseapp.com,http://localhost:5173
+        value: https://procure-ai.web.app,https://procure-ai.firebaseapp.com,https://procureai-89869.web.app,https://procureai-89869.firebaseapp.com,http://localhost:5173
       - key: PYTHON_AI_ENABLED
         value: "true"
       - key: PYTHON_AI_URL

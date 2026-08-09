@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "procure-ai",
     "public": "FRONTEND/dist",
     "ignore": [
       "firebase.json",

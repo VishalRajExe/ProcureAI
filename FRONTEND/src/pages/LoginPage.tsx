@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
-import { Eye, EyeOff, AlertCircle, ShieldCheck, UserCheck, Lock } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle, UserCheck, Lock } from 'lucide-react';
 
 export function LoginPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  const [email, setEmail] = useState('admin@procureai.demo');
-  const [password, setPassword] = useState('Admin@12345');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,11 +40,6 @@ export function LoginPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const quickFill = (preset: 'admin' | 'approver') => {
-    if (preset === 'admin') { setEmail('admin@procureai.demo'); setPassword('Admin@12345'); }
-    else { setEmail('approver@procureai.demo'); setPassword('Approver@12345'); }
   };
 
   return (
@@ -173,32 +168,6 @@ export function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Quick preset account pills */}
-          {mode === 'login' && (
-            <div className="pt-4 border-t border-[#1E2330] space-y-2.5">
-              <div className="flex items-center justify-between text-[11px] text-[#8F8FA2] font-mono uppercase tracking-wider">
-                <span>Quick Preset Credentials</span>
-                <ShieldCheck className="w-3.5 h-3.5 text-[#3E52FF]" />
-              </div>
-              <div className="grid grid-cols-2 gap-2.5">
-                <button
-                  type="button"
-                  onClick={() => quickFill('admin')}
-                  className="py-2 px-3 bg-[#0B0D12] border border-[#1E2330] hover:border-[#3E52FF]/50 rounded-xl text-xs font-medium text-[#BDC2FF] hover:text-white transition-all text-center"
-                >
-                  Admin Officer
-                </button>
-                <button
-                  type="button"
-                  onClick={() => quickFill('approver')}
-                  className="py-2 px-3 bg-[#0B0D12] border border-[#1E2330] hover:border-purple-500/50 rounded-xl text-xs font-medium text-purple-300 hover:text-white transition-all text-center"
-                >
-                  Approver Officer
-                </button>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Footer info */}
