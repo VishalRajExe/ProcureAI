@@ -38,9 +38,15 @@ public class AnalyticsService {
 
     @Transactional(readOnly = true)
     public Map<String, Object> dashboardSummary() {
-        List<Quote> quotes = quoteRepository.findAll();
-        List<Negotiation> negotiations = negotiationRepository.findAll();
-        List<PurchaseOrder> pos = purchaseOrderRepository.findAll();
+        return dashboardSummary(com.procureai.util.CurrentUser.id());
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> dashboardSummary(Long userId) {
+        List<Quote> quotes = userId != null ? quoteRepository.findByWorkflowCreatedByUserIdOrderByCreatedAtDesc(userId) : quoteRepository.findAll();
+        List<Negotiation> negotiations = userId != null ? negotiationRepository.findByWorkflowCreatedByUserIdOrderByCreatedAtDesc(userId) : negotiationRepository.findAll();
+        List<PurchaseOrder> pos = userId != null ? purchaseOrderRepository.findByWorkflowCreatedByUserIdOrderByCreatedAtDesc(userId) : purchaseOrderRepository.findAll();
+        long totalWorkflows = userId != null ? workflowRepository.findByCreatedByUserIdOrderByCreatedAtDesc(userId).size() : workflowRepository.count();
 
         long quotesProcessed = quotes.stream().filter(q -> q.getExtractionStatus() == Quote.ExtractionStatus.VALIDATED).count();
         long negotiationsAutomated = negotiations.size();
@@ -74,7 +80,7 @@ public class AnalyticsService {
 
         long pendingApprovalsCount = negotiations.stream()
                 .filter(n -> n.getStatus() == Negotiation.Status.PENDING_APPROVAL || n.getStatus() == Negotiation.Status.DRAFTED)
-                .count() + approvalRepository.findByStatus(com.procureai.entity.Approval.Status.PENDING).size();
+                .count();
 
         double successRate = negotiationsAutomated == 0 ? 0.0
                 : Math.round((negotiationsAccepted * 100.0 / negotiationsAutomated) * 100.0) / 100.0;
@@ -122,7 +128,7 @@ public class AnalyticsService {
         map.put("totalSpend", totalSpend);
         map.put("totalSavings", totalSavings);
         map.put("estimatedSavings", totalSavings);
-        map.put("totalWorkflows", workflowRepository.count());
+        map.put("totalWorkflows", totalWorkflows);
         map.put("completedWorkflows", pos.size());
         map.put("estimatedTimeSavedMinutes", estimatedMinutesSaved);
         map.put("negotiationSuccessRatePercent", successRate);
@@ -134,8 +140,12 @@ public class AnalyticsService {
     }
 
     public Map<String, Object> analytics() {
-        List<Quote> quotes = quoteRepository.findAll();
-        List<Negotiation> negotiations = negotiationRepository.findAll();
+        return analytics(com.procureai.util.CurrentUser.id());
+    }
+
+    public Map<String, Object> analytics(Long userId) {
+        List<Quote> quotes = userId != null ? quoteRepository.findByWorkflowCreatedByUserIdOrderByCreatedAtDesc(userId) : quoteRepository.findAll();
+        List<Negotiation> negotiations = userId != null ? negotiationRepository.findByWorkflowCreatedByUserIdOrderByCreatedAtDesc(userId) : negotiationRepository.findAll();
 
         double avgDiscountPercent = negotiations.stream()
                 .filter(n -> n.getStatus() == Negotiation.Status.ACCEPTED && n.getFinalAgreedPrice() != null && n.getCurrentPrice().signum() > 0)

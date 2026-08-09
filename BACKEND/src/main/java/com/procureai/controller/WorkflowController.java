@@ -29,10 +29,10 @@ public class WorkflowController {
         this.quoteService = quoteService;
     }
 
-    /** List all procurement workflows */
+    /** List all procurement workflows for the authenticated user */
     @GetMapping
     public ResponseEntity<List<WorkflowExecution>> listWorkflows() {
-        return ResponseEntity.ok(workflowRepository.findAll());
+        return ResponseEntity.ok(quoteService.getUserWorkflows());
     }
 
     /** Get single workflow detail */

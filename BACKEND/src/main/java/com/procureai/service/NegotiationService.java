@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import com.procureai.util.CurrentUser;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -293,7 +295,20 @@ public class NegotiationService {
         return negotiationRepository.save(negotiation);
     }
 
+    public List<Negotiation> getAllNegotiations() {
+        Long userId = CurrentUser.id();
+        if (userId != null) {
+            return negotiationRepository.findByWorkflowCreatedByUserIdOrderByCreatedAtDesc(userId);
+        }
+        return negotiationRepository.findAll();
+    }
+
     public Negotiation getNegotiation(Long id) {
+        Long userId = CurrentUser.id();
+        if (userId != null) {
+            return negotiationRepository.findByIdAndWorkflowCreatedByUserId(id, userId)
+                    .orElseThrow(() -> new NotFoundException("Negotiation not found or access denied: " + id));
+        }
         return negotiationRepository.findById(id).orElseThrow(() -> new NotFoundException("Negotiation not found: " + id));
     }
 }

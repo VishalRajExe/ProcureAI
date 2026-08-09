@@ -246,10 +246,19 @@ public class PurchaseOrderService {
     }
 
     public List<PurchaseOrder> all() {
+        Long userId = com.procureai.util.CurrentUser.id();
+        if (userId != null) {
+            return purchaseOrderRepository.findByWorkflowCreatedByUserIdOrderByCreatedAtDesc(userId);
+        }
         return purchaseOrderRepository.findAll();
     }
 
     public PurchaseOrder get(Long id) {
+        Long userId = com.procureai.util.CurrentUser.id();
+        if (userId != null) {
+            return purchaseOrderRepository.findByIdAndWorkflowCreatedByUserId(id, userId)
+                    .orElseThrow(() -> new NotFoundException("Purchase order not found or access denied: " + id));
+        }
         return purchaseOrderRepository.findById(id).orElseThrow(() -> new NotFoundException("Purchase order not found: " + id));
     }
 }

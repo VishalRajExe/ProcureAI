@@ -10,6 +10,7 @@ import com.procureai.repository.WorkflowExecutionRepository;
 import com.procureai.service.ai.AIProvider;
 import com.procureai.service.ai.ExtractedQuoteData;
 import com.procureai.util.InputSanitizer;
+import com.procureai.util.CurrentUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
@@ -201,19 +202,45 @@ public class QuoteService {
         }
     }
 
+    public List<WorkflowExecution> getUserWorkflows() {
+        Long userId = CurrentUser.id();
+        if (userId != null) {
+            return workflowRepository.findByCreatedByUserIdOrderByCreatedAtDesc(userId);
+        }
+        return workflowRepository.findAll();
+    }
+
     public List<Quote> getQuotesForWorkflow(Long workflowId) {
+        Long userId = CurrentUser.id();
+        if (userId != null) {
+            return quoteRepository.findByWorkflowIdAndWorkflowCreatedByUserId(workflowId, userId);
+        }
         return quoteRepository.findByWorkflowId(workflowId);
     }
 
     public List<Quote> getAllQuotes() {
+        Long userId = CurrentUser.id();
+        if (userId != null) {
+            return quoteRepository.findByWorkflowCreatedByUserIdOrderByCreatedAtDesc(userId);
+        }
         return quoteRepository.findAll();
     }
 
     public Quote getQuote(Long id) {
+        Long userId = CurrentUser.id();
+        if (userId != null) {
+            return quoteRepository.findByIdAndWorkflowCreatedByUserId(id, userId)
+                    .orElseThrow(() -> new NotFoundException("Quote not found or access denied: " + id));
+        }
         return quoteRepository.findById(id).orElseThrow(() -> new NotFoundException("Quote not found: " + id));
     }
 
     public WorkflowExecution getWorkflow(Long id) {
+        Long userId = CurrentUser.id();
+        if (userId != null) {
+            return workflowRepository.findByIdAndCreatedByUserId(id, userId)
+                    .orElseThrow(() -> new NotFoundException("Workflow not found or access denied: " + id));
+        }
         return workflowRepository.findById(id).orElseThrow(() -> new NotFoundException("Workflow not found: " + id));
     }
 

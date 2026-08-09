@@ -58,7 +58,9 @@ public class PurchaseOrderController {
                 : (req != null && req.workflowId() != null && req.workflowId() > 0 ? req.workflowId() : null);
 
         if (targetWfId == null) {
-            targetWfId = workflowRepository.findTopByOrderByCreatedAtDesc()
+            Long userId = CurrentUser.id();
+            targetWfId = (userId != null ? workflowRepository.findTopByCreatedByUserIdOrderByCreatedAtDesc(userId)
+                    : workflowRepository.findTopByOrderByCreatedAtDesc())
                     .map(WorkflowExecution::getId)
                     .orElse(null);
         }

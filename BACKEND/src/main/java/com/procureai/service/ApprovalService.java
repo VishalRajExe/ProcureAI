@@ -53,10 +53,22 @@ public class ApprovalService {
     }
 
     public List<Approval> pending() {
+        Long userId = com.procureai.util.CurrentUser.id();
+        if (userId != null) {
+            return approvalRepository.findByStatus(Approval.Status.PENDING).stream()
+                    .filter(a -> userId.equals(a.getRequestedByUserId()) || userId.equals(a.getDecidedByUserId()))
+                    .toList();
+        }
         return approvalRepository.findByStatus(Approval.Status.PENDING);
     }
 
     public List<Approval> all() {
+        Long userId = com.procureai.util.CurrentUser.id();
+        if (userId != null) {
+            return approvalRepository.findAll().stream()
+                    .filter(a -> userId.equals(a.getRequestedByUserId()) || userId.equals(a.getDecidedByUserId()))
+                    .toList();
+        }
         return approvalRepository.findAll();
     }
 }

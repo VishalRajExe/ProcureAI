@@ -49,7 +49,7 @@ public class NegotiationController {
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'APPROVER', 'PROCUREMENT_USER')")
     public ResponseEntity<List<Negotiation>> getAll() {
-        return ResponseEntity.ok(negotiationRepository.findAll());
+        return ResponseEntity.ok(negotiationService.getAllNegotiations());
     }
 
     @GetMapping("/{id}")

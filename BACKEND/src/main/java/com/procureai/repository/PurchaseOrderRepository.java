@@ -11,7 +11,13 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Lo
     List<PurchaseOrder> findAll();
 
     @EntityGraph(attributePaths = {"items", "vendor", "workflow"})
+    List<PurchaseOrder> findByWorkflowCreatedByUserIdOrderByCreatedAtDesc(Long userId);
+
+    @EntityGraph(attributePaths = {"items", "vendor", "workflow"})
     Optional<PurchaseOrder> findById(Long id);
+
+    @EntityGraph(attributePaths = {"items", "vendor", "workflow"})
+    Optional<PurchaseOrder> findByIdAndWorkflowCreatedByUserId(Long id, Long userId);
 
     @EntityGraph(attributePaths = {"items", "vendor", "workflow"})
     List<PurchaseOrder> findByWorkflowId(Long workflowId);
